@@ -1,8 +1,7 @@
 import React, { FunctionComponent, ReactElement } from 'react';
 
 // material-ui
-import { Theme } from '@mui/material/styles';
-import { SvgIconTypeMap, SnackbarOrigin, ChipProps, TableCellProps } from '@mui/material';
+import { SvgIconTypeMap, ChipProps, TableCellProps } from '@mui/material';
 
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 

@@ -1,4 +1,4 @@
-import { Profile, UserProfile } from 'types/user-profile';
+import { Profile, UserProfile } from '../types/user-profile';
 
 export interface FollowerCardProps {
     avatar: string;

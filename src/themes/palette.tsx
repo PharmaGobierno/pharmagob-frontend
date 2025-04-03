@@ -12,7 +12,7 @@ import theme5 from 'assets/scss/_theme5.module.scss';
 import theme6 from 'assets/scss/_theme6.module.scss';
 
 // types
-import { ColorProps } from 'types';
+import { ColorProps } from '../types';
 
 // ==============================|| DEFAULT THEME - PALETTE  ||============================== //
 
