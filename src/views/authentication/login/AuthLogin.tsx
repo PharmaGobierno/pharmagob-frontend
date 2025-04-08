@@ -48,11 +48,11 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
 
     const {} = useAuth();
     const googleHandler = async () => {
-        try {
-            await firebaseGoogleSignIn();
-        } catch (err) {
-            console.error(err);
-        }
+        // try {
+        //     await firebaseGoogleSignIn();
+        // } catch (err) {
+        //     console.error(err);
+        // }
     };
 
     const [showPassword, setShowPassword] = React.useState(false);
@@ -140,21 +140,7 @@ const FirebaseLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        await firebaseEmailPasswordSignIn(values.email, values.password).then(
-                            () => {
-                                // WARNING: do not set any formik state here as formik might be already destroyed here. You may get following error by doing so.
-                                // Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application.
-                                // To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
-                                // github issue: https://github.com/formium/formik/issues/2430
-                            },
-                            (err: any) => {
-                                if (scriptedRef.current) {
-                                    setStatus({ success: false });
-                                    setErrors({ submit: err.message });
-                                    setSubmitting(false);
-                                }
-                            }
-                        );
+                        
                     } catch (err: any) {
                         console.error(err);
                         if (scriptedRef.current) {
