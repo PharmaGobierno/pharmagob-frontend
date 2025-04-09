@@ -3,13 +3,8 @@ import { createTheme } from '@mui/material/styles';
 import { PaletteMode } from '@mui/material';
 
 // assets
-import defaultColor from 'assets/scss/_themes-vars.module.scss';
-import theme1 from 'assets/scss/_theme1.module.scss';
-import theme2 from 'assets/scss/_theme2.module.scss';
-import theme3 from 'assets/scss/_theme3.module.scss';
-import theme4 from 'assets/scss/_theme4.module.scss';
-import theme5 from 'assets/scss/_theme5.module.scss';
-import theme6 from 'assets/scss/_theme6.module.scss';
+import defaultColor from '../assets/scss/_themes-vars.module.scss';
+import theme1 from '../assets/scss/_theme1.module.scss';
 
 // types
 import { ColorProps } from '../types';
@@ -21,21 +16,6 @@ const Palette = (navType: PaletteMode, presetColor: string) => {
     switch (presetColor) {
         case 'theme1':
             colors = theme1;
-            break;
-        case 'theme2':
-            colors = theme2;
-            break;
-        case 'theme3':
-            colors = theme3;
-            break;
-        case 'theme4':
-            colors = theme4;
-            break;
-        case 'theme5':
-            colors = theme5;
-            break;
-        case 'theme6':
-            colors = theme6;
             break;
         case 'default':
         default:

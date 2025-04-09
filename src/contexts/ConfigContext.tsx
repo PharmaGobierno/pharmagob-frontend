@@ -1,12 +1,12 @@
 import { createContext, ReactNode } from 'react';
 
 // project import
-import defaultConfig from 'config';
-import useLocalStorage from 'hooks/useLocalStorage';
+import defaultConfig from '../config';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 // types
 import { PaletteMode } from '@mui/material';
-import { CustomizationProps } from 'types/config';
+import { CustomizationProps } from '../types/config';
 
 // initial state
 const initialState: CustomizationProps = {
@@ -82,7 +82,7 @@ function ConfigProvider({ children }: ConfigProviderProps) {
         });
     };
 
-    const onChangeBorderRadius = (event: Event, newValue: number | number[]) => {
+    const onChangeBorderRadius = (/* event: Event,  */ newValue: number | number[]) => {
         setConfig({
             ...config,
             borderRadius: newValue as number
