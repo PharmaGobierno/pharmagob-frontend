@@ -1,11 +1,15 @@
-import { useState } from 'react'
+import Routes from './routes';
+import ThemeCustomization from './themes';
+import NavigationScroll from './layout/NavigationScroll';
 
-function App() {
+const App = ()=>  {
 
   return (
-    <>
-     
-    </>
+    <ThemeCustomization>
+        <NavigationScroll>
+          <Routes />
+        </NavigationScroll>
+    </ThemeCustomization>
   )
 }
 

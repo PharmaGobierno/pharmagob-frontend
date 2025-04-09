@@ -1,16 +1,19 @@
-import { lazy } from 'react';
-import { useRoutes } from 'react-router-dom';
+import { JSX, lazy } from 'react';
+import { useRoutes, RouteObject } from 'react-router-dom';
 
 // routes
-import MainRoutes from './MainRoutes';
+/* import MainRoutes from './MainRoutes';
 import LoginRoutes from './LoginRoutes';
-import AuthenticationRoutes from './AuthenticationRoutes';
-import Loadable from 'ui-component/Loadable';
+import AuthenticationRoutes from './AuthenticationRoutes'; */
+import Loadable from '../ui-components/Loadable';
 
-const PagesLanding = Loadable(lazy(() => import('views/pages/landing')));
+const PagesLanding = Loadable(lazy(() => import('../pages/landing') as Promise<{ default: () => JSX.Element }>));
 
 // ==============================|| ROUTING RENDER ||============================== //
 
-export default function ThemeRoutes() {
-    return useRoutes([{ path: '/', element: <PagesLanding /> }, AuthenticationRoutes, LoginRoutes, MainRoutes]);
-}
+const AppRoutes: React.FC = () => {
+  const routes = useRoutes([{ path: '/', element: <PagesLanding /> } /* AuthenticationRoutes, LoginRoutes, MainRoutes */] as RouteObject[]);
+  return routes;
+};
+
+export default AppRoutes;
