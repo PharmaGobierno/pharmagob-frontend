@@ -5,8 +5,8 @@ import { Avatar, Box } from '@mui/material';
 // project imports
 import LogoSection from '../LogoSection';
 import SearchSection from './SearchSection';
-/* import MobileSection from './MobileSection';
-import ProfileSection from './ProfileSection'; */
+import ProfileSection from './ProfileSection';
+/* import MobileSection from './MobileSection'; */
 /* import { useDispatch, useSelector } from '../../../store';
 import { openDrawer } from '../../../store/slices/menu';
  */
@@ -44,7 +44,7 @@ const Header = () => {
             <Box sx={{ flexGrow: 1 }} />
 
             {/* notification & profile */}
-            {/* <ProfileSection /> */}
+            <ProfileSection />
 
             {/* mobile header */}
             {/* <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
