@@ -6,7 +6,7 @@ import { SvgIconTypeMap, ChipProps, TableCellProps } from '@mui/material';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 
 // project imports
-import { TablerIcon } from '@tabler/icons';
+import { TablerIcon } from '@tabler/icons-react';
 import { SnackbarProps } from './snackbar';
 
 export type ArrangementOrder = 'asc' | 'desc' | undefined;

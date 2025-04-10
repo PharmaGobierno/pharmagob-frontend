@@ -4,14 +4,14 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Link } from '@mui/material';
 
 // project imports
-import { DASHBOARD_PATH } from 'config';
-import Logo from 'ui-component/Logo';
+import { DASHBOARD_PATH } from '../../../config';
+import logo from '../../../assets/images/traxion-logo.webp';
 
 // ==============================|| MAIN LOGO ||============================== //
 
 const LogoSection = () => (
     <Link component={RouterLink} to={DASHBOARD_PATH}>
-        <Logo />
+        <img src={logo} alt="Traxión - Tu vida en movimiento" height={"32px"} />
     </Link>
 );
 
