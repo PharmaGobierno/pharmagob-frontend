@@ -29,15 +29,14 @@ import {
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
 // project imports
-import MainCard from 'ui-component/cards/MainCard';
-import Transitions from 'ui-component/extended/Transitions';
-import UpgradePlanCard from './UpgradePlanCard';
-import useAuth from 'hooks/useAuth';
-import User1 from 'assets/images/users/user-round.svg';
+import MainCard from '../../../../ui-components/cards/MainCard';
+import Transitions from '../../../../ui-components/extended/Transitions';
+/* import useAuth from '../../../../hooks/useAuth'; */
+import User1 from '../../../../assets/images/users/user-round.svg';
 
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons-react';
-import useConfig from 'hooks/useConfig';
+import useConfig from '../../../../hooks/useConfig';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -50,7 +49,7 @@ const ProfileSection = () => {
     const [value, setValue] = useState('');
     const [notification, setNotification] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
-    const { logout, user } = useAuth();
+    /* const { logout, user } = useAuth(); */
     const [open, setOpen] = useState(false);
     /**
      * anchorRef is used on different components and specifying one type leads to other components throwing an error
@@ -58,7 +57,7 @@ const ProfileSection = () => {
     const anchorRef = useRef<any>(null);
     const handleLogout = async () => {
         try {
-            await logout();
+            /* await logout(); */
         } catch (err) {
             console.error(err);
         }
@@ -165,7 +164,8 @@ const ProfileSection = () => {
                                                 <Stack direction="row" spacing={0.5} alignItems="center">
                                                     <Typography variant="h4">Good Morning,</Typography>
                                                     <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                        {user?.name}
+                                                        {/* user?.name */}
+                                                        Erika Montes
                                                     </Typography>
                                                 </Stack>
                                                 <Typography variant="subtitle2">Project Admin</Typography>
@@ -190,7 +190,6 @@ const ProfileSection = () => {
                                         </Box>
                                         <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
                                             <Box sx={{ p: 2, pt: 0 }}>
-                                                <UpgradePlanCard />
                                                 <Divider />
                                                 <Card
                                                     sx={{
