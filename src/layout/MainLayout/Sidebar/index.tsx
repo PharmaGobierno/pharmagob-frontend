@@ -10,11 +10,10 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import MenuList from './MenuList';
 import LogoSection from '../LogoSection';
-import MenuCard from './MenuCard';
-import { openDrawer } from 'store/slices/menu';
-import { useDispatch, useSelector } from 'store';
-import { drawerWidth } from 'store/constant';
-import Chip from 'ui-component/extended/Chip';
+import { openDrawer } from '../../../store/slices/menu';
+import { useDispatch, useSelector } from '../../../store';
+import { drawerWidth } from '../../../store/constant';
+import Chip from '../../../ui-components/extended/Chip';
 
 // ==============================|| SIDEBAR DRAWER ||============================== //
 
@@ -51,9 +50,8 @@ const Sidebar = ({ window }: SidebarProps) => {
                 }}
             >
                 <MenuList />
-                <MenuCard />
                 <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
-                    <Chip label={process.env.REACT_APP_VERSION} disabled chipcolor="secondary" size="small" sx={{ cursor: 'pointer' }} />
+                    <Chip label={"v10.9.2"} disabled chipcolor="secondary" size="small" sx={{ cursor: 'pointer' }} />
                 </Stack>
             </PerfectScrollbar>
         ),

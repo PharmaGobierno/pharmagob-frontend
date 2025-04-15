@@ -6,15 +6,15 @@ import { useTheme } from '@mui/material/styles';
 import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
-import useConfig from 'hooks/useConfig';
-import { useDispatch, useSelector } from 'store';
-import { activeItem, openDrawer } from 'store/slices/menu';
+import useConfig from '../../../../../hooks/useConfig';
+import { useDispatch, useSelector } from '../../../../../store';
+import { activeItem, openDrawer } from '../../../../../store/slices/menu';
 
 // assets
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 // types
-import { LinkTarget, NavItemType } from 'types';
+import { LinkTarget, NavItemType } from '../../../../../types';
 
 interface NavItemProps {
     item: NavItemType;
