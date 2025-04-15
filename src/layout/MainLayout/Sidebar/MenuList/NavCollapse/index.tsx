@@ -9,7 +9,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 // project imports
 import NavItem from '../NavItem';
 import { NavGroupProps } from '../NavGroup';
-import useConfig from 'hooks/useConfig';
+import useConfig from '../../../../../hooks/useConfig';
 
 // assets
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
