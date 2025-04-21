@@ -4,7 +4,7 @@ import { Theme } from '@mui/material/styles';
 export default function componentStyleOverrides(theme: Theme, borderRadius: number, outlinedFilled: boolean) {
     const mode = theme.palette.mode;
     const bgColor = mode === 'dark' ? theme.palette.dark[800] : theme.palette.grey[50];
-    const menuSelectedBack = mode === 'dark' ? theme.palette.secondary.main + 15 : theme.palette.secondary.light;
+    const menuSelectedBack = mode === 'dark' ? theme.palette.secondary.main : theme.palette.secondary.light;
     const menuSelected = mode === 'dark' ? theme.palette.secondary.main : theme.palette.secondary.dark;
 
     return {
@@ -67,24 +67,25 @@ export default function componentStyleOverrides(theme: Theme, borderRadius: numb
         MuiListItemButton: {
             styleOverrides: {
                 root: {
-                    color: theme.palette.text.primary,
+                    color: theme.palette.text.title,
                     paddingTop: '10px',
                     paddingBottom: '10px',
                     '&.Mui-selected': {
                         color: menuSelected,
                         backgroundColor: menuSelectedBack,
                         '&:hover': {
-                            backgroundColor: menuSelectedBack
+                            backgroundColor: menuSelectedBack,
+                            color: theme.palette.text.secondary,
                         },
                         '& .MuiListItemIcon-root': {
-                            color: menuSelected
+                            color: theme.palette.text.secondary
                         }
                     },
                     '&:hover': {
                         backgroundColor: menuSelectedBack,
-                        color: menuSelected,
+                        color: theme.palette.text.secondary,
                         '& .MuiListItemIcon-root': {
-                            color: menuSelected
+                            color: theme.palette.text.secondary
                         }
                     }
                 }
@@ -93,7 +94,7 @@ export default function componentStyleOverrides(theme: Theme, borderRadius: numb
         MuiListItemIcon: {
             styleOverrides: {
                 root: {
-                    color: theme.palette.text.primary,
+                    color: theme.palette.text.title,
                     minWidth: '36px'
                 }
             }
@@ -108,7 +109,7 @@ export default function componentStyleOverrides(theme: Theme, borderRadius: numb
         MuiInputBase: {
             styleOverrides: {
                 input: {
-                    color: theme.palette.text.dark,
+                    color: theme.palette.text.secondary,
                     '&::placeholder': {
                         color: theme.palette.text.secondary,
                         fontSize: '0.875rem'

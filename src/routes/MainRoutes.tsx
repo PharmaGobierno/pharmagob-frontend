@@ -1,10 +1,10 @@
-/* import { lazy } from 'react'; */
+import { lazy } from 'react';
 // project imports
 import MainLayout from '../layout/MainLayout';
-/* import Loadable from '../ui-components/Loadable'; */
+import Loadable from '../ui-components/Loadable';
 
-/* const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
- */
+const DashboardDefault = Loadable(lazy(() => import('../views/PedidosPendientes')));
+
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -14,10 +14,10 @@ const MainRoutes = {
         <MainLayout />
     ),
     children: [
-        /* {
-            path: '/dashboard/default',
+        {
+            path: '/pedidos-pendientes',
             element: <DashboardDefault />
-        } */
+        }
     ]
 };
 

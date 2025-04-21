@@ -28,23 +28,55 @@ interface DashboardMenuProps {
 }
 
 const dashboard: DashboardMenuProps = {
-    id: 'dashboard',
-    title: 'dashboard',
+    id: 'inicio',
+    title: '',
     type: 'group',
     children: [
         {
             id: 'default',
-            title: 'dashboard',
+            title: 'Pedidos Pendientes',
             type: 'item',
-            url: '/dashboard/default',
+            url: '/pedidos-pendientes',
             icon: icons.IconDashboard,
             breadcrumbs: false
         },
         {
-            id: 'analytics',
-            title: 'dashboard',
+            id: 'ordenes-ingresadas',
+            title: 'Ordenes Ingresadas',
             type: 'item',
-            url: '/dashboard/analytics',
+            url: '/ordenes-ingresadas',
+            icon: icons.IconDeviceAnalytics,
+            breadcrumbs: false
+        },
+        {
+            id: 'medicos',
+            title: 'Médicos',
+            type: 'item',
+            url: '/medicos',
+            icon: icons.IconDeviceAnalytics,
+            breadcrumbs: false
+        },
+        {
+            id: 'pacientes',
+            title: 'Pacientes',
+            type: 'item',
+            url: '/pacientes',
+            icon: icons.IconDeviceAnalytics,
+            breadcrumbs: false
+        },
+        {
+            id: 'recetas',
+            title: 'Recetas',
+            type: 'item',
+            url: '/recetas',
+            icon: icons.IconDeviceAnalytics,
+            breadcrumbs: false
+        },
+        {
+            id: 'inventario',
+            title: 'Inventario',
+            type: 'item',
+            url: '/inventario',
             icon: icons.IconDeviceAnalytics,
             breadcrumbs: false
         }

@@ -12,5 +12,5 @@ const PagesLanding = Loadable(lazy(() => import('../layout/MainLayout') as Promi
 // ==============================|| ROUTING RENDER ||============================== //
 
 export default function ThemeRoutes() {
-  return useRoutes([{ path: '/', element: <PagesLanding /> }, /* AuthenticationRoutes, LoginRoutes, */ MainRoutes]);
+  return useRoutes([{ path: '/pedidos-pendientes', element: <PagesLanding /> }, /* AuthenticationRoutes, LoginRoutes, */ MainRoutes]);
 }

@@ -168,7 +168,7 @@ const SearchSection = () => {
                     endAdornment={
                         <InputAdornment position="end">
                             <HeaderAvatarStyle variant="rounded">
-                                <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
+                                <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" color={theme.palette.grey[500]}/>
                             </HeaderAvatarStyle>
                         </InputAdornment>
                     }
