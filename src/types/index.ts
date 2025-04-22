@@ -6,6 +6,7 @@ import { SvgIconTypeMap, ChipProps, TableCellProps } from '@mui/material';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 
 // project imports
+import { CustomerStateProps } from './customer';
 import { TablerIcon } from '@tabler/icons-react';
 import { SnackbarProps } from './snackbar';
 
@@ -96,6 +97,7 @@ export interface ColorPaletteProps {
 
 export interface DefaultRootStateProps {
     snackbar: SnackbarProps;
+    customer: CustomerStateProps;
 }
 
 export interface ColorProps {

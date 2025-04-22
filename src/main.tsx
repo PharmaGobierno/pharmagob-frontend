@@ -9,6 +9,7 @@ import App from './App';
 import { BASE_PATH } from './config';
 import { ConfigProvider } from './contexts/ConfigContext';
 import { store, persister } from './store';
+import './_muckApis';
 
 // style + assets
 import './assets/scss/style.scss';

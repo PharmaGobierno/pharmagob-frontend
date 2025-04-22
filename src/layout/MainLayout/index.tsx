@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { Outlet } from 'react-router-dom';
 
 // material-ui
 import { useTheme, styled, Theme } from '@mui/material/styles';
@@ -113,14 +114,14 @@ const MainLayout = () => {
                 {/* breadcrumb */}
                 {container && (
                     <Container maxWidth="lg">
-                        {/* <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
-                        <Outlet /> */}
+                        {/* <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign /> */}
+                        <Outlet />
                     </Container>
                 )}
                 {!container && (
                     <>
-                        {/* <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
-                        <Outlet /> */}
+                        {/* <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign /> */}
+                        <Outlet />
                     </>
                 )}
             </Main>
