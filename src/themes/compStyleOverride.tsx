@@ -313,6 +313,38 @@ export default function componentStyleOverrides(theme: Theme, borderRadius: numb
                     color: theme.palette.text.secondary,
                 }
             }
+        },
+        MuiTablePagination: {
+            styleOverrides: {
+                displayedRows: {
+                    color: theme.palette.text.secondary
+                },
+                selectLabel: {
+                    color: theme.palette.text.secondary
+                }
+            }
+        },
+        MuiTableRow: {
+            styleOverrides: {
+                root: {
+                    '&:hover': {
+                        backgroundColor: 'rgba(199, 211, 0, 0.16)'
+                    }
+                }
+            }            
+        },
+        MuiButtonBase: {
+            styleOverrides: {
+                root: {
+                    '&.Mui-active':{
+                        color: '#000000 !important',
+                        fontWeight: 'bold',
+                    },
+                    '&.MuiTableSortLabel-root': {
+                        color: '#000000 !important'
+                    }
+                }
+            }
         }
     };
 }
