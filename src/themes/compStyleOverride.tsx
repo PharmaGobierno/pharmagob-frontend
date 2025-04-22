@@ -280,7 +280,7 @@ export default function componentStyleOverrides(theme: Theme, borderRadius: numb
         MuiTableCell: {
             styleOverrides: {
                 root: {
-                    borderColor: mode === 'dark' ? theme.palette.text.primary + 15 : theme.palette.grey[200],
+                    borderColor: mode === 'dark' ? theme.palette.text.secondary + 15 : theme.palette.grey[200],
                     '&.MuiTableCell-head': {
                         fontSize: '0.875rem',
                         color: theme.palette.grey[600],
@@ -301,6 +301,16 @@ export default function componentStyleOverrides(theme: Theme, borderRadius: numb
             styleOverrides: {
                 root: {
                     fontSize: '1.25rem'
+                }
+            }
+        },
+        MuiTypography:{
+            styleOverrides: {
+                root: {
+                    color: theme.palette.text.secondary,
+                },
+                subtitle1: {
+                    color: theme.palette.text.secondary,
                 }
             }
         }

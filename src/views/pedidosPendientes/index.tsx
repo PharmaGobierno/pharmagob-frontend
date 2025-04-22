@@ -114,6 +114,7 @@ function EnhancedTableHead({
     onRequestSort,
     selected
 }: CustomerListEnhancedTableHeadProps) {
+    const theme = useTheme();
     const createSortHandler = (property: string) => (event: React.SyntheticEvent<Element, Event>) => {
         onRequestSort(event, property);
     };
@@ -149,6 +150,7 @@ function EnhancedTableHead({
                                 active={orderBy === headCell.id}
                                 direction={orderBy === headCell.id ? order : 'asc'}
                                 onClick={createSortHandler(headCell.id)}
+                                sx={{ color:theme.palette.text.secondary }}
                             >
                                 {headCell.label}
                                 {orderBy === headCell.id ? (
@@ -160,8 +162,8 @@ function EnhancedTableHead({
                         </TableCell>
                     ))}
                 {numSelected <= 0 && (
-                    <TableCell sortDirection={false} align="center" sx={{ pr: 3 }}>
-                        Action
+                    <TableCell sortDirection={false} align="center" sx={{ pr: 3 }} color='secondary'>
+                        <Box sx={{ color:theme.palette.text.secondary }}>Acciones</Box>
                     </TableCell>
                 )}
             </TableRow>
@@ -178,7 +180,7 @@ const EnhancedTableToolbar = ({ numSelected }: EnhancedTableToolbarProps) => (
             pl: 1,
             pr: 1,
             ...(numSelected > 0 && {
-                color: (theme) => theme.palette.secondary.main
+                color: (theme) => theme.palette.text.secondary
             })
         }}
     >
@@ -382,23 +384,23 @@ const PedidosPendientes = () => {
                                         >
                                             <Typography
                                                 variant="subtitle1"
-                                                sx={{ color: theme.palette.mode === 'dark' ? 'grey.600' : 'grey.900' }}
+                                                sx={{ color: theme.palette.mode === 'dark' ? 'grey.500' : 'grey.900' }}
                                             >
                                                 {' '}
                                                 {row.name}{' '}
                                             </Typography>
                                             <Typography variant="caption"> {row?.email} </Typography>
                                         </TableCell>
-                                        <TableCell>{row.location}</TableCell>
-                                        <TableCell align="right">{row.orders}</TableCell>
-                                        <TableCell align="center">{row.date}</TableCell>
+                                        <TableCell sx={{ color: theme.palette.text.secondary }}>{row.location}</TableCell>
+                                        <TableCell align="right" sx={{ color: theme.palette.text.secondary }}>{row.orders}</TableCell>
+                                        <TableCell align="center" sx={{ color: theme.palette.text.secondary }}>{row.date}</TableCell>
                                         <TableCell align="center">
                                             {row.status === 1 && <Chip label="Complete" size="small" chipcolor="success" />}
                                             {row.status === 2 && <Chip label="Processing" size="small" chipcolor="orange" />}
                                             {row.status === 3 && <Chip label="Confirm" size="small" chipcolor="primary" />}
                                         </TableCell>
                                         <TableCell align="center" sx={{ pr: 3 }}>
-                                            <IconButton color="primary" size="large">
+                                            <IconButton color="secondary" size="large">
                                                 <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }} />
                                             </IconButton>
                                             <IconButton color="secondary" size="large">
