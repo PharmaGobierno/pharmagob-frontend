@@ -3,7 +3,7 @@
 
 const AuthCardWrapper = () => (
     <div>
-        Pedidos Pendientes
+        Ordenes Ingresadas
     </div>
 );
 

@@ -3,8 +3,8 @@ import { lazy } from 'react';
 import MainLayout from '../layout/MainLayout';
 import Loadable from '../ui-components/Loadable';
 
-const DashboardDefault = Loadable(lazy(() => import('../views/PedidosPendientes')));
-const Shipments = Loadable(lazy(() => import('../views/shippings/PedidosPendientes')));
+const DashboardDefault = Loadable(lazy(() => import('../views/pedidosPendientes')));
+const Shipments = Loadable(lazy(() => import('../views/locationContent')));
 
 
 // ==============================|| MAIN ROUTING ||============================== //
