@@ -284,7 +284,8 @@ export default function componentStyleOverrides(theme: Theme, borderRadius: numb
                     '&.MuiTableCell-head': {
                         fontSize: '0.875rem',
                         color: theme.palette.grey[600],
-                        fontWeight: 500
+                        fontWeight: 500,
+                        padding: 16
                     }
                 }
             }
@@ -345,6 +346,6 @@ export default function componentStyleOverrides(theme: Theme, borderRadius: numb
                     }
                 }
             }
-        }
+        },
     };
 }

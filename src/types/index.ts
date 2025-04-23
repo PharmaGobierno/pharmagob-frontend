@@ -45,7 +45,7 @@ export type OverrideIcon =
     | TablerIcon;
 
 export interface EnhancedTableHeadProps extends TableCellProps {
-    onSelectAllClick: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onSelectAllClick?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     order: ArrangementOrder;
     orderBy?: string;
     numSelected: number;

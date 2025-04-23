@@ -99,11 +99,10 @@ const headCells: HeadCell[] = [
 // ==============================|| TABLE HEADER ||============================== //
 
 interface CustomerListEnhancedTableHeadProps extends EnhancedTableHeadProps {
-    selected: string[];
+    selected?: string[];
 }
 
 function EnhancedTableHead({
-    onSelectAllClick,
     order,
     orderBy,
     numSelected,
@@ -117,34 +116,32 @@ function EnhancedTableHead({
     return (
         <TableHead>
             <TableRow>
-                {numSelected <= 0 &&
-                    headCells.map((headCell) => (
-                        <TableCell
-                            key={headCell.id}
-                            align={headCell.align}
-                            padding={headCell.disablePadding ? 'none' : 'normal'}
-                            sortDirection={orderBy === headCell.id ? order : false}
+                {headCells.map((headCell) => (
+                    <TableCell
+                        key={headCell.id}
+                        align={headCell.align}
+                        padding={headCell.disablePadding ? 'none' : 'normal'}
+                        sortDirection={orderBy === headCell.id ? order : false}
+                        sx={{ pl: 3 }}
+                    >
+                        <TableSortLabel
+                            active={orderBy === headCell.id}
+                            direction={orderBy === headCell.id ? order : 'asc'}
+                            onClick={createSortHandler(headCell.id)}
+                            sx={{ color:theme.palette.text.secondary }}
                         >
-                            <TableSortLabel
-                                active={orderBy === headCell.id}
-                                direction={orderBy === headCell.id ? order : 'asc'}
-                                onClick={createSortHandler(headCell.id)}
-                                sx={{ color:theme.palette.text.secondary }}
-                            >
-                                {headCell.label}
-                                {orderBy === headCell.id ? (
-                                    <Box component="span" sx={visuallyHidden}>
-                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                    </Box>
-                                ) : null}
-                            </TableSortLabel>
-                        </TableCell>
-                    ))}
-                {numSelected <= 0 && (
-                    <TableCell sortDirection={false} align="center" sx={{ pr: 3 }} color='secondary'>
-                        <Box sx={{ color:theme.palette.text.secondary }}>Acciones</Box>
+                            {headCell.label}
+                            {orderBy === headCell.id ? (
+                                <Box component="span" sx={visuallyHidden}>
+                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                </Box>
+                            ) : null}
+                        </TableSortLabel>
                     </TableCell>
-                )}
+                ))}
+                <TableCell sortDirection={false} align="center" sx={{ pr: 3 }} color='secondary'>
+                    <Box sx={{ color:theme.palette.text.secondary }}>Acciones</Box>
+                </TableCell>
             </TableRow>
         </TableHead>
     );
@@ -209,31 +206,6 @@ const PedidosPendientes = () => {
         setOrderBy(property);
     };
 
-    const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.checked) {
-            const newSelectedId = rows.map((n) => n.name);
-            setSelected(newSelectedId);
-            return;
-        }
-        setSelected([]);
-    };
-
-    const handleClick = (event: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>, name: string) => {
-        const selectedIndex = selected.indexOf(name);
-        let newSelected: string[] = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-        }
-
-        setSelected(newSelected);
-    };
 
     const handleChangePage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
         setPage(newPage);
@@ -244,15 +216,13 @@ const PedidosPendientes = () => {
         setPage(0);
     };
 
-    const isSelected = (name: string) => selected.indexOf(name) !== -1;
-
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
     
     return (
         <MainCard content={false}>
             <CardContent>
                 <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <TextField
                             InputProps={{
                                 startAdornment: (
@@ -267,7 +237,7 @@ const PedidosPendientes = () => {
                             size="small"
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
+                    <Grid size={{ xs: 12, sm: 6 }} sx={{ textAlign: 'right' }}>
                         <Tooltip title="Copy">
                             <IconButton size="large">
                                 <FileCopyIcon sx={{ color: theme.palette.grey[500]}}/>
@@ -293,7 +263,6 @@ const PedidosPendientes = () => {
                         numSelected={selected?.length}
                         order={order}
                         orderBy={orderBy}
-                        onSelectAllClick={handleSelectAllClick}
                         onRequestSort={handleRequestSort}
                         rowCount={rows?.length}
                     />
@@ -303,7 +272,6 @@ const PedidosPendientes = () => {
                             ?.map((row, index) => {
                                 /** Make sure no display bugs if row isn't an OrderData object */
                                 if (typeof row === 'number') return null;
-                                const isItemSelected = isSelected(row?.name);
                                 const labelId = `enhanced-table-${index}`;
 
                                 return (
