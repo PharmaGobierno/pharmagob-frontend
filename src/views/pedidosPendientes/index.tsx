@@ -5,7 +5,6 @@ import { useTheme } from '@mui/material/styles';
 import {
     Box,
     CardContent,
-    Checkbox,
     Grid,
     IconButton,
     InputAdornment,
@@ -18,7 +17,6 @@ import {
     TableRow,
     TableSortLabel,
     TextField,
-    Toolbar,
     Tooltip,
     Typography
 } from '@mui/material';
@@ -32,14 +30,13 @@ import { useDispatch, useSelector } from '../../store';
 import { getCustomers } from '../../store/slices/customer';
 
 // assets
-import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterListTwoTone';
 import PrintIcon from '@mui/icons-material/PrintTwoTone';
 import FileCopyIcon from '@mui/icons-material/FileCopyTwoTone';
 import SearchIcon from '@mui/icons-material/Search';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import { GetComparator, EnhancedTableHeadProps, HeadCell, EnhancedTableToolbarProps, ArrangementOrder, KeyedObject } from '../../types';
+import { GetComparator, EnhancedTableHeadProps, HeadCell, ArrangementOrder, KeyedObject } from '../../types';
 
 // table sort
 function descendingComparator(a: KeyedObject, b: KeyedObject, orderBy: string) {
@@ -104,9 +101,7 @@ function EnhancedTableHead({
     order,
     orderBy,
     numSelected,
-    rowCount,
     onRequestSort,
-    selected
 }: CustomerListEnhancedTableHeadProps) {
     const theme = useTheme();
     const createSortHandler = (property: string) => (event: React.SyntheticEvent<Element, Event>) => {
@@ -116,11 +111,6 @@ function EnhancedTableHead({
     return (
         <TableHead>
             <TableRow>
-                {numSelected > 0 && (
-                    <TableCell padding="none" colSpan={6}>
-                        <EnhancedTableToolbar numSelected={selected.length} />
-                    </TableCell>
-                )}
                 {numSelected <= 0 &&
                     headCells.map((headCell) => (
                         <TableCell
@@ -156,36 +146,7 @@ function EnhancedTableHead({
 
 // ==============================|| TABLE HEADER TOOLBAR ||============================== //
 
-const EnhancedTableToolbar = ({ numSelected }: EnhancedTableToolbarProps) => (
-    <Toolbar
-        sx={{
-            p: 0,
-            pl: 1,
-            pr: 1,
-            ...(numSelected > 0 && {
-                color: (theme) => theme.palette.text.secondary
-            })
-        }}
-    >
-        {numSelected > 0 ? (
-            <Typography color="inherit" variant="h4">
-                {numSelected} Selected
-            </Typography>
-        ) : (
-            <Typography variant="h6" id="tableTitle">
-                Nutrition
-            </Typography>
-        )}
-        <Box sx={{ flexGrow: 1 }} />
-        {numSelected > 0 && (
-            <Tooltip title="Delete">
-                <IconButton size="large">
-                    <DeleteIcon fontSize="small" />
-                </IconButton>
-            </Tooltip>
-        )}
-    </Toolbar>
-);
+
 
 // ==============================|| CUSTOMER LIST ||============================== //
 
@@ -333,7 +294,6 @@ const PedidosPendientes = () => {
                         onSelectAllClick={handleSelectAllClick}
                         onRequestSort={handleRequestSort}
                         rowCount={rows?.length}
-                        selected={selected}
                     />
                     <TableBody>
                         {stableSort(rows, getComparator(order, orderBy))
@@ -342,19 +302,16 @@ const PedidosPendientes = () => {
                                 /** Make sure no display bugs if row isn't an OrderData object */
                                 if (typeof row === 'number') return null;
                                 const isItemSelected = isSelected(row?.name);
-                                const labelId = `enhanced-table-checkbox-${index}`;
+                                const labelId = `enhanced-table-${index}`;
 
                                 return (
                                     <TableRow
-                                        hover
-                                        role="checkbox"
-                                        aria-checked={isItemSelected}
                                         tabIndex={-1}
                                         key={index}
-                                        selected={isItemSelected}
                                     >
                                         <TableCell
                                             id={labelId}
+                                            scope="row"
                                         >
                                             <Typography
                                                 variant="subtitle1"
@@ -379,7 +336,7 @@ const PedidosPendientes = () => {
                                                 <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }} />
                                             </IconButton>
                                             <IconButton color="secondary" size="large">
-                                                <EditTwoToneIcon sx={{ fontSize: '1.3rem' }} />
+                                                <EditTwoToneIcon sx={{ fontSize: '1.3rem', color: theme.palette.text.secondary }} />
                                             </IconButton>
                                         </TableCell>
                                     </TableRow>
@@ -399,6 +356,7 @@ const PedidosPendientes = () => {
             </TableContainer>
             {/* table pagination */}
             <TablePagination
+                labelRowsPerPage= "Filas por páginas"
                 rowsPerPageOptions={[20, 50, 100]}
                 component="div"
                 count={rows?.length}
@@ -406,6 +364,8 @@ const PedidosPendientes = () => {
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
+                color={ theme.palette.text.secondary}
+                sx={ { color: theme.palette.text.secondary } }
             />
         </MainCard>
     );
