@@ -4,7 +4,8 @@ import MainLayout from '../layout/MainLayout';
 import Loadable from '../ui-components/Loadable';
 
 const DashboardDefault = Loadable(lazy(() => import('../views/pedidosPendientes')));
-const Shipments = Loadable(lazy(() => import('../views/locationContent')));
+const Shipments = Loadable(lazy(() => import('../views/ordenesIngresadas')));
+const DetallePedido = Loadable(lazy(() => import('../views/detallePedido')));
 
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -22,6 +23,10 @@ const MainRoutes = {
         {
             path: '/ordenes-ingresadas',
             element: <Shipments />
+        },
+        {
+            path: '/medicos',
+            element: <DetallePedido />
         }
     ]
 };
