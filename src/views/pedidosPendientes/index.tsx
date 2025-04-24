@@ -68,33 +68,27 @@ function stableSort(array: Customer[], comparator: (a: Customer, b: Customer) =>
 // table header options
 const headCells: HeadCell[] = [
     {
-        id: 'name',
+        id: 'order_number',
         numeric: false,
-        label: 'Customer Name',
+        label: 'Orden',
         align: 'left'
     },
     {
-        id: 'location',
+        id: 'shipment_type',
         numeric: true,
-        label: 'Location',
-        align: 'left'
-    },
-    {
-        id: 'orders',
-        numeric: true,
-        label: 'Orders',
-        align: 'right'
-    },
-    {
-        id: 'date',
-        numeric: true,
-        label: 'Registered',
+        label: 'Tipo',
         align: 'center'
     },
     {
         id: 'status',
-        numeric: false,
-        label: 'Status',
+        numeric: true,
+        label: 'Estatus',
+        align: 'center'
+    },
+    {
+        id: 'created_at',
+        numeric: true,
+        label: 'Registered',
         align: 'center'
     }
 ];
@@ -122,17 +116,6 @@ function EnhancedTableHead({
     return (
         <TableHead>
             <TableRow>
-                <TableCell padding="checkbox" sx={{ pl: 3 }}>
-                    <Checkbox
-                        color="primary"
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                        inputProps={{
-                            'aria-label': 'select all desserts'
-                        }}
-                    />
-                </TableCell>
                 {numSelected > 0 && (
                     <TableCell padding="none" colSpan={6}>
                         <EnhancedTableToolbar numSelected={selected.length} />
@@ -150,7 +133,7 @@ function EnhancedTableHead({
                                 active={orderBy === headCell.id}
                                 direction={orderBy === headCell.id ? order : 'asc'}
                                 onClick={createSortHandler(headCell.id)}
-                                sx={{ color:theme.palette.text.secondary }}
+                                sx={{ color:theme.palette.text.secondary, fontWeight: "bold" }}
                             >
                                 {headCell.label}
                                 {orderBy === headCell.id ? (
@@ -163,7 +146,7 @@ function EnhancedTableHead({
                     ))}
                 {numSelected <= 0 && (
                     <TableCell sortDirection={false} align="center" sx={{ pr: 3 }} color='secondary'>
-                        <Box sx={{ color:theme.palette.text.secondary }}>Acciones</Box>
+                        <Box sx={{ color:theme.palette.text.secondary, fontWeight: "bold" }}>Acciones</Box>
                     </TableCell>
                 )}
             </TableRow>
@@ -214,10 +197,11 @@ const PedidosPendientes = () => {
     const [orderBy, setOrderBy] = React.useState<string>('calories');
     const [selected, setSelected] = React.useState<string[]>([]);
     const [page, setPage] = React.useState<number>(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+    const [rowsPerPage, setRowsPerPage] = React.useState<number>(20);
     const [search, setSearch] = React.useState<string>('');
     const [rows, setRows] = React.useState<Customer[]>([]);
     const { customers } = useSelector((state) => state.customer);
+    
     React.useEffect(() => {
         dispatch(getCustomers());
     }, [dispatch]);
@@ -225,6 +209,7 @@ const PedidosPendientes = () => {
         console.log("customers", customers)
         setRows(customers);
     }, [customers]);
+
     const handleSearch = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | undefined) => {
         const newString = event?.target.value;
         setSearch(newString || '');
@@ -302,14 +287,16 @@ const PedidosPendientes = () => {
         <MainCard content={false}>
             <CardContent>
                 <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={{xs: 12, sm: 6}}>
                         <TextField
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start" color={theme.palette.grey[500]}>
-                                        <SearchIcon fontSize="small" sx={{ color: theme.palette.grey[500]}}/>
-                                    </InputAdornment>
-                                )
+                            slotProps={{
+                                input: {
+                                    startAdornment: (
+                                        <InputAdornment position="start" color={theme.palette.grey[500]}>
+                                            <SearchIcon fontSize="small" sx={{ color: theme.palette.grey[500]}}/>
+                                        </InputAdornment>
+                                    )
+                                }
                             }}
                             onChange={handleSearch}
                             placeholder="Buscar"
@@ -317,7 +304,7 @@ const PedidosPendientes = () => {
                             size="small"
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
+                    <Grid size={{xs: 12, sm: 6}} sx={{ textAlign: 'right' }}>
                         <Tooltip title="Copy">
                             <IconButton size="large">
                                 <FileCopyIcon sx={{ color: theme.palette.grey[500]}}/>
@@ -366,39 +353,27 @@ const PedidosPendientes = () => {
                                         key={index}
                                         selected={isItemSelected}
                                     >
-                                        <TableCell padding="checkbox" sx={{ pl: 3 }} onClick={(event) => handleClick(event, row?.name)}>
-                                            <Checkbox
-                                                color="primary"
-                                                checked={isItemSelected}
-                                                inputProps={{
-                                                    'aria-labelledby': labelId
-                                                }}
-                                            />
-                                        </TableCell>
                                         <TableCell
-                                            component="th"
                                             id={labelId}
-                                            scope="row"
-                                            onClick={(event) => handleClick(event, row?.name)}
-                                            sx={{ cursor: 'pointer' }}
                                         >
                                             <Typography
                                                 variant="subtitle1"
                                                 sx={{ color: theme.palette.mode === 'dark' ? 'grey.500' : 'grey.900' }}
                                             >
-                                                {' '}
-                                                {row.name}{' '}
+                                                {row.name}
                                             </Typography>
-                                            <Typography variant="caption"> {row?.email} </Typography>
                                         </TableCell>
-                                        <TableCell sx={{ color: theme.palette.text.secondary }}>{row.location}</TableCell>
-                                        <TableCell align="right" sx={{ color: theme.palette.text.secondary }}>{row.orders}</TableCell>
-                                        <TableCell align="center" sx={{ color: theme.palette.text.secondary }}>{row.date}</TableCell>
                                         <TableCell align="center">
                                             {row.status === 1 && <Chip label="Complete" size="small" chipcolor="success" />}
                                             {row.status === 2 && <Chip label="Processing" size="small" chipcolor="orange" />}
                                             {row.status === 3 && <Chip label="Confirm" size="small" chipcolor="primary" />}
                                         </TableCell>
+                                        <TableCell align="center">
+                                            {row.status === 1 && <Chip label="Complete" size="small" chipcolor="success" />}
+                                            {row.status === 2 && <Chip label="Processing" size="small" chipcolor="orange" />}
+                                            {row.status === 3 && <Chip label="Confirm" size="small" chipcolor="primary" />}
+                                        </TableCell>
+                                        <TableCell align="center" sx={{ color: theme.palette.text.secondary }}>{row.date}</TableCell>
                                         <TableCell align="center" sx={{ pr: 3 }}>
                                             <IconButton color="secondary" size="large">
                                                 <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }} />
@@ -424,7 +399,7 @@ const PedidosPendientes = () => {
             </TableContainer>
             {/* table pagination */}
             <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[20, 50, 100]}
                 component="div"
                 count={rows?.length}
                 rowsPerPage={rowsPerPage}
