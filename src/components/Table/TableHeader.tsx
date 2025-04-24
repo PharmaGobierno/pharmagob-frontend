@@ -3,14 +3,16 @@ import { ReactNode } from "react"
 
 type TableHeaderCellProps = {
     sortable?: TableSortLabelProps,
-    order: 'asc' | 'desc' | undefined,
-    children: React.ReactNode
+    order?: 'asc' | 'desc' | undefined,
+    children: React.ReactNode,
+    align?: 'center' | 'left' | 'right'
 }
 
 export const TableHeaderCell = ({
     sortable,
-    order,
-    children
+    order = undefined,
+    children,
+    align = 'left'
 }: TableHeaderCellProps) => {
     return(
         <TableCell>
@@ -35,7 +37,7 @@ export const TableHeaderCell = ({
 
             {
                 !sortable && (
-                    <Box sx={{ fontWeight: "bold" }}>{children}</Box>
+                    <Box sx={{ fontWeight: "bold" }} textAlign={align}>{children}</Box>
                 )
             }
         </TableCell>
