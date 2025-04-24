@@ -283,10 +283,12 @@ export default function componentStyleOverrides(theme: Theme, borderRadius: numb
                     borderColor: mode === 'dark' ? theme.palette.text.secondary + 15 : theme.palette.grey[200],
                     '&.MuiTableCell-head': {
                         fontSize: '0.875rem',
-                        color: theme.palette.grey[600],
+                        color: theme.palette.text.secondary,
                         fontWeight: 500,
                         padding: 16
-                    }
+                    },
+                    color: theme.palette.text.secondary
+                    
                 }
             }
         },
@@ -325,11 +327,13 @@ export default function componentStyleOverrides(theme: Theme, borderRadius: numb
                 }
             }
         },
-        MuiTableRow: {
+        MuiTableBody: {
             styleOverrides: {
                 root: {
-                    '&:hover': {
-                        backgroundColor: 'rgba(199, 211, 0, 0.16)'
+                    '& .MuiTableRow-root': {
+                        '&:hover': {
+                            backgroundColor: 'rgba(199, 211, 0, 0.16) !important'
+                        }
                     }
                 }
             }            

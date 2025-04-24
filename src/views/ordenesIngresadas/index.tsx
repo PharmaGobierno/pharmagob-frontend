@@ -153,7 +153,7 @@ function EnhancedTableHead({
 
 // ==============================|| CUSTOMER LIST ||============================== //
 
-const PedidosPendientes = () => {
+const ordenesIngresadas = () => {
     const theme = useTheme();
     const dispatch = useDispatch();
 
@@ -338,4 +338,4 @@ const PedidosPendientes = () => {
     );
 };
 
-export default PedidosPendientes;
+export default ordenesIngresadas;
