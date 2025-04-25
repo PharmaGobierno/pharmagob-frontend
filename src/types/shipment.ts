@@ -1,4 +1,18 @@
-export interface ShipmentStateProps{
+export interface ShipmentStateProps extends ShipmentPaginationProps{
+    records: Shipment[],
+    errors?: Error[]
+}
+
+export type ShipmentPaginationProps = {
+    limit: number,
+    page: number,
+    sort: [string, "asc" | "desc"],
+    filters: {
+        review_status?: ShipmentReviewStatus 
+    }
+}
+
+export type Shipment = {
     umu_id: string,
     _id: string,
     order_number: string,
@@ -8,7 +22,6 @@ export interface ShipmentStateProps{
     review_status: ShipmentReviewStatus,
     shipment_type: string,
     application_date: Date,
-    user?: null,
     updated_at: Date,
     created_at: Date,
     version: string
@@ -23,4 +36,11 @@ export enum ShipmentReviewStatus {
     REJECTED,
     APPROVED,
     PARTIAL_APPROVED
+}
+
+export enum ShipmentType {
+    URGENT,
+    STANDARD,
+    LIFE_SUPPORT,
+    EXTRAORDINARY
 }
