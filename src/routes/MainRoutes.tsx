@@ -6,6 +6,7 @@ import Loadable from '../ui-components/Loadable';
 const DashboardDefault = Loadable(lazy(() => import('../views/pedidosPendientes')));
 const Shipments = Loadable(lazy(() => import('../views/ordenesIngresadas')));
 const DetallePedido = Loadable(lazy(() => import('../views/detallePedido')));
+const DetalleOrden = Loadable(lazy(() => import('../views/detalleOrden')));
 
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -27,6 +28,10 @@ const MainRoutes = {
         {
             path: '/medicos',
             element: <DetallePedido />
+        },
+        {
+            path: '/pacientes',
+            element: <DetalleOrden />
         }
     ]
 };
