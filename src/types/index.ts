@@ -99,7 +99,7 @@ export interface ColorPaletteProps {
 export interface DefaultRootStateProps {
     snackbar: SnackbarProps;
     customer: CustomerStateProps;
-    shipments: ShipmentStateProps[]
+    shipments: ShipmentStateProps;
 }
 
 export interface ColorProps {

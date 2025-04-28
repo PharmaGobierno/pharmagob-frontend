@@ -4,70 +4,22 @@ import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
-import { useDispatch } from '../../store';
+import { useDispatch, useSelector } from '../../store';
 import Table from '../../components/Table/Table';
 import { TableHeader, TableHeaderCell } from '../../components/Table/TableHeader';
 import { IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
-import axios from 'axios';
-
-interface Shipment {
-    umu_id: string,
-    _id: string,
-    order_number: string,
-    load_id: string,
-    order_id: string,
-    status:  ShipmentStatus,
-    review_status: ShipmentReviewStatus,
-    shipment_type: string,
-    application_date: Date,
-    user?: null,
-    updated_at: Date,
-    created_at: Date,
-    version: string
-}
-
-enum ShipmentStatus {
-    DISPATCHED
-}
-
-enum ShipmentReviewStatus {
-    NOT_EVALUATED,
-    REJECTED,
-    APPROVED,
-    PARTIAL_APPROVED
-}
-
-interface Pagination {
-    count: number,
-    page: number,
-    rows: number
-}
+import { getShipments, setPagination } from '../../store/slices/shipment';
 
 
 const PedidosPendientes = () => {
     const dispatch = useDispatch();
-    const [shipments, setShipments] = useState<Shipment[]>([])
-    const [pagination, setPagination] = useState<Pagination>({
-        count: 0,
-        page: 0,
-        rows: 20
-    })
-
+    const {page, limit, records} = useSelector(state => state.shipment)
+    
     useEffect(() => {
-        getShipments()
-    }, [])
+        dispatch(getShipments({page, limit}))
+    }, [page, limit])
 
-    const getShipments = async () => {
-        try{
-            const response = await axios.get("https://pharma-gateway-682pqs65.uc.gateway.dev/v1/shipments")
-            console.log(response)
-        }catch(error){
-            console.log(error)
-        }
-    }
-
-   return (
+   return ( 
     <Table
         header={
             <TableHeader>
@@ -79,14 +31,16 @@ const PedidosPendientes = () => {
             </TableHeader>
         }
         pagination={{
-            onPageChange: () => {},
-            count: pagination.count,
-            page: pagination.page,
-            rowsPerPage: pagination.rows
+            onPageChange: (_, _page) => {
+                
+            },
+            count: 20,
+            page: page,
+            rowsPerPage: limit
         }}
     >
         {
-            shipments?.length > 0 && shipments.map((shipment) => (
+            records?.length > 0 && records.map((shipment) => (
                 <TableRow
                     key={shipment.order_number}
                 >
@@ -103,7 +57,7 @@ const PedidosPendientes = () => {
             ))
         }
         {
-            shipments?.length < 1 && (
+            records?.length < 1 && (
                 <TableRow>
                     <TableCell align='center' colSpan={5}>
                         <Stack alignItems={"center"} spacing={2}>
