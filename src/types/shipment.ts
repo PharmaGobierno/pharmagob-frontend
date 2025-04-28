@@ -27,6 +27,28 @@ export type Shipment = {
     version: string
 }
 
+export interface MinShipment extends Partial<Shipment> {
+    umu_id: string,
+    _id: string,
+    order_number: string,
+    load_id: string,
+    order_id: string
+}
+
+export type ShipmentDetails = {
+    umu_id: string,
+    _id: string,
+    shipment: MinShipment,
+    lot: string,
+    expiration_date?: Date,
+    quantity: number,
+    brand?: string,
+    last_author?: string,
+    updated_at: Date,
+    created_at: Date,
+    version: string
+}
+
 export enum ShipmentStatus {
     DISPATCHED
 }
