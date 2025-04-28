@@ -19,7 +19,7 @@ const Table = ({
 }: TableProps) => {
     return (
         <MainCard>
-            <CardContent>
+            <CardContent sx={{padding: "0 0 16px 0"}}>
                 <Grid 
                     container
                     spacing={2}
@@ -30,6 +30,8 @@ const Table = ({
                 >
                     <Grid size={"grow"}>
                         <TextField
+                            fullWidth
+                            placeholder="Buscar registro"
                             slotProps={{
                                 input: {
                                     startAdornment: (
@@ -62,6 +64,11 @@ const Table = ({
             </TableContainer>
             <TablePagination
                 {...pagination}
+                sx={{
+                    "& > .MuiToolbar-root": {
+                        padding: "16px 2px 0 24px"
+                    }
+                }}
                 labelRowsPerPage= "Resultados por pagina"
                 rowsPerPageOptions={[20, 50, 100]}
                 component="div"
