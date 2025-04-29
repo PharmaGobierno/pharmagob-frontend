@@ -1,7 +1,6 @@
 // material-ui
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
 import {
     Divider,
     Grid,
@@ -32,19 +31,8 @@ const sxDivider = {
     borderColor: 'text.secondary'
 };
 
-// table data
-function createData(id: string, lote: string, nombre: string, tipo: string, enviados: number, recibidos: number, completo: boolean) {
-    return { id, lote, nombre, tipo, enviados, recibidos, completo };
-}
-
-const rowsData = [
-    createData('#790955', '3845648', 'METAFORMINA', 'Medicamento', 20, 20, true),
-    createData('#790956', '3855648', 'ASPIRINA', 'Medicamento', 30, 20, false),
-    createData('#790958', '3845236', 'IBOPRUFENO', 'Medicamento', 50, 50, true)
-];
 
 const detalleOrden = () => {
-    const theme = useTheme();
     const { idShipment } = useParams();
     const [shipmentRows, setShipmentRows] = React.useState<ShipmentDetails[]>([])
 
