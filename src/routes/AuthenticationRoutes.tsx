@@ -5,7 +5,7 @@ import Loadable from '../ui-components/Loadable';
 import MinimalLayout from '../layout/MinimalLayout';
 
 // login option 1 routing
-const AuthLogin = Loadable(lazy(() => import('../views/authentication/login/Login') as Promise<{ default: () => JSX.Element }>));
+const AuthLogin = Loadable(lazy(() => import('../views/authentication/login/LoginForm') as Promise<{ default: () => JSX.Element }>));
 
 // ==============================|| AUTHENTICATION ROUTING ||============================== //
 

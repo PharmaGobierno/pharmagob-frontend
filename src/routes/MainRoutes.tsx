@@ -2,6 +2,7 @@ import { lazy } from 'react';
 // project imports
 import MainLayout from '../layout/MainLayout';
 import Loadable from '../ui-components/Loadable';
+import AuthGuard from '../utils/route-guard/AuthGuard';
 
 const DashboardDefault = Loadable(lazy(() => import('../views/pedidosPendientes')));
 const Shipments = Loadable(lazy(() => import('../views/ordenesIngresadas')));
@@ -14,7 +15,9 @@ const DetalleOrden = Loadable(lazy(() => import('../views/detalleOrden')));
 const MainRoutes = {
     path: '/',
     element: (
-        <MainLayout />
+        <AuthGuard>
+            <MainLayout />
+        </AuthGuard>
     ),
     children: [
         {
