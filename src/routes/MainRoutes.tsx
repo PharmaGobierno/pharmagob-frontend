@@ -26,7 +26,7 @@ const MainRoutes = {
             element: <Shipments />
         },
         {
-            path: '/medicos',
+            path: '/pedidos-pendientes/:idOrder',
             element: <DetallePedido />
         },
         {
