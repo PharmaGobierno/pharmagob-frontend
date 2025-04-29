@@ -38,6 +38,8 @@ export const Authentication = () => {
         setTimeout(() => {
             if(data.access_token === _data.access_token) setTokenExpired(true)
         }, data.expires_in)
+
+        setHeaders(_data.token_type, _data.access_token)
     }
 
     const refresh = async () => {
@@ -49,6 +51,12 @@ export const Authentication = () => {
         }
 
         setData(_data)
+
+        setHeaders(_data.token_type, _data.access_token)
+    }
+
+    const setHeaders = (token_type: string, token: string) => {
+        axios.defaults.headers.common.Authorization = `${token_type} ${token}`
     }
 
     useEffect(() => {
@@ -63,7 +71,7 @@ export const Authentication = () => {
 }
 
 // Actions
-export const getToken = async () => {
+const getToken = async () => {
     try {
         const response = await axios.post("/v1/token", {
             key: "AIzaSyBQFlqkqrc80WsmRmSJR4Lgm_YOGUvEYEg",
@@ -80,7 +88,7 @@ export const getToken = async () => {
 }
 
 
-export const refreshToken = async (token: string) => {
+const refreshToken = async (token: string) => {
     try {
         const response = await axios.post("/v1/token/refresh", {
             key: "AIzaSyBQFlqkqrc80WsmRmSJR4Lgm_YOGUvEYEg",
