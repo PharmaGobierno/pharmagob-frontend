@@ -1,6 +1,7 @@
 import Routes from './routes';
 import ThemeCustomization from './themes';
 import NavigationScroll from './layout/NavigationScroll';
+import { JWTProvider as AuthProvider } from './contexts/JWTContext'
 
 // Axios config
 import "./configs/axios"
@@ -11,7 +12,11 @@ const App = ()=>  {
   return (
     <ThemeCustomization>
         <NavigationScroll>
-          <Routes />
+          <AuthProvider>
+            <>
+              <Routes />
+            </>
+          </AuthProvider>
         </NavigationScroll>
     </ThemeCustomization>
   )

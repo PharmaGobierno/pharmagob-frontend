@@ -36,6 +36,7 @@ export interface MinShipment extends Partial<Shipment> {
 }
 
 export type ShipmentDetails = {
+    item: ShipmentItem,
     umu_id: string,
     _id: string,
     shipment: MinShipment,
@@ -47,6 +48,12 @@ export type ShipmentDetails = {
     updated_at: Date,
     created_at: Date,
     version: string
+}
+
+export type ShipmentItem = {
+    foreign_id: string,
+    id: string,
+    name: string
 }
 
 export enum ShipmentStatus {
