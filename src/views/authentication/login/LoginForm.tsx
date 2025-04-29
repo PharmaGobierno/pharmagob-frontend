@@ -33,7 +33,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 // ===============================|| JWT LOGIN ||=============================== //
 
-const Login = ({ loginProp, ...others }: { loginProp?: number }) => {
+const LoginForm = ({ loginProp, ...others }: { loginProp?: number }) => {
     const theme = useTheme();
 
     const { login, user } = useAuth();
@@ -131,7 +131,7 @@ const Login = ({ loginProp, ...others }: { loginProp?: number }) => {
                     </FormControl>
 
                     <Grid container alignItems="center" justifyContent="space-between">
-                        <Grid item>
+                        <Grid>
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -144,7 +144,7 @@ const Login = ({ loginProp, ...others }: { loginProp?: number }) => {
                                 label="Keep me logged in"
                             />
                         </Grid>
-                        <Grid item>
+                        <Grid>
                             <Typography
                                 variant="subtitle1"
                                 component={Link}
@@ -179,4 +179,4 @@ const Login = ({ loginProp, ...others }: { loginProp?: number }) => {
     );
 };
 
-export default Login;
+export default LoginForm;
