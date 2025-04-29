@@ -4,14 +4,9 @@ import NavigationScroll from './layout/NavigationScroll';
 
 // Axios config
 import "./configs/axios"
-import { useEffect } from 'react';
-import { Authenticate } from './configs/axios';
 
 const App = ()=>  {
 
-  useEffect(() => {
-    Authenticate()
-  }, [])
 
   return (
     <ThemeCustomization>

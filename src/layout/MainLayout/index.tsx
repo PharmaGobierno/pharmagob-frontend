@@ -12,6 +12,7 @@ import useConfig from '../../hooks/useConfig';
 import { drawerWidth } from '../../store/constant';
 import { openDrawer } from '../../store/slices/menu';
 import { useDispatch, useSelector } from '../../store';
+import { Authentication } from '../../configs/axios.tsx';
 
 
 
@@ -91,6 +92,7 @@ const MainLayout = () => {
 
     return (
         <Box sx={{ display: 'flex' }}>
+            <Authentication/>
             <CssBaseline />
             {/* header */}
             <AppBar
