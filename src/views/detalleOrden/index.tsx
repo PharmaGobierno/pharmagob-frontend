@@ -44,6 +44,24 @@ const rowsData = [
 ];
 
 const detalleOrden = () => {
+    const theme = useTheme();
+    const { idShipment } = useParams();
+    const [shipmentRows, setShipmentRows] = React.useState<ShipmentDetails[]>([])
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`/v1/shipments/${idShipment}/shipment-details`);
+                const { "shipment-details": shipmentDetails } = response.data.data
+                console.log({shipmentDetails})
+                setShipmentRows(shipmentDetails)
+            } catch (error) {
+                console.error("Error en la solicitud:", error);
+            }
+        };
+        fetchData();
+    }, []);
+
 
     return (
         <MainCard>
