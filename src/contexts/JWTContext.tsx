@@ -9,7 +9,7 @@ import accountReducer from '../store/accountReducer';
 
 // project imports
 import Loader from '../ui-components/Loader';
-import axios from 'axios';
+import axios from '../utils/axios';
 
 // types
 import { KeyedObject } from '../types';
@@ -48,12 +48,6 @@ const JWTContext = createContext<JWTContextType | null>(null);
 export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
     const [state, dispatch] = useReducer(accountReducer, initialState);
 
-    /*Axios configs*/
-    axios.defaults.baseURL = "https://pharma-gateway-682pqs65.uc.gateway.dev"
-    axios.defaults.params = {
-        key: "AIzaSyBQFlqkqrc80WsmRmSJR4Lgm_YOGUvEYEg"
-    }
-
     useEffect(() => {
         const init = async () => {
             
@@ -76,9 +70,11 @@ export const JWTProvider = ({ children }: { children: React.ReactElement }) => {
                         }
                     });
                 } else {
+
                     dispatch({
                         type: LOGOUT
                     });
+                    login('test_react','qwerty')
                 }
             } catch (err) {
                 console.error(err);
