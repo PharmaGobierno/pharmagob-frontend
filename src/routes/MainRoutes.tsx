@@ -29,12 +29,16 @@ const MainRoutes = {
             element: <Shipments />
         },
         {
-            path: '/pedidos-pendientes/:idOrder',
+            path: '/pedidos-pendientes/:idShipment',
             element: <DetallePedido />
         },
         {
-            path: '/pacientes',
+            path: '/ordenes-ingresadas/:idShipment',
             element: <DetalleOrden />
+        },
+        {
+            path: '/pacientes',
+            element: <></>
         }
     ]
 };
