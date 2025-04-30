@@ -52,7 +52,7 @@ const OrdenesIngresadas = () => {
                         >
                             <TableCell>{shipment.order_number}</TableCell>
                             <TableCell align='center'>{shipment.shipment_type}</TableCell>
-                            <TableCell align='center'>{shipment.status}</TableCell>
+                            <TableCell align='center'>{shipment.review_status}</TableCell>
                             <TableCell align='center'>{date}</TableCell>
                             <TableCell align='center'>
                                 <IconButton size="large" onClick={() => navigate(`/pedidos-pendientes/${shipment._id}`)}>
