@@ -64,6 +64,7 @@ const Table = ({
             </TableContainer>
             <TablePagination
                 {...pagination}
+                page={pagination?.page - 1} // Diff between source and component
                 sx={{
                     "& > .MuiToolbar-root": {
                         padding: "16px 2px 0 24px"
