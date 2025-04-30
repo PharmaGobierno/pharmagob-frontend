@@ -46,7 +46,8 @@ export const TableHeaderCell = ({
 
 export const TableHeader = ({children}: {children: ReactNode}) => {
     return(
-        <TableHead>
+        <TableHead
+        >
             <TableRow>
                 {children}
             </TableRow>

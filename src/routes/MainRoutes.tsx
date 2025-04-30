@@ -2,10 +2,12 @@ import { lazy } from 'react';
 // project imports
 import MainLayout from '../layout/MainLayout';
 import Loadable from '../ui-components/Loadable';
+import AuthGuard from '../utils/route-guard/AuthGuard';
 
 const DashboardDefault = Loadable(lazy(() => import('../views/pedidosPendientes')));
 const Shipments = Loadable(lazy(() => import('../views/ordenesIngresadas')));
 const DetallePedido = Loadable(lazy(() => import('../views/detallePedido')));
+const DetalleOrden = Loadable(lazy(() => import('../views/detalleOrden')));
 
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -13,7 +15,9 @@ const DetallePedido = Loadable(lazy(() => import('../views/detallePedido')));
 const MainRoutes = {
     path: '/',
     element: (
-        <MainLayout />
+        <AuthGuard>
+            <MainLayout />
+        </AuthGuard>
     ),
     children: [
         {
@@ -25,8 +29,12 @@ const MainRoutes = {
             element: <Shipments />
         },
         {
-            path: '/medicos',
+            path: '/pedidos-pendientes/:idOrder',
             element: <DetallePedido />
+        },
+        {
+            path: '/pacientes',
+            element: <DetalleOrden />
         }
     ]
 };
