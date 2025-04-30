@@ -8,6 +8,7 @@ const initialState: DefaultRootStateProps["shipments"] = {
     records: [],
     page: 1,
     limit: 20,
+    count: 0,
     sort: ["created_at", "desc"],
     filters: {},
     errors: []
@@ -18,7 +19,11 @@ const slice = createSlice({
     initialState,
     reducers: {
         setShipments: (state, action) => {
-            state.records = action.payload
+            const data = action.payload
+            
+            state.records = data.items
+            state.errors = data.errors
+            state.count = data.items_count
         },
         setPagination: (state, {payload}: {payload: Partial<ShipmentPaginationProps>}) => {
             state = {

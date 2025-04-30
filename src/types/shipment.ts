@@ -6,6 +6,7 @@ export interface ShipmentStateProps extends ShipmentPaginationProps{
 export type ShipmentPaginationProps = {
     limit: number,
     page: number,
+    count: number,
     sort: [string, "asc" | "desc"],
     filters: {
         review_status?: ShipmentReviewStatus 
