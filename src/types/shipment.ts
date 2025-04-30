@@ -12,6 +12,10 @@ export type ShipmentPaginationProps = {
         review_status?: ShipmentReviewStatus 
     }
 }
+export interface ShipmentValidateStateProps{
+    records: ShipmentValidate[],
+    errors?: Error[]
+}
 
 export type Shipment = {
     umu_id: string,
@@ -30,7 +34,7 @@ export type Shipment = {
 
 export interface MinShipment extends Partial<Shipment> {
     umu_id: string,
-    _id: string,
+    id: string,
     order_number: string,
     load_id: string,
     order_id: string
@@ -73,4 +77,9 @@ export enum ShipmentType {
     STANDARD,
     LIFE_SUPPORT,
     EXTRAORDINARY
+}
+
+export type ShipmentValidate = {
+    shipment_detail_id: string;
+    accepted_quantity: number
 }
