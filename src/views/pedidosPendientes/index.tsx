@@ -9,10 +9,12 @@ import Table from '../../components/Table/Table';
 import { TableHeader, TableHeaderCell } from '../../components/Table/TableHeader';
 import { IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import { getShipments, setPagination } from '../../store/slices/shipment';
+import { useNavigate } from 'react-router-dom';
 
 
 const PedidosPendientes = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const {page, limit, records} = useSelector(state => state.shipment)
     
     useEffect(() => {
@@ -40,21 +42,27 @@ const PedidosPendientes = () => {
         }}
     >
         {
-            records?.length > 0 && records.map((shipment) => (
-                <TableRow
-                    key={shipment.order_number}
-                >
-                    <TableCell>{shipment.order_number}</TableCell>
-                    <TableCell>{shipment.shipment_type}</TableCell>
-                    <TableCell>{shipment.status}</TableCell>
-                    <TableCell>{shipment.created_at.toDateString()}</TableCell>
-                    <TableCell>
-                        <IconButton size="large">
-                            <VisibilityTwoToneIcon sx={{ fontSize: '1.3rem' }} />
-                        </IconButton>
-                    </TableCell>
-                </TableRow>
-            ))
+            records?.length > 0 && records.map((shipment) => {
+                let date = new Date(Number(shipment.created_at)).toDateString()
+
+                return (
+                    (
+                        <TableRow
+                            key={shipment.order_number}
+                        >
+                            <TableCell>{shipment.order_number}</TableCell>
+                            <TableCell align='center'>{shipment.shipment_type}</TableCell>
+                            <TableCell align='center'>{shipment.status}</TableCell>
+                            <TableCell align='center'>{date}</TableCell>
+                            <TableCell align='center'>
+                                <IconButton size="large" onClick={() => navigate(`/pedidos-pendientes/${shipment._id}`)}>
+                                    <VisibilityTwoToneIcon color='primary' sx={{ fontSize: '1.3rem' }} />
+                                </IconButton>
+                            </TableCell>
+                        </TableRow>
+                    )
+                )
+            })
         }
         {
             records?.length < 1 && (

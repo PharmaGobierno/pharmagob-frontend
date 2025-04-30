@@ -18,12 +18,18 @@ const slice = createSlice({
     name: "shipments",
     initialState,
     reducers: {
+        selectShipment: (state, action) => {
+            let record = state.records.findIndex(r => r._id === action.payload)
+            if(!record) return
+
+            state.selected = record
+        },
         setShipments: (state, action) => {
             const data = action.payload
-            
-            state.records = data.items
-            state.errors = data.errors
-            state.count = data.items_count
+
+            state.records = data?.data?.items
+            state.errors = data?.errors
+            state.count = data?.data?.items_count
         },
         setPagination: (state, {payload}: {payload: Partial<ShipmentPaginationProps>}) => {
             state = {
@@ -54,4 +60,9 @@ export const setPagination = (params: Partial<ShipmentPaginationProps>) => {
     return () => {
         dispatch(slice.actions.setPagination(params))
     }
+}
+
+
+export const selectShipment = (id: string) => {
+    dispatch(slice.actions.selectShipment(id))
 }

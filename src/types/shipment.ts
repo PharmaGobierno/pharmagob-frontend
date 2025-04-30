@@ -1,6 +1,7 @@
 export interface ShipmentStateProps extends ShipmentPaginationProps{
     records: Shipment[],
-    errors?: Error[]
+    errors?: Error[],
+    selected?: number // Index of record
 }
 
 export type ShipmentPaginationProps = {
@@ -22,9 +23,9 @@ export type Shipment = {
     status:  ShipmentStatus,
     review_status: ShipmentReviewStatus,
     shipment_type: string,
-    application_date: Date,
-    updated_at: Date,
-    created_at: Date,
+    application_date: BigInt,
+    updated_at: BigInt,
+    created_at: BigInt,
     version: string
 }
 
@@ -40,14 +41,13 @@ export type ShipmentDetails = {
     item: ShipmentItem,
     umu_id: string,
     _id: string,
-    shipment: MinShipment,
     lot: string,
-    expiration_date?: Date,
+    expiration_date?: BigInt,
     quantity: number,
     brand?: string,
     last_author?: string,
-    updated_at: Date,
-    created_at: Date,
+    updated_at: BigInt,
+    created_at: BigInt,
     version: string
 }
 
