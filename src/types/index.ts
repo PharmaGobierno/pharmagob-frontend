@@ -9,7 +9,7 @@ import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { CustomerStateProps } from './customer';
 import { TablerIcon } from '@tabler/icons-react';
 import { SnackbarProps } from './snackbar';
-import { ShipmentStateProps, ShipmentValidate } from './shipment';
+import { ShipmentStateProps, ShipmentValidateStateProps } from './shipment';
 import { ItemStateProps, } from './item';
 
 export type ArrangementOrder = 'asc' | 'desc' | undefined;
@@ -101,7 +101,7 @@ export interface DefaultRootStateProps {
     snackbar: SnackbarProps;
     customer: CustomerStateProps;
     shipments: ShipmentStateProps;
-    shipmentValidate: ShipmentValidate[];
+    shipmentValidate: ShipmentValidateStateProps;
     items: ItemStateProps;
 }
 

@@ -11,6 +11,10 @@ export type ShipmentPaginationProps = {
         review_status?: ShipmentReviewStatus 
     }
 }
+export interface ShipmentValidateStateProps{
+    records: ShipmentValidate[],
+    errors?: Error[]
+}
 
 export type Shipment = {
     umu_id: string,
