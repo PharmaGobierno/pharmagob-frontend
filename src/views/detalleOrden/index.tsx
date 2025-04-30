@@ -141,9 +141,6 @@ const detallePedido = () => {
                                                 <TableCell sx={{ pl: 3 }}>Identificador</TableCell>
                                                 <TableCell align="left">Lote</TableCell>
                                                 <TableCell align="left">Marca</TableCell>
-                                                <TableCell align="left">Id. embarque</TableCell>
-                                                <TableCell align="left">Tipo de envío</TableCell>
-                                                <TableCell align="left">No. de orden</TableCell>
                                                 <TableCell align="center">Fecha de creación</TableCell>
                                                 <TableCell align="center">Fecha de expiración</TableCell>
                                                 <TableCell align="center">Cantidad</TableCell>
@@ -159,9 +156,6 @@ const detallePedido = () => {
                                                     </TableCell>
                                                     <TableCell align="left">{row.lot}</TableCell>
                                                     <TableCell align="left">{row.brand}</TableCell>
-                                                    <TableCell align="left">{row.shipment.load_id}</TableCell>
-                                                    <TableCell align="left">{row.shipment.shipment_type}</TableCell>
-                                                    <TableCell align="left">{row.shipment.order_number}</TableCell>
                                                     <TableCell align="center">{new Date(row.created_at).toLocaleDateString()}</TableCell>
                                                     <TableCell align="center">{ row.expiration_date ? new Date(row.expiration_date).toLocaleDateString() : null }</TableCell>
                                                     <TableCell align="center">{row.quantity}</TableCell>
