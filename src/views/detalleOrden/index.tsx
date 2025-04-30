@@ -13,7 +13,8 @@ import {
     TableRow,
     Typography,
     TextField,
-    Switch
+    Switch,
+    Button
 } from '@mui/material';
 
 // project imports
@@ -24,6 +25,7 @@ import Chip from '../../ui-components/extended/Chip';
 import SubCard from '../../ui-components/cards/SubCard';
 import MainCard from '../../ui-components/cards/MainCard';
 import { ShipmentDetails, ShipmentValidate } from '../../types/shipment';
+import { useFormik } from "formik";
 
 const sxDivider = {
     borderColor: 'text.secondary'
@@ -74,6 +76,19 @@ const detalleOrden = () => {
             fetchData();
         };
     }, [idShipment]);
+
+    const formik = useFormik({
+        initialValues,
+        enableReinitialize: true,  // Permite reinicializar valores cuando cambian
+        onSubmit: values => {
+            const formattedData = shipmentRows.map(row => ({
+                shipment_detail_id: row._id,
+                accepted_quantity: values.receivedQuantities[row._id]
+            }));
+            console.log({ formattedData });
+            setReceivedData(formattedData);
+        }
+    });
 
 
     return (
@@ -147,6 +162,7 @@ const detalleOrden = () => {
                     <SubCard content={false}>
                         <Grid container spacing={3}>
                             <Grid size={{ xs: 12 }}>
+                                <form onSubmit={formik.handleSubmit}>
                                     <TableContainer>
                                         <Table>
                                             <TableHead>
@@ -175,14 +191,33 @@ const detalleOrden = () => {
                                                         <TableCell align="center">{ row.expiration_date ? new Date(row.expiration_date).toLocaleDateString() : null }</TableCell>
                                                         <TableCell align="center">{row.quantity}</TableCell>
                                                         <TableCell align="left">
+                                                            <TextField
+                                                               id={`recibido-${row._id}`}
+                                                               name={`receivedQuantities.${row._id}`}
+                                                               value={formik.values.receivedQuantities[row._id]}
+                                                               onChange={formik.handleChange}
+                                                               type="number"
+                                                               InputProps={{ inputProps: { min: 0, max: row.quantity } }}
+                                                            />
                                                         </TableCell>
                                                         <TableCell align="left">
+                                                        <Switch
+                                                           checked={formik.values.receivedQuantities[row._id] === row.quantity}
+                                                        />
                                                         </TableCell>
                                                     </TableRow>
                                                 ))}
                                             </TableBody>
                                         </Table>
                                     </TableContainer>
+                                    <Grid  size={{ xs: 12 }} spacing={gridSpacing} sx={{ p: 2.5 }}>
+                                        <Stack direction="row" spacing={1} justifyContent="flex-end">
+                                            <Button variant="contained" type="submit">
+                                                    Guardar
+                                            </Button>
+                                        </Stack>
+                                    </Grid>
+                                </form>
                             </Grid>
                         </Grid>
                     </SubCard>
