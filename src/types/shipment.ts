@@ -73,3 +73,8 @@ export enum ShipmentType {
     LIFE_SUPPORT,
     EXTRAORDINARY
 }
+
+export type ShipmentValidate = {
+    shipment_detail_id: string;
+    accepted_quantity: number
+}
