@@ -9,7 +9,6 @@ const axiosServices = axios.create({
     params: {
       key: "AIzaSyBQFlqkqrc80WsmRmSJR4Lgm_YOGUvEYEg"
     },
-    timeout: 5000, // Opcional: Establece un tiempo de espera
     headers: {
         'Content-Type': 'application/json',
       },

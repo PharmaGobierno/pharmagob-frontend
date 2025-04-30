@@ -33,7 +33,7 @@ export type Shipment = {
 
 export interface MinShipment extends Partial<Shipment> {
     umu_id: string,
-    _id: string,
+    id: string,
     order_number: string,
     load_id: string,
     order_id: string
