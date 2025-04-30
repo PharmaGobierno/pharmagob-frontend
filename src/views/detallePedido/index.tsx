@@ -1,5 +1,5 @@
 // material-ui
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
     Divider,
@@ -26,22 +26,25 @@ const sxDivider = {
 
 
 const detallePedido = () => {
-    const { idOrder } = useParams();
-    const [shipmentRows, setShipmentRows] = React.useState<ShipmentDetails[]>([])
+    const { idShipment = null } = useParams();
+    const [shipmentRows, setShipmentRows] = useState<ShipmentDetails[]>([])
 
-    React.useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`/v1/shipments/${idOrder}/shipment-details`);
-                const { "shipment-details": shipmentDetails } = response.data.data
-                console.log({shipmentDetails})
-                setShipmentRows(shipmentDetails)
-            } catch (error) {
-                console.error("Error en la solicitud:", error);
-            }
-        };
-        fetchData();
-    }, []);
+
+    useEffect(() => {
+        if ( idShipment ) {
+            const fetchData = async () => {
+                try {
+                    const response = await axios.get(`/v1/shipments/${idShipment}/shipment-details`);
+                    const { "shipment-details": shipmentDetails } = response.data.data
+                    console.log({shipmentDetails})
+                    setShipmentRows(shipmentDetails)
+                } catch (error) {
+                    console.error("Error en la solicitud:", error);
+                }
+            };
+            fetchData();
+        }
+    }, [idShipment]);
 
     return (
         <MainCard>
@@ -49,7 +52,7 @@ const detallePedido = () => {
             <Grid size={{ xs: 12 }} >
                     <SubCard title={`Datos del pedido:`} >
                         <Grid container spacing={gridSpacing} sx={{ p: 2.5 }}>
-                            <Typography variant="subtitle1">{idOrder}</Typography>
+                            <Typography variant="subtitle1">{idShipment}</Typography>
                             <Grid size={{ xs: 12 }}>
                                 <Divider sx={sxDivider} />
                             </Grid>
