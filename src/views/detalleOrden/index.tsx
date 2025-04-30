@@ -10,15 +10,17 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Typography
+    Typography,
+    Stack
 } from '@mui/material';
+import Chip from '../../ui-components/extended/Chip';
 
 // project imports
 import SubCard from '../../ui-components/cards/SubCard';
 import { gridSpacing } from '../../store/constant';
 import MainCard from '../../ui-components/cards/MainCard';
 import axios from '../../utils/axios';
-import { ShipmentDetails } from '../../types/shipment';
+import { ShipmentDetails, Shipment } from '../../types/shipment';
 
 const sxDivider = {
     borderColor: 'text.secondary'
@@ -27,32 +29,101 @@ const sxDivider = {
 
 const detallePedido = () => {
     const { idShipment = null } = useParams();
+    const [shipment, setShipment] = useState<Shipment>();
     const [shipmentRows, setShipmentRows] = useState<ShipmentDetails[]>([])
 
 
     useEffect(() => {
         if ( idShipment ) {
-            const fetchData = async () => {
+            const fetchShipment = async () => {
+                try {
+                    const response = await axios.get(`/v1/shipments/${idShipment}`);
+                    const { "shipment": shipmentresponse } = response.data.data
+                    console.log({shipmentresponse})
+                    setShipment(shipmentresponse)
+                } catch (error) {
+                    console.error("Error en la solicitud:", error);
+                }
+            }
+            const fetchShipmentDetails = async () => {
                 try {
                     const response = await axios.get(`/v1/shipments/${idShipment}/shipment-details`);
                     const { "shipment-details": shipmentDetails } = response.data.data
-                    console.log({shipmentDetails})
                     setShipmentRows(shipmentDetails)
                 } catch (error) {
                     console.error("Error en la solicitud:", error);
                 }
-            };
-            fetchData();
-        }
+            }
+
+            fetchShipment();
+            fetchShipmentDetails();
+        };
     }, [idShipment]);
+
+    const reviewStatusTranslations = {
+        NOT_EVALUATED: "No evaluado",
+        REJECTED: "Rechazado",
+        APPROVED: "Aprobado",
+        PARTIAL_APPROVED: "Parcialmente aprobado"
+    };
+    const reviewStatusColors = {
+        NOT_EVALUATED: "default",
+        REJECTED: "error",
+        APPROVED: "success",
+        PARTIAL_APPROVED: "warning"
+    };
 
     return (
         <MainCard>
             <Grid container spacing={gridSpacing}>
             <Grid size={{ xs: 12 }} >
                     <SubCard title={`Datos del pedido:`} >
+                        <Grid size={{ xs: 12 }}>
+                            <Divider sx={sxDivider} />
+                        </Grid>
                         <Grid container spacing={gridSpacing} sx={{ p: 2.5 }}>
-                            <Typography variant="subtitle1">{idShipment}</Typography>
+                            <Grid size={{ xs: 12 }}>
+                                <Grid container spacing={gridSpacing}>
+                                    <Grid size={{ xs: 12, sm:6, md:4 }}>
+                                        <Stack spacing={2}>
+                                            <Typography variant="h4">Id embarque:</Typography>
+                                            <Stack spacing={0}>
+                                                <Stack direction="row" spacing={1}>
+                                                    <Typography variant="body2">{shipment?.load_id}</Typography>
+                                                </Stack>
+                                            </Stack>
+                                        </Stack>
+                                    </Grid>
+                                    <Grid size={{ xs: 12, sm:6, md:4 }}>
+                                        <Stack spacing={2}>
+                                            <Typography variant="h4">No. de orden:</Typography>
+                                            <Stack spacing={0}>
+                                                <Stack direction="row" spacing={1}>
+                                                    <Typography variant="body2">{shipment?.order_number}</Typography>
+                                                </Stack>
+                                            </Stack>
+                                        </Stack>
+                                    </Grid>
+                                    <Grid size={{ xs: 12, sm:6, md:4 }}>
+                                        <Stack spacing={2}>
+                                            <Typography variant="h4">Tipo de envío:</Typography>
+                                            <Stack spacing={0}>
+                                                <Stack direction="row" spacing={1}>
+                                                    <Typography variant="body2">{shipment?.shipment_type}</Typography>
+                                                </Stack>
+                                            </Stack>
+                                        </Stack>
+                                    </Grid>
+                                    <Grid size={{ xs: 12, sm:6, md:4 }}>
+                                        <Stack spacing={2} >
+                                            <Typography variant="h4">Estatus:</Typography>
+                                            <Stack direction="row" spacing={1}>
+                                                <Chip label={reviewStatusTranslations[shipment?.review_status] || "Estado desconocido"} variant="outlined" size="small" chipcolor={reviewStatusColors[shipment?.review_status] || "default"} />
+                                            </Stack>
+                                        </Stack>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                             <Grid size={{ xs: 12 }}>
                                 <Divider sx={sxDivider} />
                             </Grid>
