@@ -24,7 +24,7 @@ import { gridSpacing } from '../../store/constant';
 import Chip from '../../ui-components/extended/Chip';
 import SubCard from '../../ui-components/cards/SubCard';
 import MainCard from '../../ui-components/cards/MainCard';
-import { ShipmentDetails, ShipmentValidate } from '../../types/shipment';
+import { ShipmentDetails, ShipmentValidate, Shipment } from '../../types/shipment';
 import { useFormik } from "formik";
 
 const sxDivider = {
@@ -35,9 +35,41 @@ const sxDivider = {
 const detalleOrden = () => {
 
     const { idShipment } = useParams();
+    const [shipment, setShipment] = useState<Shipment>();
     const [shipmentRows, setShipmentRows] = useState<ShipmentDetails[]>([]);
     const [receivedData, setReceivedData] = useState<ShipmentValidate[]>([]);
     const [initialValues, setInitialValues] = useState<{ receivedQuantities: Record<string, number> }>({ receivedQuantities: {} });
+
+    useEffect(() => {
+        if ( idShipment ) {
+            const fetchShipment = async () => {
+                try {
+                    const response = await axios.get(`/v1/shipments/${idShipment}`);
+                    const { "shipment": shipmentresponse } = response.data.data
+                    console.log({shipmentresponse})
+                    setShipment(shipmentresponse)
+                } catch (error) {
+                    console.error("Error en la solicitud:", error);
+                }
+            }
+            const fetchShipmentDetails = async () => {
+                try {
+                    const response = await axios.get(`/v1/shipments/${idShipment}/shipment-details`);
+                    const { "shipment-details": shipmentDetails } = response.data.data
+                    console.log({shipmentDetails})
+                    setShipmentRows(shipmentDetails)
+                    setInitialValues({
+                        receivedQuantities: shipmentDetails.reduce((acc: ShipmentValidate, row: ShipmentDetails ) => ({ ...acc, [row._id]: row.quantity || 0 }), {})
+                    });
+                } catch (error) {
+                    console.error("Error en la solicitud:", error);
+                }
+            }
+
+            fetchShipment();
+            fetchShipmentDetails();
+        };
+    }, [idShipment]);
 
     useEffect(()=>{
         if(receivedData.length > 0){
@@ -58,25 +90,6 @@ const detalleOrden = () => {
     }
     ,[receivedData]);
 
-    useEffect(() => {
-        if ( idShipment ) {
-            const fetchData = async () => {
-                try {
-                    const response = await axios.get(`/v1/shipments/${idShipment}/shipment-details`);
-                    const { "shipment-details": shipmentDetails } = response.data.data
-                    console.log({shipmentDetails})
-                    setShipmentRows(shipmentDetails)
-                    setInitialValues({
-                        receivedQuantities: shipmentDetails.reduce((acc: ShipmentValidate, row: ShipmentDetails ) => ({ ...acc, [row._id]: row.quantity || 0 }), {})
-                    });
-                } catch (error) {
-                    console.error("Error en la solicitud:", error);
-                }
-            }
-            fetchData();
-        };
-    }, [idShipment]);
-
     const formik = useFormik({
         initialValues,
         enableReinitialize: true,  // Permite reinicializar valores cuando cambian
@@ -90,7 +103,20 @@ const detalleOrden = () => {
         }
     });
 
-
+    const reviewStatusTranslations = {
+        NOT_EVALUATED: "No evaluado",
+        REJECTED: "Rechazado",
+        APPROVED: "Aprobado",
+        PARTIAL_APPROVED: "Parcialmente aprobado"
+    };
+    const reviewStatusColors = {
+        NOT_EVALUATED: "default",
+        REJECTED: "error",
+        APPROVED: "success",
+        PARTIAL_APPROVED: "warning"
+    };
+    
+    
     return (
         <MainCard>
             <Grid container spacing={gridSpacing}>
@@ -102,31 +128,13 @@ const detalleOrden = () => {
                         <Grid container spacing={gridSpacing} sx={{ p: 2.5 }}>
                             <Grid size={{ xs: 12 }}>
                                 <Grid container spacing={gridSpacing}>
-                                    <Grid size={{ xs: 12, sm:6, md:4}} >
-                                        <Stack spacing={2}>
-                                            <Typography variant="h4">Identificador:</Typography>
-                                            <Stack spacing={0}>
-                                                <Stack direction="row" spacing={1}>
-                                                    <Typography variant="subtitle1">{shipmentRows[0]?.shipment.id}</Typography>
-                                                </Stack>
-                                            </Stack>
-                                        </Stack>
-                                    </Grid>
                                     <Grid size={{ xs: 12, sm:6, md:4 }}>
                                         <Stack spacing={2}>
                                             <Typography variant="h4">Id embarque:</Typography>
                                             <Stack spacing={0}>
                                                 <Stack direction="row" spacing={1}>
-                                                    <Typography variant="body2">{shipmentRows[0]?.shipment.load_id}</Typography>
+                                                    <Typography variant="body2">{shipment?.load_id}</Typography>
                                                 </Stack>
-                                            </Stack>
-                                        </Stack>
-                                    </Grid>
-                                    <Grid size={{ xs: 12, sm:6, md:4 }}>
-                                        <Stack spacing={2} >
-                                            <Typography variant="h4">Estatus:</Typography>
-                                            <Stack direction="row" spacing={1}>
-                                                <Chip label="Aceptado" variant="outlined" size="small" chipcolor="success" />
                                             </Stack>
                                         </Stack>
                                     </Grid>
@@ -135,7 +143,7 @@ const detalleOrden = () => {
                                             <Typography variant="h4">No. de orden:</Typography>
                                             <Stack spacing={0}>
                                                 <Stack direction="row" spacing={1}>
-                                                    <Typography variant="body2">{shipmentRows[0]?.shipment.order_number}</Typography>
+                                                    <Typography variant="body2">{shipment?.order_number}</Typography>
                                                 </Stack>
                                             </Stack>
                                         </Stack>
@@ -145,8 +153,16 @@ const detalleOrden = () => {
                                             <Typography variant="h4">Tipo de envío:</Typography>
                                             <Stack spacing={0}>
                                                 <Stack direction="row" spacing={1}>
-                                                    <Typography variant="body2">{shipmentRows[0]?.shipment.shipment_type}</Typography>
+                                                    <Typography variant="body2">{shipment?.shipment_type}</Typography>
                                                 </Stack>
+                                            </Stack>
+                                        </Stack>
+                                    </Grid>
+                                    <Grid size={{ xs: 12, sm:6, md:4 }}>
+                                        <Stack spacing={2} >
+                                            <Typography variant="h4">Estatus:</Typography>
+                                            <Stack direction="row" spacing={1}>
+                                                <Chip label={reviewStatusTranslations[shipment?.review_status] || "Estado desconocido"} variant="outlined" size="small" chipcolor={reviewStatusColors[shipment?.review_status] || "default"} />
                                             </Stack>
                                         </Stack>
                                     </Grid>
