@@ -67,15 +67,16 @@ export interface MinShipment extends Partial<Shipment> {
 
 export type ShipmentDetails = {
     item: ShipmentItem,
+    shipment: MinShipment,
     umu_id: string,
     _id: string,
     lot: string,
-    expiration_date?: BigInt,
+    expiration_date?: Date,
     quantity: number,
     brand?: string,
     last_author?: string,
-    updated_at: BigInt,
-    created_at: BigInt,
+    updated_at: Date,
+    created_at: Date,
     version: string
 }
 
