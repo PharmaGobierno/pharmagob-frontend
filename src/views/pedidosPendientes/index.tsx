@@ -7,10 +7,35 @@ import SearchOffIcon from '@mui/icons-material/SearchOff';
 import { useDispatch, useSelector } from '../../store';
 import Table from '../../components/Table/Table';
 import { TableHeader, TableHeaderCell } from '../../components/Table/TableHeader';
-import { IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
+import { Chip, ChipOwnProps, IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import { getShipments, setPagination } from '../../store/slices/shipment';
 import { useNavigate } from 'react-router-dom';
+import { ShipmentStatusEnum, ShipmentTypeEnum } from '../../types/shipment';
 
+const StatusTag: ChipOwnProps[] = [
+    {
+        label: "Despachado"
+    }
+]
+
+const TypeTag: ChipOwnProps[] = [
+    {
+        label: "Urgente",
+        color: "error"
+    },
+    {
+        label: "Estandar",
+        color: "success"
+    },
+    {
+        label: "Soporte Vital",
+        color: "info"
+    },
+    {
+        label: "Extraordinario",
+        color: "warning"
+    }
+]
 
 const PedidosPendientes = () => {
     const dispatch = useDispatch();
@@ -43,7 +68,7 @@ const PedidosPendientes = () => {
     >
         {
             records?.length > 0 && records.map((shipment) => {
-                let date = new Date(Number(shipment.created_at)).toDateString()
+                let date = new Date(Number(shipment.created_at)).toLocaleDateString()
 
                 return (
                     (
@@ -51,8 +76,20 @@ const PedidosPendientes = () => {
                             key={shipment.order_number}
                         >
                             <TableCell>{shipment.order_number}</TableCell>
-                            <TableCell align='center'>{shipment.shipment_type}</TableCell>
-                            <TableCell align='center'>{shipment.status}</TableCell>
+                            <TableCell align='center'>
+                                <Chip
+                                    {
+                                        ...TypeTag[ShipmentTypeEnum[shipment.shipment_type]]
+                                    }
+                                />
+                            </TableCell>
+                            <TableCell align='center'>
+                                <Chip
+                                    {
+                                        ...StatusTag[ShipmentStatusEnum[shipment.status]]
+                                    }
+                                />
+                            </TableCell>
                             <TableCell align='center'>{date}</TableCell>
                             <TableCell align='center'>
                                 <IconButton size="large" onClick={() => navigate(`/pedidos-pendientes/${shipment._id}`)}>

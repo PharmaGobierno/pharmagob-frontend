@@ -10,9 +10,10 @@ export type ShipmentPaginationProps = {
     count: number,
     sort: [string, "asc" | "desc"],
     filters: {
-        review_status?: ShipmentReviewStatus 
+        review_status?: "NOT_EVALUATED" | "REJECTED" | "APPROVED" | "PARTIAL_APPROVED"
     }
 }
+
 export interface ShipmentValidateStateProps{
     records: ShipmentValidate[],
     errors?: Error[]
@@ -26,11 +27,34 @@ export type Shipment = {
     order_id: string,
     status:  ShipmentStatus,
     review_status: ShipmentReviewStatus,
-    shipment_type: string,
+    shipment_type: ShipmentType,
     application_date: BigInt,
     updated_at: BigInt,
     created_at: BigInt,
     version: string
+}
+
+export type ShipmentStatus = "DISPATCHED"
+export type ShipmentReviewStatus = "NOT_EVALUATED" | "REJECTED" | "APPROVED" | "PARTIAL_APPROVED"
+export type ShipmentType = "URGENT" | "STANDARD" | "LIFE_SUPPORT" | "EXTRAORDINARY"
+
+// Enums
+export enum ShipmentStatusEnum {
+    "DISPATCHED"
+}
+
+export enum ShipmentReviewStatusEnum {
+    "NOT_EVALUATED",
+    "REJECTED",
+    "APPROVED",
+    "PARTIAL_APPROVED"
+}
+
+export enum ShipmentTypeEnum {
+    "URGENT",
+    "STANDARD",
+    "LIFE_SUPPORT",
+    "EXTRAORDINARY"
 }
 
 export interface MinShipment extends Partial<Shipment> {
@@ -59,24 +83,6 @@ export type ShipmentItem = {
     foreign_id: string,
     id: string,
     name: string
-}
-
-export enum ShipmentStatus {
-    DISPATCHED
-}
-
-export enum ShipmentReviewStatus {
-    NOT_EVALUATED,
-    REJECTED,
-    APPROVED,
-    PARTIAL_APPROVED
-}
-
-export enum ShipmentType {
-    URGENT,
-    STANDARD,
-    LIFE_SUPPORT,
-    EXTRAORDINARY
 }
 
 export type ShipmentValidate = {
