@@ -10,7 +10,7 @@ import { TableHeader, TableHeaderCell } from '../../components/Table/TableHeader
 import { Chip, ChipOwnProps, IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import { getShipments, setPagination } from '../../store/slices/shipment';
 import { useNavigate } from 'react-router-dom';
-import { ShipmentReviewStatus, ShipmentReviewStatusEnum, ShipmentTypeEnum } from '../../types/shipment';
+import { ShipmentReviewStatus, ShipmentReviewStatusEnum, ShipmentStateProps, ShipmentTypeEnum } from '../../types/shipment';
 
 
 
@@ -55,11 +55,11 @@ const TypeTag: ChipOwnProps[] = [
 const OrdenesIngresadas = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    const {page, limit, records} = useSelector(state => state.shipment)
-    
+     const {page, limit, sort, count, records} = useSelector<ShipmentStateProps>(state => state.shipment)
+        
     useEffect(() => {
-        dispatch(getShipments({page, limit}))
-    }, [page, limit])
+        dispatch(getShipments({page, limit, sort}))
+    }, [page, limit, sort])
 
    return ( 
     <Table
@@ -74,9 +74,12 @@ const OrdenesIngresadas = () => {
         }
         pagination={{
             onPageChange: (_, _page) => {
-                
+                dispatch(setPagination({page: _page + 1}))
             },
-            count: 20,
+            onRowsPerPageChange(e){
+                dispatch(setPagination({limit: Number(e.target.value)}))
+            },
+            count: count,
             page: page,
             rowsPerPage: limit
         }}

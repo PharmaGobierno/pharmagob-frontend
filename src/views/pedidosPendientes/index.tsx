@@ -1,4 +1,6 @@
 import {useEffect, useState} from 'react';
+import { ShipmentStateProps } from '../../types/shipment';
+
 
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
@@ -40,11 +42,11 @@ const TypeTag: ChipOwnProps[] = [
 const PedidosPendientes = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    const {page, limit, records} = useSelector(state => state.shipment)
+    const {page, limit, sort, count, records} = useSelector<ShipmentStateProps>(state => state.shipment)
     
     useEffect(() => {
-        dispatch(getShipments({page, limit}))
-    }, [page, limit])
+        dispatch(getShipments({page, limit, sort}))
+    }, [page, limit, sort])
 
    return ( 
     <Table
@@ -59,9 +61,12 @@ const PedidosPendientes = () => {
         }
         pagination={{
             onPageChange: (_, _page) => {
-                
+                dispatch(setPagination({page: _page + 1}))
             },
-            count: 20,
+            onRowsPerPageChange(e){
+                dispatch(setPagination({limit: Number(e.target.value)}))
+            },
+            count: count,
             page: page,
             rowsPerPage: limit
         }}
