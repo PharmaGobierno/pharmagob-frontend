@@ -3,33 +3,30 @@ import { ReactNode } from "react"
 
 type TableHeaderCellProps = {
     sortable?: TableSortLabelProps,
-    order?: 'asc' | 'desc' | undefined,
     children: React.ReactNode,
     align?: 'center' | 'left' | 'right'
 }
 
 export const TableHeaderCell = ({
     sortable,
-    order = undefined,
     children,
     align = 'left'
 }: TableHeaderCellProps) => {
     return(
-        <TableCell>
+        <TableCell
+            sx={{
+                textAlign: align
+            }}
+        >
             {
                 sortable && (
                     <TableSortLabel
                         {...sortable}
+                        sx={{fontWeight: "bold"}}
+                    
                     >
                         {
                             children
-                        }
-                        {
-                            order && (
-                                <Box component="span">
-                                {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                            </Box>
-                            )
                         }
                     </TableSortLabel>
                 )
