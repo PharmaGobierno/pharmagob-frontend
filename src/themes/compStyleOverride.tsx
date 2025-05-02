@@ -5,7 +5,7 @@ export default function componentStyleOverrides(theme: Theme, borderRadius: numb
     const mode = theme.palette.mode;
     const bgColor = mode === 'dark' ? theme.palette.dark[800] : theme.palette.grey[50];
     const menuSelectedBack = mode === 'dark' ? theme.palette.secondary.main : theme.palette.secondary.light;
-    const menuSelected = mode === 'dark' ? theme.palette.secondary.main : theme.palette.secondary.dark;
+    const menuSelected = mode === 'dark' ? theme.palette.text.secondary : theme.palette.secondary.dark;
 
     return {
         MuiButton: {
@@ -88,6 +88,20 @@ export default function componentStyleOverrides(theme: Theme, borderRadius: numb
                             color: theme.palette.text.secondary
                         }
                     }
+                }
+            }
+        },
+        MuiCollapse: {
+            styleOverrides: {
+                root: {
+                    '& .MuiListItemButton-root': {
+                        '&:hover': {
+                            color: theme.palette.text.primary,
+                            '& .MuiListItemIcon-root': {
+                                color: theme.palette.text.primary
+                            }
+                        }
+                    },
                 }
             }
         },
