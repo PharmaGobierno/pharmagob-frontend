@@ -44,21 +44,13 @@ const dashboard = {
                     breadcrumbs: false
                 },
                 {
-                    id: 'avatar',
+                    id: 'alta-medicos',
                     title: "Alta de médico",
                     type: 'item',
                     url: '/medicos/alta-medico',
                     breadcrumbs: false
                 }
             ]
-        },
-        {
-            id: 'pacientes',
-            title: 'Pacientes',
-            type: 'item',
-            url: '/pacientes',
-            icon: icons.IconDeviceAnalytics,
-            breadcrumbs: false
         },
         {
             id: 'recetas',
