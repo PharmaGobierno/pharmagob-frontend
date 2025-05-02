@@ -1,9 +1,5 @@
-// third-party
-import { FormattedMessage } from 'react-intl';
-
 // assets
 import { IconDashboard, IconDeviceAnalytics } from '@tabler/icons-react';
-import { OverrideIcon } from '../types';
 
 // constant
 const icons = {
@@ -13,21 +9,7 @@ const icons = {
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
-interface DashboardMenuProps {
-    id: string;
-    title: React.ReactNode | string;
-    type: string;
-    children: {
-        id: string;
-        title: React.ReactNode | string;
-        type: string;
-        url: string;
-        icon: OverrideIcon;
-        breadcrumbs: boolean;
-    }[];
-}
-
-const dashboard: DashboardMenuProps = {
+const dashboard = {
     id: 'inicio',
     title: '',
     type: 'group',
@@ -50,19 +32,47 @@ const dashboard: DashboardMenuProps = {
         },
         {
             id: 'medicos',
-            title: 'Médicos',
-            type: 'item',
-            url: '/medicos',
+            title: "Médicos",
+            type: "collapse",
             icon: icons.IconDeviceAnalytics,
-            breadcrumbs: false
+            children: [
+                {
+                    id: 'listado-medicos',
+                    title: "Listado de médicos",
+                    type: 'item',
+                    url: '/medicos',
+                    breadcrumbs: false
+                },
+                {
+                    id: 'alta-medicos',
+                    title: "Alta de médico",
+                    type: 'item',
+                    url: '/medicos/alta-medico',
+                    breadcrumbs: false
+                }
+            ]
         },
         {
             id: 'pacientes',
-            title: 'Pacientes',
-            type: 'item',
-            url: '/pacientes',
+            title: "Pacientes",
+            type: "collapse",
             icon: icons.IconDeviceAnalytics,
-            breadcrumbs: false
+            children: [
+                {
+                    id: 'listado-pacientes',
+                    title: "Listado de pacientes",
+                    type: 'item',
+                    url: '/pacientes',
+                    breadcrumbs: false
+                },
+                {
+                    id: 'alta-paciente',
+                    title: "Alta de paciente",
+                    type: 'item',
+                    url: '/pacientes/alta-paciente',
+                    breadcrumbs: false
+                }
+            ]
         },
         {
             id: 'recetas',

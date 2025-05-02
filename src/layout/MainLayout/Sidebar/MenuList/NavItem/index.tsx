@@ -29,7 +29,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
 
     const { borderRadius } = useConfig();
     const dispatch = useDispatch();
-    const { openItem } = useSelector((state) => state.menu);
+    const { selectedItem } = useSelector((state) => state.menu);
 
     const Icon = item?.icon!;
     const itemIcon = item?.icon ? (
@@ -37,8 +37,8 @@ const NavItem = ({ item, level }: NavItemProps) => {
     ) : (
         <FiberManualRecordIcon
             sx={{
-                width: openItem.findIndex((id) => id === item?.id) > -1 ? 8 : 6,
-                height: openItem.findIndex((id) => id === item?.id) > -1 ? 8 : 6
+                width: selectedItem.findIndex((id) => id === item?.id) > -1 ? 8 : 6,
+                height: selectedItem.findIndex((id) => id === item?.id) > -1 ? 8 : 6
             }}
             fontSize={level > 0 ? 'inherit' : 'medium'}
         />
@@ -87,13 +87,13 @@ const NavItem = ({ item, level }: NavItemProps) => {
                 py: level > 1 ? 1 : 1.25,
                 pl: `${level * 24}px`
             }}
-            selected={openItem?.findIndex((id) => id === item.id) > -1}
+            selected={selectedItem?.findIndex((id) => id === item.id) > -1}
             onClick={() => itemHandler(item.id!)}
         >
             <ListItemIcon sx={{ my: 'auto', minWidth: !item?.icon ? 18 : 36 }}>{itemIcon}</ListItemIcon>
             <ListItemText
                 primary={
-                    <Typography variant={openItem?.findIndex((id) => id === item.id) > -1 ? 'h5' : 'body1'} color="inherit">
+                    <Typography variant={selectedItem?.findIndex((id) => id === item.id) > -1 ? 'h5' : 'body1'} color="inherit">
                         {item.title}
                     </Typography>
                 }
