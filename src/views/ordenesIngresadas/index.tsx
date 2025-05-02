@@ -10,7 +10,7 @@ import { TableHeader, TableHeaderCell } from '../../components/Table/TableHeader
 import { Chip, ChipOwnProps, IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import { getShipments, setPagination } from '../../store/slices/shipment';
 import { useNavigate } from 'react-router-dom';
-import { ShipmentReviewStatus, ShipmentReviewStatusEnum, ShipmentTypeEnum } from '../../types/shipment';
+import { ShipmentReviewStatus, ShipmentReviewStatusEnum, ShipmentStateProps, ShipmentTypeEnum } from '../../types/shipment';
 
 
 
@@ -55,28 +55,53 @@ const TypeTag: ChipOwnProps[] = [
 const OrdenesIngresadas = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    const {page, limit, records} = useSelector(state => state.shipment)
-    
+    const [loading, setLoading] = useState<Boolean>(false)
+    const [dateSort, setDateSort] = useState<"asc" | "desc" >("desc")
+    const {page, limit, count, records} = useSelector<ShipmentStateProps>(state => state.shipment)
+        
     useEffect(() => {
-        dispatch(getShipments({page, limit}))
-    }, [page, limit])
+        dispatch(getShipments({page, limit, sort: ["created_at", dateSort]}))
+        setLoading(true)
+    }, [page, limit, dateSort])
+
+    useEffect(() => {
+        if(records.length > 1 && loading) setLoading(false)
+    }, [records])
 
    return ( 
     <Table
+        loading={loading}
         header={
             <TableHeader>
                 <TableHeaderCell>Orden</TableHeaderCell>
                 <TableHeaderCell align='center'>Tipo</TableHeaderCell>
                 <TableHeaderCell align='center'>Estatus</TableHeaderCell>
-                <TableHeaderCell align='center'>Registro</TableHeaderCell>
+                <TableHeaderCell
+                 align='center'
+                 sortable={{
+                    active: !!dateSort,
+                    onClick: () => {
+                        if(loading) return
+
+                        setDateSort(prev => {
+                            if(prev === "asc") return "desc"
+                            return "asc"   
+                        })
+                    },
+                    direction: dateSort || "asc",
+                 }}
+                >Registro</TableHeaderCell>
                 <TableHeaderCell align='center'>Acciones</TableHeaderCell>
             </TableHeader>
         }
         pagination={{
             onPageChange: (_, _page) => {
-                
+                dispatch(setPagination({page: _page + 1}))
             },
-            count: 20,
+            onRowsPerPageChange(e){
+                dispatch(setPagination({limit: Number(e.target.value)}))
+            },
+            count: count,
             page: page,
             rowsPerPage: limit
         }}
@@ -88,7 +113,7 @@ const OrdenesIngresadas = () => {
                 return (
                     (
                         <TableRow
-                            key={shipment.order_number}
+                            key={`${shipment.load_id}-${shipment.order_number}`}
                         >
                             <TableCell>{shipment.order_number}</TableCell>
                             <TableCell align='center'>

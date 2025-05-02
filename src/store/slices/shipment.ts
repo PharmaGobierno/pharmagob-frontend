@@ -32,10 +32,9 @@ const slice = createSlice({
             state.count = data?.data?.items_count
         },
         setPagination: (state, {payload}: {payload: Partial<ShipmentPaginationProps>}) => {
-            state = {
-                ...state,
-                ...payload
-            }
+            if(payload.page) state.page = payload.page
+            if(payload.limit) state.limit = payload.limit
+            if(payload.sort) state.sort = payload.sort
         },
         setErrors: (state, action) => {
             state.errors = action.payload
@@ -48,7 +47,14 @@ export default slice.reducer
 export const getShipments = (params: Partial<ShipmentPaginationProps>) => {
     return async () => {
         try{
-            const response = await axios.get("https://pharma-gateway-682pqs65.uc.gateway.dev/v1/shipments", {params})
+            let sort = params.sort?.join(":") || undefined 
+
+            const response = await axios.get("https://pharma-gateway-682pqs65.uc.gateway.dev/v1/shipments", {
+                params: {
+                    ...params,
+                    sort
+                }
+            })
             dispatch(slice.actions.setShipments(response.data))
         }catch(error){
             dispatch(slice.actions.setErrors([error]))
