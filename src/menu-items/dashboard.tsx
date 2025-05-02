@@ -53,6 +53,28 @@ const dashboard = {
             ]
         },
         {
+            id: 'pacientes',
+            title: "Pacientes",
+            type: "collapse",
+            icon: icons.IconDeviceAnalytics,
+            children: [
+                {
+                    id: 'listado-pacientes',
+                    title: "Listado de pacientes",
+                    type: 'item',
+                    url: '/pacientes',
+                    breadcrumbs: false
+                },
+                {
+                    id: 'alta-paciente',
+                    title: "Alta de paciente",
+                    type: 'item',
+                    url: '/pacientes/alta-paciente',
+                    breadcrumbs: false
+                }
+            ]
+        },
+        {
             id: 'recetas',
             title: 'Recetas',
             type: 'item',
