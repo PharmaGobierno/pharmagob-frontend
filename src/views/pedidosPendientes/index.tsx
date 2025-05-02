@@ -42,20 +42,42 @@ const TypeTag: ChipOwnProps[] = [
 const PedidosPendientes = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    const {page, limit, sort, count, records} = useSelector<ShipmentStateProps>(state => state.shipment)
+    const [loading, setLoading] = useState<Boolean>(false)
+    const [dateSort, setDateSort] = useState<"asc" | "desc" >("desc")
+    const {page, limit, count, records} = useSelector<ShipmentStateProps>(state => state.shipment)
     
     useEffect(() => {
-        dispatch(getShipments({page, limit, sort}))
-    }, [page, limit, sort])
+        dispatch(getShipments({page, limit, sort: ["created_at", dateSort]}))
+        setLoading(true)
+    }, [page, limit, dateSort])
+
+    useEffect(() => {
+        if(records.length > 1 && loading) setLoading(false)
+    }, [records])
 
    return ( 
     <Table
+        loading={loading}
         header={
             <TableHeader>
                 <TableHeaderCell>Orden</TableHeaderCell>
                 <TableHeaderCell align='center'>Tipo</TableHeaderCell>
                 <TableHeaderCell align='center'>Estatus</TableHeaderCell>
-                <TableHeaderCell align='center'>Registro</TableHeaderCell>
+                <TableHeaderCell
+                 align='center'
+                 sortable={{
+                    active: !!dateSort,
+                    onClick: () => {
+                        if(loading) return
+
+                        setDateSort(prev => {
+                            if(prev === "asc") return "desc"
+                            return "asc"   
+                        })
+                    },
+                    direction: dateSort || "asc",
+                 }}
+                >Registro</TableHeaderCell>
                 <TableHeaderCell align='center'>Acciones</TableHeaderCell>
             </TableHeader>
         }
@@ -78,7 +100,7 @@ const PedidosPendientes = () => {
                 return (
                     (
                         <TableRow
-                            key={shipment.order_number}
+                            key={`${shipment.load_id}-${shipment.order_number}`}
                         >
                             <TableCell>{shipment.order_number}</TableCell>
                             <TableCell align='center'>
