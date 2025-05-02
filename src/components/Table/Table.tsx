@@ -1,4 +1,4 @@
-import { CardContent, Grid, InputAdornment, Stack, TableContainer, TextField, Table as MUITable, TableBody, TablePagination, TablePaginationProps } from "@mui/material"
+import { CardContent, Grid, InputAdornment, Stack, TableContainer, TextField, Table as MUITable, TableBody, TablePagination, TablePaginationProps, TableRow, TableCell, CircularProgress } from "@mui/material"
 import MainCard from "../../ui-components/cards/MainCard"
 
 import SearchIcon from '@mui/icons-material/Search';
@@ -8,14 +8,18 @@ interface TableProps {
     actions?: ReactNode,
     header: ReactNode,
     children: ReactNode,
-    pagination: TablePaginationProps
+    pagination: TablePaginationProps,
+    loading: Boolean,
+    onSearch?: Function
 }
 
 const Table = ({
     actions,
     header,
     children,
-    pagination
+    pagination,
+    loading = false,
+    onSearch
 }: TableProps) => {
     return (
         <MainCard>
@@ -32,6 +36,9 @@ const Table = ({
                         <TextField
                             fullWidth
                             placeholder="Buscar registro"
+                            onChange={(e) => {
+                                if(onSearch) onSearch(e.target.value)
+                            }}
                             slotProps={{
                                 input: {
                                     startAdornment: (
@@ -58,7 +65,17 @@ const Table = ({
                 <MUITable sx={{minWidth: 800}}>
                     {header}
                     <TableBody>
-                         {children}
+                         {
+                            loading ? (
+                                 <TableRow>
+                                    <TableCell align='center' colSpan={5}>
+                                        <Stack alignItems={"center"} spacing={2}>
+                                            <CircularProgress/>
+                                        </Stack>
+                                    </TableCell>
+                                </TableRow>
+                            ) : children
+                         }
                     </TableBody>
                 </MUITable>
             </TableContainer>
