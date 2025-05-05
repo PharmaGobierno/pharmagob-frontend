@@ -29,7 +29,7 @@ export type Medic = {
     job_position?: MedicJobPosition
 }
 
-export type CeateMedic = {
+export type CreateMedic = {
     umu_id: string,
     name: string,
     last_name_1: string,
@@ -38,7 +38,7 @@ export type CeateMedic = {
     profesional_licence: string,
     status: MedicStatus,
     speciality: MedicSpeciality,
-    service: MedicServices,
+    service: MedicServices[],
     level?: MedicLevel,
     job_position?: MedicJobPosition
 }
