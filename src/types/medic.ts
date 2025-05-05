@@ -29,6 +29,20 @@ export type Medic = {
     job_position?: MedicJobPosition
 }
 
+export type CeateMedic = {
+    umu_id: string,
+    name: string,
+    last_name_1: string,
+    last_name_2?: string,
+    employee_number: string,
+    profesional_licence: string,
+    status: MedicStatus,
+    speciality: MedicSpeciality,
+    service: MedicServices,
+    level?: MedicLevel,
+    job_position?: MedicJobPosition
+}
+
 export type MedicStatus = "ACTIVE" | "INACTIVE"
 
 export enum MedicSpeciality{
