@@ -11,6 +11,8 @@ import { TablerIcon } from '@tabler/icons-react';
 import { SnackbarProps } from './snackbar';
 import { ShipmentStateProps, ShipmentValidateStateProps } from './shipment';
 import { ItemStateProps, } from './item';
+import { MedicStateProps } from './medic';
+import { PatientStateProps } from './patient';
 
 export type ArrangementOrder = 'asc' | 'desc' | undefined;
 
@@ -101,6 +103,8 @@ export interface DefaultRootStateProps {
     snackbar: SnackbarProps;
     customer: CustomerStateProps;
     shipments: ShipmentStateProps;
+    medic: MedicStateProps;
+    patient: PatientStateProps;
     shipmentValidate: ShipmentValidateStateProps;
     items: ItemStateProps;
 }

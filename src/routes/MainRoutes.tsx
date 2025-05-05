@@ -3,6 +3,7 @@ import { lazy } from 'react';
 import MainLayout from '../layout/MainLayout';
 import Loadable from '../ui-components/Loadable';
 import AuthGuard from '../utils/route-guard/AuthGuard';
+import Medicos from '../views/medicos';
 
 const DashboardDefault = Loadable(lazy(() => import('../views/pedidosPendientes')));
 const Shipments = Loadable(lazy(() => import('../views/ordenesIngresadas')));
@@ -35,6 +36,10 @@ const MainRoutes = {
         {
             path: '/ordenes-ingresadas/:idShipment',
             element: <DetalleOrden />
+        },
+        {
+            path: '/medicos',
+            element: <Medicos/>
         },
         {
             path: '/pacientes',
