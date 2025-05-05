@@ -17,18 +17,19 @@ import { CreateMedic,
 // third-party
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider, FormikValues } from 'formik';
+import { useEffect } from 'react';
 
 // constant
 const getInitialValues = () => {
     const newEvent: CreateMedic = {
         umu_id: 'd2cf9ae4-52fe-4c1b-b6c1-d22f378fcc22',
-        name: '',
-        last_name_1: '',
-        employee_number: '',
-        profesional_licence: '',
+        name: 'Mario',
+        last_name_1: 'Salvador',
+        employee_number: '234234',
+        profesional_licence: '457568543',
         speciality: MedicSpeciality.GENERAL_MEDICINE,
         status: VALID_STATUSES[0],
-        service: []
+        service: [MedicServices.LABORATORY]
     };
 
     return newEvent;
@@ -88,6 +89,10 @@ const AltaMedico = () => {
             }
         }
     });
+
+    useEffect(()=>{
+        createMedic(getInitialValues());
+    }, [])
     
     return (
         <MainCard>
