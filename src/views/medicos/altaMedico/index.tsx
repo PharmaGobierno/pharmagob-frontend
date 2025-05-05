@@ -36,6 +36,15 @@ const getInitialValues = () => {
 
 const AltaMedico = () => {
 
+    const createMedic = async (data: CreateMedic) => {
+        try {
+            const response = await axios.post(`/v1/doctors`, data);
+            console.log({response})
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+        }
+    }
+
     const EventSchema  = Yup.object().shape({
         umu_id: Yup.string().max(255).required('Title is required'),
         name: Yup.string().max(255),
@@ -71,6 +80,7 @@ const AltaMedico = () => {
                     service: values.service,
                     status: values.status,
                 };
+                createMedic(data);
                 resetForm();
                 setSubmitting(false);
             } catch (error) {
