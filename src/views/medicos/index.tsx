@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import { MedicStateProps } from '../../types/medic';
+import { MedicSpecialty, MedicStateProps } from '../../types/medic';
 
 
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
@@ -59,8 +59,10 @@ const Medicos = () => {
         loading={loading}
         header={
             <TableHeader>
-                <TableHeaderCell>Orden</TableHeaderCell>
-                <TableHeaderCell align='center'>Tipo</TableHeaderCell>
+                <TableHeaderCell>Nombre</TableHeaderCell>
+                <TableHeaderCell align='center'>No. Empleado</TableHeaderCell>
+                <TableHeaderCell align='center'>Cedula</TableHeaderCell>
+                <TableHeaderCell align='center'>Especialidad</TableHeaderCell>
                 <TableHeaderCell align='center'>Estatus</TableHeaderCell>
                 <TableHeaderCell
                  align='center'
@@ -96,12 +98,21 @@ const Medicos = () => {
             records?.length > 0 && records.map((medic) => {
                 let date = new Date(Number(medic.created_at)).toLocaleDateString()
 
+                let name = []
+                if(medic.name) name.push(medic.name)
+                if(medic.last_name_1) name.push(medic.last_name_1)
+                if(medic.last_name_2) name.push(medic.last_name_2)
+
                 return (
                     (
                         <TableRow
                             key={`${medic._id}`}
                         >
-                            <TableCell>{}</TableCell>
+                            <TableCell>{name.join(" ")}</TableCell>
+                            <TableCell align='center'>{medic.employee_number}</TableCell>
+                            <TableCell align='center'>{medic.profesional_licence}</TableCell>
+                            <TableCell align='center'>{MedicSpecialty[medic.specialty]}</TableCell>
+                            <TableCell align='center'>{}</TableCell>
                             <TableCell align='center'>{date}</TableCell>
                             <TableCell align='center'>
                                 <IconButton size="large" onClick={() => navigate(`/medicos/${medic._id}`)}>

@@ -23,23 +23,23 @@ export type Medic = {
     employee_number: string,
     profesional_licence: string,
     status: MedicStatus,
-    speciality: MedicSpeciality,
-    service: MedicServices,
+    specialty: keyof typeof MedicSpecialty,
+    service: keyof typeof MedicServices,
     level?: MedicLevel,
     job_position?: MedicJobPosition
 }
 
 export type MedicStatus = "ACTIVE" | "INACTIVE"
 
-export enum MedicSpeciality{
+export enum MedicSpecialty{
     "CARDIOLOGY" = "Cardiología",
     "DERMATOLOGY" = "Dermatología",
     "GYNECOLOGY" = "Ginecología",
-    "GENERAL_MEDICINE" = "Medicina General",
+    "GENERAL MEDICINE" = "Medicina General",
     "NEUROLOGY" = "Neurología",
-    "OPHTHAMOLOGY" = "Oftamología",
+    "OPHTHALMOLOGY" = "Oftamología",
     "ORTHOPEDICS" = "Ortopedia",
-    "OTORHINOLARYNGOLOGY" = "Otorrinolaringología",
+    "OTOLARYNGOLOGY" = "Otorrinolaringología",
     "PEDIATRICS" = "Pediatría",
     "PSYCHIATRY" = "Psiquiatría",
     "UROLOGY" = "Urología",

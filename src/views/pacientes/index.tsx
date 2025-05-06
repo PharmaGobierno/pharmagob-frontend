@@ -59,9 +59,10 @@ const Pacientes = () => {
         loading={loading}
         header={
             <TableHeader>
-                <TableHeaderCell>Orden</TableHeaderCell>
-                <TableHeaderCell align='center'>Tipo</TableHeaderCell>
-                <TableHeaderCell align='center'>Estatus</TableHeaderCell>
+                <TableHeaderCell>Nombre</TableHeaderCell>
+                <TableHeaderCell align='center'>Ubicación</TableHeaderCell>
+                <TableHeaderCell align='center'>CURP</TableHeaderCell>
+                <TableHeaderCell align='center'>Teléfono</TableHeaderCell>
                 <TableHeaderCell
                  align='center'
                  sortable={{
@@ -95,13 +96,19 @@ const Pacientes = () => {
         {
             records?.length > 0 && records.map((patient) => {
                 let date = new Date(Number(patient.created_at)).toLocaleDateString()
+                
+                let name = [patient.name, patient.last_name_1]
+                if(patient.last_name_2) name.push(patient.last_name_2)
 
                 return (
                     (
                         <TableRow
                             key={`${patient._id}`}
                         >
-                            <TableCell>{}</TableCell>
+                            <TableCell>{name.join(" ")}</TableCell>
+                            <TableCell align='center'>{`${patient.municipality} (${patient.postal_code}), ${patient.state}`}</TableCell>
+                            <TableCell align='center'>{patient.curp}</TableCell>
+                            <TableCell align='center'>{patient.phone_number}</TableCell>
                             <TableCell align='center'>{date}</TableCell>
                             <TableCell align='center'>
                                 <IconButton size="large" onClick={() => navigate(`/patientos/${patient._id}`)}>

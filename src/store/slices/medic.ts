@@ -48,7 +48,7 @@ export const getMedics = (params: Partial<MedicPaginationProps>) => {
         try{
             let sort = params.sort?.join(":") || undefined 
 
-            const response = await axios.get("/v1/medics", {
+            const response = await axios.get("/v1/doctors", {
                 params: {
                     ...params,
                     sort
