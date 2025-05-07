@@ -161,6 +161,7 @@ const detallePedido = () => {
                                             <TableRow>
                                                 <TableCell sx={{ pl: 3 }}>Identificador</TableCell>
                                                 <TableCell align="left">Lote</TableCell>
+                                                <TableCell align="left">Descripción</TableCell>
                                                 <TableCell align="left">Marca</TableCell>
                                                 <TableCell align="center">Fecha de creación</TableCell>
                                                 <TableCell align="center">Fecha de expiración</TableCell>
@@ -176,6 +177,7 @@ const detallePedido = () => {
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell align="left">{row.lot}</TableCell>
+                                                    <TableCell align="left">{row.item.description}</TableCell>
                                                     <TableCell align="left">{row.brand}</TableCell>
                                                     <TableCell align="center">{new Date(row.created_at).toLocaleDateString()}</TableCell>
                                                     <TableCell align="center">{ row.expiration_date ? new Date(row.expiration_date).toLocaleDateString() : null }</TableCell>
