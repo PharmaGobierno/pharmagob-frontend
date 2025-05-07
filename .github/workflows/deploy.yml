@@ -33,8 +33,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.IMAGE_NAME }}:$GITHUB_SHA .
-          docker push gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.IMAGE_NAME }}:$GITHUB_SHA
+          docker build -t us-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:$GITHUB_SHA .
+          docker push us-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:$GITHUB_SHA
 
       - name: Get GKE credentials
         run: |
