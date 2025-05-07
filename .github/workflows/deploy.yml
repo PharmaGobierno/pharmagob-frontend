@@ -36,13 +36,19 @@ jobs:
           docker build -t us-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:$GITHUB_SHA .
           docker push us-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:$GITHUB_SHA
 
-      - name: Install kubectl and auth plugin
+      - name: Install kubectl and GKE plugin
         run: |
-          sudo apt-get update
-          sudo apt-get install -y apt-transport-https ca-certificates gnupg curl
-          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-          sudo apt-get update && sudo apt-get install -y google-cloud-sdk-gke-gcloud-auth-plugin kubectl
+          sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates gnupg curl
+      
+          # Importar clave GPG moderna
+          curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
+            gpg --dearmor | \
+            sudo tee /usr/share/keyrings/cloud.google.gpg > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | \
+            sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
+          sudo apt-get update && \
+            sudo apt-get install -y google-cloud-sdk-gke-gcloud-auth-plugin kubectl
+          
 
       - name: Get GKE credentials
         run: |
