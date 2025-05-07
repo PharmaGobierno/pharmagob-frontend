@@ -34,6 +34,8 @@ const slice = createSlice({
             if(payload.page) state.page = payload.page
             if(payload.limit) state.limit = payload.limit
             if(payload.sort) state.sort = payload.sort
+
+            state.search = payload.search?.length ? payload.search : undefined
         },
         setErrors: (state, action) => {
             state.errors = action.payload
@@ -47,10 +49,14 @@ export const getPatients = (params: Partial<PatientPaginationProps>) => {
     return async () => {
         try{
             let sort = params.sort?.join(":") || undefined 
+            let uri = "/v1/patients"
 
-            const response = await axios.get("/v1/patients", {
+            if(params.search) uri = "/v1/searches/patients"
+
+            const response = await axios.get(uri, {
                 params: {
                     ...params,
+                    curp: params.search,
                     sort
                 }
             })

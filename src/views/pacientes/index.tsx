@@ -43,12 +43,12 @@ const Pacientes = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState<Boolean>(false)
     const [dateSort, setDateSort] = useState<"asc" | "desc" >("desc")
-    const {page, limit, count, records} = useSelector<PatientStateProps>(state => state.patient)
+    const {page, limit, count, records, search} = useSelector<PatientStateProps>(state => state.patient)
     
     useEffect(() => {
-        dispatch(getPatients({page, limit, sort: ["created_at", dateSort]}))
-        setLoading(true)
-    }, [page, limit, dateSort])
+            dispatch(getPatients({page, limit, sort: ["created_at", dateSort], search}))
+            setLoading(true)
+    }, [page, limit, dateSort, search])
 
     useEffect(() => {
         if(records.length > 1 && loading) setLoading(false)
@@ -57,6 +57,10 @@ const Pacientes = () => {
    return ( 
     <Table
         loading={loading}
+        onSearch={(value: string) => {
+            if(value.length > 2) dispatch(setPagination({search: value}))
+            if(value.length < 1) dispatch(setPagination({search: ""}))
+        }}
         header={
             <TableHeader>
                 <TableHeaderCell>Nombre</TableHeaderCell>
@@ -123,7 +127,7 @@ const Pacientes = () => {
         {
             records?.length < 1 && (
                 <TableRow>
-                    <TableCell align='center' colSpan={5}>
+                    <TableCell align='center' colSpan={6}>
                         <Stack alignItems={"center"} spacing={2}>
                             <SearchOffIcon fontSize='large'/>
                             <Typography variant='caption'>
