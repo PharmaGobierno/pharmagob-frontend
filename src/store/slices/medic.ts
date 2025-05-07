@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { DefaultRootStateProps } from "../../types";
 import axios from "../../utils/axios";
 import { dispatch } from "..";
-import { MedicPaginationProps } from "../../types/medic";
+import { MedicPaginationProps, CreateMedic } from "../../types/medic";
 
 const initialState: DefaultRootStateProps["medic"] = {
     records: [],
@@ -70,4 +70,13 @@ export const setPagination = (params: Partial<MedicPaginationProps>) => {
 
 export const selectMedic = (id: string) => {
     dispatch(slice.actions.selectMedic(id))
+}
+
+export const createMedic = async (data: CreateMedic) => {
+    try {
+        const response = await axios.post(`/v1/doctors`, data);
+        console.log({response})
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+    }
 }
