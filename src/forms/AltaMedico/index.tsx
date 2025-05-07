@@ -5,7 +5,7 @@ import { Grid,
 import { gridSpacing } from '../../store/constant';
 import { CreateMedic, 
     MedicServices, 
-    MedicSpeciality, 
+    MedicSpecialty, 
     MedicStatus, 
     VALID_STATUSES, 
     MedicLevel,
@@ -23,7 +23,7 @@ const getInitialValues = () => {
         last_name_1: 'Salvador',
         employee_number: '234234',
         profesional_licence: '457568543',
-        specialty: Object.keys(MedicSpeciality)[0] as keyof typeof MedicSpeciality, 
+        specialty: Object.keys(MedicSpecialty)[0] as keyof typeof MedicSpecialty, 
         service: [Object.keys(MedicServices)[0] as keyof typeof MedicServices]
     };
 
@@ -38,8 +38,8 @@ const AltaMedico = () =>{
         last_name_2: Yup.string().max(255),
         employee_number: Yup.string().max(255).required('Campo requerido'),
         profesional_licence: Yup.string().max(255).required('Campo requerido'),
-        specialty: Yup.mixed<MedicSpeciality>()
-            .oneOf(Object.values(MedicSpeciality), 'Especialidad médica inválida')
+        specialty: Yup.mixed<MedicSpecialty>()
+            .oneOf(Object.values(MedicSpecialty), 'Especialidad médica inválida')
             .required('La especialidad médica es obligatoria'),
         service: Yup.array()
             .of(Yup.string().oneOf(Object.values(MedicServices), 'Servicio inválido'))
@@ -59,7 +59,7 @@ const AltaMedico = () =>{
                     last_name_2: values.last_name_2,
                     employee_number: values.employee_number,
                     profesional_licence: values.profesional_licence,
-                    specialty: Object.keys(MedicSpeciality).find(key => MedicSpeciality[key as keyof typeof MedicSpeciality] === values.specialty) as MedicSpeciality,
+                    specialty: Object.keys(MedicSpecialty).find(key => MedicSpecialty[key as keyof typeof MedicSpecialty] === values.specialty) as MedicSpecialty,
                     service: values.service.map(service => Object.keys(MedicServices).find(key => MedicServices[key as keyof typeof MedicServices] === service) as MedicServices),
                 };
                 createMedic(data);
