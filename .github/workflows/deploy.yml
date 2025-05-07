@@ -38,21 +38,21 @@ jobs:
       # ✅ Construye y sube la imagen Docker
       - name: Build and push Docker image
         run: |
-          docker build -t us-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} .
-          docker push us-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          docker build -t us-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/gcr.io/${{ vars.IMAGE_NAME }}:${{ github.sha }} .
+          docker push us-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/gcr.io/${{ vars.IMAGE_NAME }}:${{ github.sha }}
 
       # ✅ Instala kubectl y plugin para GKE de forma optimizada
       - name: Install kubectl and GKE plugin
         uses: google-github-actions/setup-gcloud@v1
         with:
-          project_id: ${{ env.GCP_PROJECT_ID }}
+          project_id: ${{ vars.GCP_PROJECT_ID }}
           install_components: 'kubectl,gke-gcloud-auth-plugin'
 
       # ✅ Obtiene credenciales del clúster GKE
       - name: Get GKE credentials
         run: |
-          gcloud container clusters get-credentials ${{ env.GKE_CLUSTER_NAME }} \
-            --region ${{ env.REGION }}
+          gcloud container clusters get-credentials ${{ vars.GKE_CLUSTER_NAME }} \
+            --region ${{ vars.REGION }}
 
       # ✅ Renderiza el archivo YAML usando variables de entorno
       - name: Render Kubernetes manifest
