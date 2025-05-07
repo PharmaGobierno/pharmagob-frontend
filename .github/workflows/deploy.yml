@@ -59,7 +59,9 @@ jobs:
       # ✅ Renderiza el archivo YAML usando variables de entorno
       - name: Render Kubernetes manifest
         run: |
-          envsubst < kubernetes.yaml > deployment-rendered.yaml
+          envsubst < kubernetes/kubernetes.yaml > kubernetes/deployment-rendered.yaml
+          envsubst < kubernetes/service.yaml > kubernetes/service-rendered.yaml
+          cat deployment-rendered.yaml
           cat deployment-rendered.yaml
         env:
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
@@ -69,9 +71,10 @@ jobs:
       # ✅ Aplica el manifiesto a GKE
       - name: Deploy to GKE
         run: |
-          kubectl apply -f deployment-rendered.yaml
+          kubectl apply -f kubernetes/deployment-rendered.yaml
+          kubectl apply -f kubernetes/service-rendered.yaml
 
       # ✅ Verifica que el despliegue esté funcionando
       - name: Verify Deployment
         run: |
-          kubectl rollout status deployment/$(yq -r '.metadata.name' deployment-rendered.yaml)
+          kubectl rollout status deployment/$(yq '.metadata.name' kubernetes/deployment-rendered.yaml)
