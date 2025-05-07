@@ -10,7 +10,7 @@ import { TableHeader, TableHeaderCell } from '../../components/Table/TableHeader
 import { Chip, ChipOwnProps, IconButton, Stack, TableCell, TableRow, Typography } from '@mui/material';
 import { getShipments, setPagination } from '../../store/slices/shipment';
 import { useNavigate } from 'react-router-dom';
-import { ShipmentReviewStatus, ShipmentReviewStatusEnum, ShipmentStateProps, ShipmentTypeEnum } from '../../types/shipment';
+import { ShipmentReviewStatusEnum, ShipmentStateProps, ShipmentTypeEnum } from '../../types/shipment';
 
 
 
@@ -81,6 +81,7 @@ const OrdenesIngresadas = () => {
         }}
         header={
             <TableHeader>
+                <TableHeaderCell>Embarque</TableHeaderCell>
                 <TableHeaderCell>Orden</TableHeaderCell>
                 <TableHeaderCell align='center'>Tipo</TableHeaderCell>
                 <TableHeaderCell align='center'>Estatus</TableHeaderCell>
@@ -123,6 +124,7 @@ const OrdenesIngresadas = () => {
                         <TableRow
                             key={`${shipment.load_id}-${shipment.order_number}`}
                         >
+                            <TableCell>{shipment.load_id}</TableCell>
                             <TableCell>{shipment.order_number}</TableCell>
                             <TableCell align='center'>
                                 <Chip
@@ -140,7 +142,7 @@ const OrdenesIngresadas = () => {
                             </TableCell>
                             <TableCell align='center'>{date}</TableCell>
                             <TableCell align='center'>
-                                <IconButton size="large" onClick={() => navigate(`/pedidos-pendientes/${shipment._id}`)}>
+                                <IconButton size="large" onClick={() => navigate(`/ordenes-ingresadas/${shipment._id}`)}>
                                     <VisibilityTwoToneIcon color='primary' sx={{ fontSize: '1.3rem' }} />
                                 </IconButton>
                             </TableCell>

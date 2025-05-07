@@ -10,7 +10,7 @@ export type ShipmentPaginationProps = {
     count: number,
     sort: [string, "asc" | "desc"],
     search?: string | null,
-    review_status_in?: ShipmentReviewStatus[]
+    review_status_in?: (keyof typeof ShipmentReviewStatusEnum)[]
 }
 
 export interface ShipmentValidateStateProps{
@@ -24,18 +24,14 @@ export type Shipment = {
     order_number: string,
     load_id: string,
     order_id: string,
-    status:  ShipmentStatus,
-    review_status: ShipmentReviewStatus,
-    shipment_type: ShipmentType,
+    status:  keyof typeof ShipmentStatusEnum,
+    review_status: keyof typeof ShipmentReviewStatusEnum,
+    shipment_type: keyof typeof ShipmentTypeEnum,
     application_date: BigInt,
     updated_at: BigInt,
     created_at: BigInt,
     version: string
 }
-
-export type ShipmentStatus = "DISPATCHED"
-export type ShipmentReviewStatus = "NOT_EVALUATED" | "REJECTED" | "APPROVED" | "PARTIAL_APPROVED"
-export type ShipmentType = "URGENT" | "STANDARD" | "LIFE_SUPPORT" | "EXTRAORDINARY"
 
 // Enums
 export enum ShipmentStatusEnum {

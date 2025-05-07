@@ -68,9 +68,9 @@ const PedidosPendientes = () => {
         }}
         header={
             <TableHeader>
+                <TableHeaderCell>Embarque</TableHeaderCell>
                 <TableHeaderCell>Orden</TableHeaderCell>
                 <TableHeaderCell align='center'>Tipo</TableHeaderCell>
-                <TableHeaderCell align='center'>Estatus</TableHeaderCell>
                 <TableHeaderCell
                  align='center'
                  sortable={{
@@ -110,18 +110,12 @@ const PedidosPendientes = () => {
                         <TableRow
                             key={`${shipment.load_id}-${shipment.order_number}`}
                         >
+                            <TableCell>{shipment.load_id}</TableCell>
                             <TableCell>{shipment.order_number}</TableCell>
                             <TableCell align='center'>
                                 <Chip
                                     {
                                         ...TypeTag[ShipmentTypeEnum[shipment.shipment_type]]
-                                    }
-                                />
-                            </TableCell>
-                            <TableCell align='center'>
-                                <Chip
-                                    {
-                                        ...StatusTag[ShipmentStatusEnum[shipment.status]]
                                     }
                                 />
                             </TableCell>
