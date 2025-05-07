@@ -1,0 +1,54 @@
+name: Build and Deploy to GKE
+
+on:
+  push:
+    branches: [develop]
+
+env:
+  IMAGE_NAME: ${{ github.repository }}
+  REGION: us-west1
+  GKE_CLUSTER_NAME: traxion-dev
+  GCP_PROJECT_ID: traxion-farma-gob-dev
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set IMAGE_NAME env var to repo name
+        run: echo "IMAGE_NAME=$(basename ${{ github.repository }})" >> $GITHUB_ENV
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Configure Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker us-docker.pkg.dev
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE_NAME }}:$GITHUB_SHA .
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE_NAME }}:$GITHUB_SHA
+
+      - name: Get GKE credentials
+        run: |
+          gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER_NAME }} \
+            --region ${{ env.REGION }} \
+            --project ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Render deployment.yaml with envsubst
+        run: |
+          envsubst < kubernetes.yaml > deployment-rendered.yaml
+        env:
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
+          IMAGE_TAG: ${{ github.sha }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Deploy to GKE
+        run: |
+          kubectl apply -f deployment-rendered.yaml

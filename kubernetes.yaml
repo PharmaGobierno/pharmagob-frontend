@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${{ env.IMAGE_NAME }}
+  labels:
+    app: ${{ env.IMAGE_NAME }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${{ env.IMAGE_NAME }}
+  template:
+    metadata:
+      labels:
+        app: ${{ env.IMAGE_NAME }}
+    spec:
+      containers:
+        - name: ${{ env.IMAGE_NAME }}
+          image: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          ports:
+            - containerPort: 80
+          env:
+            - name: NODE_ENV
+              value: "production"
