@@ -43,13 +43,16 @@ const PedidosPendientes = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const [loading, setLoading] = useState<Boolean>(false)
-    const [dateSort, setDateSort] = useState<"asc" | "desc" >("desc")
-    const {page, limit, count, records} = useSelector<ShipmentStateProps>(state => state.shipment)
+    const [dateSort, setDateSort] = useState<"asc" | "desc">("desc")
+    const {page, limit, count, records, search} = useSelector<ShipmentStateProps>(state => state.shipment)
     
     useEffect(() => {
-        dispatch(getShipments({page, limit, sort: ["created_at", dateSort]}))
+        dispatch(getShipments({
+            page, limit, sort: ["created_at", dateSort], search,
+            review_status_in: ["NOT_EVALUATED"]
+        }))
         setLoading(true)
-    }, [page, limit, dateSort])
+    }, [page, limit, dateSort, search])
 
     useEffect(() => {
         if(records.length > 1 && loading) setLoading(false)
@@ -58,6 +61,11 @@ const PedidosPendientes = () => {
    return ( 
     <Table
         loading={loading}
+        onSearch={(value: string) => {
+            console.log(value)
+            if(value.length > 3) dispatch(setPagination({search: value}))
+            if(value.length < 1) dispatch(setPagination({search: null}))
+        }}
         header={
             <TableHeader>
                 <TableHeaderCell>Orden</TableHeaderCell>

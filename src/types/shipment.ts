@@ -9,9 +9,8 @@ export type ShipmentPaginationProps = {
     page: number,
     count: number,
     sort: [string, "asc" | "desc"],
-    filters: {
-        review_status?: "NOT_EVALUATED" | "REJECTED" | "APPROVED" | "PARTIAL_APPROVED"
-    }
+    search?: string | null,
+    review_status_in?: ShipmentReviewStatus[]
 }
 
 export interface ShipmentValidateStateProps{
