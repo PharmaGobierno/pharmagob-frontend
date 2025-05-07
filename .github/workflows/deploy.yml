@@ -5,7 +5,6 @@ on:
     branches: [develop]
 
 env:
-  IMAGE_NAME: ${{ github.repository }}
   REGION: us-west1
   GKE_CLUSTER_NAME: traxion-dev
   GCP_PROJECT_ID: traxion-farma-gob-dev
@@ -13,54 +12,61 @@ env:
 
 jobs:
   build-and-deploy:
-    environment: dev
+    name: Build & Deploy to GKE
     runs-on: ubuntu-latest
+    environment: dev
 
     steps:
+      # ✅ Descarga del repositorio
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set IMAGE_NAME env var to repo name
+      # ✅ Setea el nombre de la imagen basado en el repositorio
+      - name: Set IMAGE_NAME from repo
+        id: set_image
         run: echo "IMAGE_NAME=$(basename ${{ github.repository }})" >> $GITHUB_ENV
 
-      - name: Set up Google Cloud SDK
+      # ✅ Autenticación con GCP usando una cuenta de servicio
+      - name: Authenticate with GCP
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
+      # ✅ Configura Docker para usar Artifact Registry
       - name: Configure Docker for Artifact Registry
-        run: |
-          gcloud auth configure-docker us-docker.pkg.dev
+        run: gcloud auth configure-docker us-docker.pkg.dev
 
+      # ✅ Construye y sube la imagen Docker
       - name: Build and push Docker image
         run: |
           docker build -t us-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
           docker push us-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
+      # ✅ Instala kubectl y plugin para GKE de forma optimizada
       - name: Install kubectl and GKE plugin
-        run: |
-          sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates gnupg curl
-          # Importar clave GPG moderna
-          curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
-            gpg --dearmor | \
-            sudo tee /usr/share/keyrings/cloud.google.gpg > /dev/null
-          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | \
-            sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
-          sudo apt-get update && \
-            sudo apt-get install -y google-cloud-sdk-gke-gcloud-auth-plugin kubectl
-          
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ env.GCP_PROJECT_ID }}
+          install_components: 'kubectl,gke-gcloud-auth-plugin'
 
+      # ✅ Obtiene credenciales del clúster GKE
       - name: Get GKE credentials
         run: |
           gcloud container clusters get-credentials ${{ env.GKE_CLUSTER_NAME }} \
-            --region ${{ env.REGION }} \
-            --project ${{ env.GCP_PROJECT_ID }}
+            --region ${{ env.REGION }}
 
-      - name: Render deployment.yaml with envsubst
+      # ✅ Renderiza el archivo YAML usando variables de entorno
+      - name: Render Kubernetes manifest
         run: |
           envsubst < kubernetes.yaml > deployment-rendered.yaml
           cat deployment-rendered.yaml
 
+      # ✅ Aplica el manifiesto a GKE
       - name: Deploy to GKE
         run: |
           kubectl apply -f deployment-rendered.yaml
+
+      # ✅ Verifica que el despliegue esté funcionando
+      - name: Verify Deployment
+        run: |
+          kubectl rollout status deployment/$(yq '.metadata.name' deployment-rendered.yaml)

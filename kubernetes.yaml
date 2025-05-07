@@ -19,6 +19,3 @@ spec:
           image: us-docker.pkg.dev/$GCP_PROJECT_ID/gcr.io/$IMAGE_NAME:$IMAGE_TAG
           ports:
             - containerPort: 80
-          env:
-            - name: NODE_ENV
-              value: "production"
