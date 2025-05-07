@@ -9,6 +9,8 @@ env:
   REGION: us-west1
   GKE_CLUSTER_NAME: traxion-dev
   GCP_PROJECT_ID: traxion-farma-gob-dev
+  IMAGE_TAG: ${{ github.sha }}
+  IMAGE_FULLNAME: us-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
 jobs:
   build-and-deploy:
@@ -33,13 +35,12 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t us-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:$GITHUB_SHA .
-          docker push us-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:$GITHUB_SHA
+          docker build -t {{env.IMAGE_FULLNAME}} .
+          docker push {{env.IMAGE_FULLNAME}}
 
       - name: Install kubectl and GKE plugin
         run: |
           sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates gnupg curl
-      
           # Importar clave GPG moderna
           curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
             gpg --dearmor | \
@@ -60,10 +61,6 @@ jobs:
         run: |
           envsubst < kubernetes.yaml > deployment-rendered.yaml
           cat deployment-rendered.yaml
-        env:
-          IMAGE_NAME: ${{ env.IMAGE_NAME }}
-          IMAGE_TAG: ${{ github.sha }}
-          GCP_PROJECT_ID: ${{ env.GCP_PROJECT_ID }}
 
       - name: Deploy to GKE
         run: |

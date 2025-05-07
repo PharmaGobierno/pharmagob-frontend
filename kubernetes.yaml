@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ${{ env.IMAGE_NAME }}
+  name: $IMAGE_NAME
   labels:
-    app: ${{ env.IMAGE_NAME }}
+    app: $IMAGE_NAME
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ${{ env.IMAGE_NAME }}
+      app: $IMAGE_NAME
   template:
     metadata:
       labels:
-        app: ${{ env.IMAGE_NAME }}
+        app: $IMAGE_NAME
     spec:
       containers:
-        - name: ${{ env.IMAGE_NAME }}
-          image: us-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        - name: $IMAGE_NAME
+          image: us-docker.pkg.dev/$GCP_PROJECT_ID/gcr.io/$IMAGE_NAME:$IMAGE_TAG
           ports:
             - containerPort: 80
           env:
