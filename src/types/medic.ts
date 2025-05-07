@@ -30,14 +30,12 @@ export type Medic = {
 }
 
 export type CreateMedic = {
-    umu_id: string,
     name: string,
     last_name_1: string,
     last_name_2?: string,
     employee_number: string,
     profesional_licence: string,
-    status: MedicStatus,
-    speciality: MedicSpeciality,
+    specialty: MedicSpeciality,
     service: MedicServices[],
     level?: MedicLevel,
     job_position?: MedicJobPosition
