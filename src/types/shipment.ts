@@ -78,7 +78,8 @@ export type ShipmentDetails = {
 export type ShipmentItem = {
     foreign_id: string,
     id: string,
-    name: string
+    name: string,
+    description: string
 }
 
 export type ShipmentValidate = {

@@ -19,14 +19,17 @@ import {
 } from '@mui/material';
 
 // project imports
-
 import axios from '../../utils/axios';
+import { useDispatch } from '../../store';
+import { openSnackbar } from '../../store/slices/snackbar';
 import { gridSpacing } from '../../store/constant';
 import Chip from '../../ui-components/extended/Chip';
 import SubCard from '../../ui-components/cards/SubCard';
 import MainCard from '../../ui-components/cards/MainCard';
 import { ShipmentDetails, ShipmentValidate, Shipment } from '../../types/shipment';
+
 import { useFormik } from "formik";
+
 
 const sxDivider = {
     borderColor: 'text.secondary'
@@ -34,7 +37,7 @@ const sxDivider = {
 
 
 const detalleOrden = () => {
-
+    const dispatch = useDispatch();
     const { idShipment } = useParams();
     const [shipment, setShipment] = useState<Shipment>();
     const [loading, setLoading] = useState<Boolean>(false)
@@ -48,7 +51,6 @@ const detalleOrden = () => {
                 try {
                     const response = await axios.get(`/v1/shipments/${idShipment}`);
                     const { "shipment": shipmentresponse } = response.data.data
-                    console.log({shipmentresponse})
                     setShipment(shipmentresponse)
                 } catch (error) {
                     console.error("Error en la solicitud:", error);
@@ -58,7 +60,6 @@ const detalleOrden = () => {
                 try {
                     const response = await axios.get(`/v1/shipments/${idShipment}/shipment-details`);
                     const { "shipment-details": shipmentDetails } = response.data.data
-                    console.log({shipmentDetails})
                     setShipmentRows(shipmentDetails)
                     setInitialValues({
                         receivedQuantities: shipmentDetails.reduce((acc: ShipmentValidate, row: ShipmentDetails ) => ({ ...acc, [row._id]: row.quantity || 0 }), {})
@@ -67,6 +68,7 @@ const detalleOrden = () => {
                     console.error("Error en la solicitud:", error);
                 }
             }
+            
             setLoading(true);
             fetchShipment();
             fetchShipmentDetails();
@@ -81,9 +83,43 @@ const detalleOrden = () => {
                         "shipment_details": receivedData
                     }
                     const response = await axios.post(`/v1/shipments/${idShipment}/validate`, payload);
-                    console.log(response)
+                    if ( response?.status === 200){
+                        dispatch(
+                            openSnackbar({
+                                open: true,
+                                message: 'Pedido Validado',
+                                variant: 'alert',
+                                alert: {
+                                    color: 'success'
+                                },
+                                close: false
+                            })
+                        );
+                    } else {
+                        dispatch(
+                            openSnackbar({
+                                open: true,
+                                message: `Error: ${response?.data.status} /n ${response?.data?.errors[0]?.message}`,
+                                variant: 'alert',
+                                alert: {
+                                    color: 'error'
+                                },
+                                close: false
+                            })
+                        );
+                    }
                 } catch (error) {
-                    console.error("Error en la solicitud:", error);
+                    dispatch(
+                        openSnackbar({
+                            open: true,
+                            message: `Error: ${error}`,
+                            variant: 'alert',
+                            alert: {
+                                color: 'error'
+                            },
+                            close: false
+                        })
+                    );
                 }
             }
             validateShipment();
@@ -203,6 +239,7 @@ const detalleOrden = () => {
                                                 <TableRow>
                                                     <TableCell sx={{ pl: 3 }}>Identificador</TableCell>
                                                     <TableCell align="left">Lote</TableCell>
+                                                    <TableCell align="left">Descripción</TableCell>
                                                     <TableCell align="left">Marca</TableCell>
                                                     <TableCell align="center">Fecha de creación</TableCell>
                                                     <TableCell align="center">Fecha de caducidad</TableCell>
@@ -220,11 +257,12 @@ const detalleOrden = () => {
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell align="left">{row.lot}</TableCell>
+                                                        <TableCell align="left">{row.item.description}</TableCell>
                                                         <TableCell align="left">{row.brand}</TableCell>
                                                         <TableCell align="center">{new Date(row.created_at).toLocaleDateString()}</TableCell>
                                                         <TableCell align="center">{ row.expiration_date ? new Date(row.expiration_date).toLocaleDateString() : null }</TableCell>
                                                         <TableCell align="center">{row.quantity}</TableCell>
-                                                        <TableCell align="left">
+                                                        <TableCell align="left" width={'100px'}>
                                                             <TextField
                                                                id={`recibido-${row._id}`}
                                                                name={`receivedQuantities.${row._id}`}
