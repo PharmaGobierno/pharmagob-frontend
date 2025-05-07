@@ -59,6 +59,10 @@ jobs:
         run: |
           envsubst < kubernetes.yaml > deployment-rendered.yaml
           cat deployment-rendered.yaml
+        env:
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
+          IMAGE_TAG: ${{ github.sha }}
+          GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
 
       # ✅ Aplica el manifiesto a GKE
       - name: Deploy to GKE
