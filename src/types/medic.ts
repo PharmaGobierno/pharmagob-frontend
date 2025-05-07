@@ -8,6 +8,7 @@ export type MedicPaginationProps = {
     limit: number,
     page: number,
     count: number,
+    search?: string,
     sort: [string, "asc" | "desc"]
 }
 

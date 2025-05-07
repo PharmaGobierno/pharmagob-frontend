@@ -8,7 +8,8 @@ export type PatientPaginationProps = {
     limit: number,
     page: number,
     count: number,
-    sort: [string, "asc" | "desc"]
+    sort: [string, "asc" | "desc"],
+    search?: string
 }
 
 export type Patient = {
