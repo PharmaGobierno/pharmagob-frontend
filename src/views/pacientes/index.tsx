@@ -115,7 +115,7 @@ const Pacientes = () => {
                             <TableCell align='center'>{patient.phone_number}</TableCell>
                             <TableCell align='center'>{date}</TableCell>
                             <TableCell align='center'>
-                                <IconButton size="large" onClick={() => navigate(`/patientos/${patient._id}`)}>
+                                <IconButton size="large" onClick={() => navigate(`/pacientes/${patient._id}`)}>
                                     <VisibilityTwoToneIcon color='primary' sx={{ fontSize: '1.3rem' }} />
                                 </IconButton>
                             </TableCell>
