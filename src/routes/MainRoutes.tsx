@@ -4,6 +4,7 @@ import MainLayout from '../layout/MainLayout';
 import Loadable from '../ui-components/Loadable';
 import AuthGuard from '../utils/route-guard/AuthGuard';
 import Medicos from '../views/medicos';
+import AltaMedicos from '../views/medicos/altaMedico';
 
 const DashboardDefault = Loadable(lazy(() => import('../views/pedidosPendientes')));
 const Shipments = Loadable(lazy(() => import('../views/ordenesIngresadas')));
@@ -40,6 +41,10 @@ const MainRoutes = {
         {
             path: '/medicos',
             element: <Medicos/>
+        },
+        {
+            path: '/medicos/alta-medico',
+            element: <AltaMedicos/>
         },
         {
             path: '/pacientes',
