@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ${{ env.IMAGE_NAME }}
-          image: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          image: us-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
           ports:
             - containerPort: 80
           env:

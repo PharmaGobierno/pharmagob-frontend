@@ -38,6 +38,7 @@ jobs:
 
       - name: Get GKE credentials
         run: |
+          gcloud components install gke-gcloud-auth-plugin
           gcloud container clusters get-credentials ${{ env.GKE_CLUSTER_NAME }} \
             --region ${{ env.REGION }} \
             --project ${{ env.GCP_PROJECT_ID }}
@@ -45,6 +46,7 @@ jobs:
       - name: Render deployment.yaml with envsubst
         run: |
           envsubst < kubernetes.yaml > deployment-rendered.yaml
+          cat deployment-rendered.yaml
         env:
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
           IMAGE_TAG: ${{ github.sha }}
