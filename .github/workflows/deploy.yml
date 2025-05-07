@@ -38,7 +38,7 @@ jobs:
       # ✅ Construye y sube la imagen Docker
       - name: Build and push Docker image
         env:
-          IMAGE_URI: us-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          IMAGE_URI: us-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/gcr.io/${{ github.repository }}:${{ github.sha }}
         run: |
           docker build -t $IMAGE_URI .
           docker push $IMAGE_URI
@@ -74,4 +74,4 @@ jobs:
       # ✅ Verifica que el despliegue esté funcionando
       - name: Verify Deployment
         run: |
-          kubectl rollout status deployment/$(yq '.metadata.name' deployment-rendered.yaml)
+          kubectl rollout status deployment/$(yq -r '.metadata.name' deployment-rendered.yaml)
