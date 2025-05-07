@@ -37,9 +37,11 @@ jobs:
 
       # ✅ Construye y sube la imagen Docker
       - name: Build and push Docker image
+        env:
+          IMAGE_URI: us-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/gcr.io/${{ github.repository }}:${{ github.sha }}
         run: |
-          docker build -t us-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} .
-          docker push us-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/gcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          docker build -t $IMAGE_URI .
+          docker push $IMAGE_URI
 
       # ✅ Instala kubectl y plugin para GKE de forma optimizada
       - name: Install kubectl and GKE plugin
