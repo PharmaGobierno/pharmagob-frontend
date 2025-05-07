@@ -239,6 +239,7 @@ const detalleOrden = () => {
                                                 <TableRow>
                                                     <TableCell sx={{ pl: 3 }}>Identificador</TableCell>
                                                     <TableCell align="left">Lote</TableCell>
+                                                    <TableCell align="left">Descripción</TableCell>
                                                     <TableCell align="left">Marca</TableCell>
                                                     <TableCell align="center">Fecha de creación</TableCell>
                                                     <TableCell align="center">Fecha de caducidad</TableCell>
@@ -256,11 +257,12 @@ const detalleOrden = () => {
                                                             </Typography>
                                                         </TableCell>
                                                         <TableCell align="left">{row.lot}</TableCell>
+                                                        <TableCell align="left">{row.item.description}</TableCell>
                                                         <TableCell align="left">{row.brand}</TableCell>
                                                         <TableCell align="center">{new Date(row.created_at).toLocaleDateString()}</TableCell>
                                                         <TableCell align="center">{ row.expiration_date ? new Date(row.expiration_date).toLocaleDateString() : null }</TableCell>
                                                         <TableCell align="center">{row.quantity}</TableCell>
-                                                        <TableCell align="left">
+                                                        <TableCell align="left" width={'100px'}>
                                                             <TextField
                                                                id={`recibido-${row._id}`}
                                                                name={`receivedQuantities.${row._id}`}
