@@ -29,7 +29,21 @@ export type Medic = {
     job_position?: MedicJobPosition
 }
 
-export type MedicStatus = "ACTIVE" | "INACTIVE"
+export type CreateMedic = {
+    name: string,
+    last_name_1: string,
+    last_name_2?: string,
+    employee_number: string,
+    profesional_licence: string,
+    specialty: MedicSpeciality,
+    service: MedicServices[],
+    level?: MedicLevel,
+    job_position?: MedicJobPosition
+}
+
+export const VALID_STATUSES = ["ACTIVE", "INACTIVE"] as const;
+
+export type MedicStatus = typeof VALID_STATUSES[number];
 
 export enum MedicSpecialty{
     "CARDIOLOGY" = "Cardiología",
