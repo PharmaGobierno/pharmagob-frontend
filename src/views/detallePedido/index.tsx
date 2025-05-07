@@ -14,7 +14,8 @@ import {
     Typography,
     TextField,
     Switch,
-    Button
+    Button,
+    CircularProgress
 } from '@mui/material';
 
 // project imports
@@ -36,6 +37,7 @@ const detalleOrden = () => {
 
     const { idShipment } = useParams();
     const [shipment, setShipment] = useState<Shipment>();
+    const [loading, setLoading] = useState<Boolean>(false)
     const [shipmentRows, setShipmentRows] = useState<ShipmentDetails[]>([]);
     const [receivedData, setReceivedData] = useState<ShipmentValidate[]>([]);
     const [initialValues, setInitialValues] = useState<{ receivedQuantities: Record<string, number> }>({ receivedQuantities: {} });
@@ -65,7 +67,7 @@ const detalleOrden = () => {
                     console.error("Error en la solicitud:", error);
                 }
             }
-
+            setLoading(true);
             fetchShipment();
             fetchShipmentDetails();
         };
@@ -73,14 +75,13 @@ const detalleOrden = () => {
 
     useEffect(()=>{
         if(receivedData.length > 0){
-            console.log({receivedData})
             const validateShipment = async () => {
                 try {
                     const payload = {
                         "shipment_details": receivedData
                     }
                     const response = await axios.post(`/v1/shipments/${idShipment}/validate`, payload);
-                    console.log({response})
+                    console.log(response)
                 } catch (error) {
                     console.error("Error en la solicitud:", error);
                 }
@@ -90,6 +91,10 @@ const detalleOrden = () => {
     }
     ,[receivedData]);
 
+    useEffect(() => {
+        if(shipmentRows.length > 1 && shipment && loading) setLoading(false)
+    }, [shipmentRows, shipment])
+
     const formik = useFormik({
         initialValues,
         enableReinitialize: true,  // Permite reinicializar valores cuando cambian
@@ -98,7 +103,6 @@ const detalleOrden = () => {
                 shipment_detail_id: row._id,
                 accepted_quantity: values.receivedQuantities[row._id]
             }));
-            console.log({ formattedData });
             setReceivedData(formattedData);
         }
     });
@@ -116,9 +120,13 @@ const detalleOrden = () => {
         PARTIAL_APPROVED: "warning"
     };
     
-    
     return (
         <MainCard>
+            { loading ? (
+                <Stack alignItems={"center"} spacing={2}>
+                    <CircularProgress/>
+                </Stack>
+            ) : (
             <Grid container spacing={gridSpacing}>
                 <Grid size={{ xs: 12 }} >
                     <SubCard title="Datos del pedido" >
@@ -163,6 +171,16 @@ const detalleOrden = () => {
                                             <Typography variant="h4">Estatus:</Typography>
                                             <Stack direction="row" spacing={1}>
                                                 <Chip label={reviewStatusTranslations[shipment?.review_status] || "Estado desconocido"} variant="outlined" size="small" chipcolor={reviewStatusColors[shipment?.review_status] || "default"} />
+                                            </Stack>
+                                        </Stack>
+                                    </Grid>
+                                    <Grid size={{ xs: 12, sm:6, md:4 }}>
+                                        <Stack spacing={2}>
+                                            <Typography variant="h4">Fecha de creación:</Typography>
+                                            <Stack spacing={0}>
+                                                <Stack direction="row" spacing={1}>
+                                                    <Typography variant="body2">{ shipment?.created_at ? new Date(shipment?.created_at).toLocaleDateString() : null }</Typography>
+                                                </Stack>
                                             </Stack>
                                         </Stack>
                                     </Grid>
@@ -239,6 +257,7 @@ const detalleOrden = () => {
                     </SubCard>
                 </Grid>
             </Grid>
+            )}
         </MainCard>
     );
 };
