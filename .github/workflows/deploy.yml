@@ -61,8 +61,8 @@ jobs:
         run: |
           envsubst < kubernetes/deployment.yaml > kubernetes/deployment-rendered.yaml
           envsubst < kubernetes/service.yaml > kubernetes/service-rendered.yaml
-          cat deployment-rendered.yaml
-          cat service-rendered.yaml
+          cat kubernetes/deployment-rendered.yaml
+          cat kubernetes/service-rendered.yaml
         env:
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
           IMAGE_TAG: ${{ github.sha }}
