@@ -38,7 +38,7 @@ jobs:
       # ✅ Construye y sube la imagen Docker
       - name: Build and push Docker image
         env:
-          IMAGE_URI: us-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/gcr.io/${{ github.repository }}:${{ github.sha }}
+          IMAGE_URI: us-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/gcr.io/$IMAGE_NAME:${{ github.sha }}
         run: |
           docker build -t $IMAGE_URI .
           docker push $IMAGE_URI
