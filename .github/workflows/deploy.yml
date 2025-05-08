@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     # Asigna automáticamente el environment (GitHub inyecta las variables)
     environment: ${{
-      startsWith(github.ref, 'refs/heads/main') && 'prod' ||
+      startsWith(github.ref, 'refs/heads/master') && 'prod' ||
       startsWith(github.ref, 'refs/heads/staging') && 'staging' ||
       'dev'
       }}
