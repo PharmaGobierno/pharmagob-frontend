@@ -2,30 +2,31 @@ import { Grid,
     Stack,
     Button,
     TextField,
-    Autocomplete } from '@mui/material';
+    Autocomplete,
+    Chip } from '@mui/material';
 import { gridSpacing } from '../../store/constant';
 import { CreateMedic, 
     MedicServices, 
     MedicSpecialty, 
-    MedicStatus, 
-    VALID_STATUSES, 
     MedicLevel,
     MedicJobPosition } from '../../types/medic'
 
 // third-party
 import * as Yup from 'yup';
-import { useFormik, Form, FormikProvider, FormikValues } from 'formik';
+import { useFormik, Form, FormikProvider } from 'formik';
 import { createMedic } from '../../store/slices/medic'
 
 const getInitialValues = () => {
     const newEvent: CreateMedic = {
-        umu_id: 'd2cf9ae4-52fe-4c1b-b6c1-d22f378fcc22',
-        name: 'Mario',
-        last_name_1: 'Salvador',
-        employee_number: '234234',
-        profesional_licence: '457568543',
-        specialty: Object.keys(MedicSpecialty)[0] as keyof typeof MedicSpecialty, 
-        service: [Object.keys(MedicServices)[0] as keyof typeof MedicServices]
+        name: '',
+        last_name_1: '',
+        last_name_2: '',
+        employee_number: '',
+        profesional_licence: '',
+        service: new Array,
+        specialty: '',
+        level: '',
+        job_position: ''
     };
 
     return newEvent;
@@ -39,14 +40,12 @@ const AltaMedico = () =>{
         last_name_2: Yup.string().max(255),
         employee_number: Yup.string().max(255).required('Campo requerido'),
         profesional_licence: Yup.string().max(255).required('Campo requerido'),
-        specialty: Yup.mixed<MedicSpecialty>()
-            .oneOf(Object.values(MedicSpecialty), 'Especialidad médica inválida')
-            .required('La especialidad médica es obligatoria'),
+        specialty: Yup.string().max(255).required("Debe seleccionar una especialidad"),
         service: Yup.array()
-            .of(Yup.string().oneOf(Object.values(MedicServices), 'Servicio inválido'))
-            .min(1, 'Debes seleccionar al menos un servicio').required('Campo requerido'),    
-        level: Yup.mixed<MedicLevel>().oneOf(Object.values(MedicLevel), 'inválido'),
-        job_position:  Yup.mixed<MedicJobPosition>().oneOf(Object.values(MedicJobPosition), 'inválido'),
+            .min(1, "Debe seleccionar al menos una especialidad")
+            .required("Debe seleccionar al menos una especialidad"),
+        level: Yup.string().max(255),
+        job_position: Yup.string().max(255)
     });
 
     const formik = useFormik({
@@ -54,19 +53,21 @@ const AltaMedico = () =>{
         validationSchema: MedicSchema,
         onSubmit: async (values, { resetForm, setSubmitting }) => {
             try {
-                console.log({values})
                 const data: CreateMedic = {
                     name: values.name,
                     last_name_1: values.last_name_1,
-                    last_name_2: values.last_name_2,
+                    last_name_2: values.last_name_2 || '',
                     employee_number: values.employee_number,
                     profesional_licence: values.profesional_licence,
-                    specialty: Object.keys(MedicSpecialty).find(key => MedicSpecialty[key as keyof typeof MedicSpecialty] === values.specialty) as MedicSpecialty,
-                    service: values.service.map(service => Object.keys(MedicServices).find(key => MedicServices[key as keyof typeof MedicServices] === service) as MedicServices),
+                    specialty: values.specialty,
+                    service: values.service,
+                    job_position: values.job_position || '',
+                    level: values.level || null
+
                 };
                 console.log({data})
 
-                /* createMedic(data); */
+                createMedic(data);
                 resetForm();
                 setSubmitting(false);
             } catch (error) {
@@ -92,11 +93,11 @@ const AltaMedico = () =>{
         label: value // Nombre en español
     }));
     
-    const { values, errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue, handleBlur, handleChange } = formik;
+    const { values, errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
 
     return (
         <FormikProvider value={formik}>
-            <form onSubmit={handleSubmit} autoComplete="off" noValidate >
+            <Form onSubmit={handleSubmit} autoComplete="off" noValidate >
                 <Grid container spacing={gridSpacing}>
                     <Grid size={{ xs: 12, md: 4 }}>
                         <TextField
@@ -147,12 +148,24 @@ const AltaMedico = () =>{
                         />
                     </Grid>
                     <Grid size={{ xs: 12, md: 4 }}>
-                        <TextField
-                            fullWidth
-                            label="No. Empleado"
-                            {...getFieldProps('employee_number')}
-                            error={Boolean(touched.employee_number && errors.employee_number)}
-                            helperText={touched.employee_number && errors.employee_number}
+                        <Autocomplete
+                            options={specialtiesArray}
+                            getOptionLabel={(option) => option.label} // Muestra valores en español
+                            value={specialtiesArray.find((s) => s.key === values.specialty) || null}
+                            onChange={(event, selectedOption) => {
+                                setFieldValue("specialty", selectedOption?.key || "");
+                              }}
+                            renderTags={(selected, getTagProps) =>
+                                selected.map((option, index) => {
+                                  const { key, ...tagProps } = getTagProps({ index }); // Extrae la clave key antes de aplicar spread
+                                  return <Chip key={option.key} label={option.label} {...tagProps} />;
+                                })
+                            }   
+                            renderInput={(params) => <TextField {...params} 
+                                label="Especialidad Médica" 
+                                error={touched.specialty && !!errors.specialty}
+                                helperText={touched.specialty && errors.specialty}
+                            />}
                         />
                     </Grid>
                     <Grid size={{ xs: 12, md: 4 }}>
@@ -160,37 +173,65 @@ const AltaMedico = () =>{
                             multiple
                             options={servicesArray}
                             getOptionLabel={(option) => option.label} // Muestra valores en español
-                            renderInput={(params) => <TextField {...params} label="Servicios" />}
+                            value={values.service.map((key) => servicesArray.find((s) => s.key === key) || { key, label: key })}
+                            onChange={(event, selectedOptions) => {
+                                setFieldValue("service", selectedOptions.map((option) => option.key)); // Guarda las claves
+                              }}
+                            renderTags={(selected, getTagProps) =>
+                                selected.map((option, index) => {
+                                  const { key, ...tagProps } = getTagProps({ index }); // Extrae la clave key antes de aplicar spread
+                                  return <Chip key={option.key} label={option.label} {...tagProps} />;
+                                })
+                            }   
+                            renderInput={(params) => <TextField {...params} 
+                                label="Servicios Médicos" 
+                                error={touched.service && !!errors.service}
+                                helperText={touched.service && errors.service}
+                            />}
                         />
                     </Grid>
                     <Grid size={{ xs: 12, md: 4 }}>
                         <Autocomplete
-                            multiple
-                            options={specialtiesArray}
-                            getOptionLabel={(option) => option.label} // Muestra valores en español
-                            onChange={handleChange}
-                            renderInput={(params) => <TextField {...params} label="Especialidad" />}
-                        />
-                    </Grid>
-                    <Grid size={{ xs: 12, md: 4 }}>
-                        <Autocomplete
-                            multiple
                             options={job_positionArray}
                             getOptionLabel={(option) => option.label} // Muestra valores en español
-                            onChange={handleChange}
-                            renderInput={(params) => <TextField {...params} label="Puesto" />}
+                            value={job_positionArray.find((s) => s.key === values.job_position) || null}
+                            onChange={(event, selectedOption) => {
+                                setFieldValue("job_position", selectedOption?.key || "");
+                              }}
+                            renderTags={(selected, getTagProps) =>
+                                selected.map((option, index) => {
+                                  const { key, ...tagProps } = getTagProps({ index }); // Extrae la clave key antes de aplicar spread
+                                  return <Chip key={option.key} label={option.label} {...tagProps} />;
+                                })
+                            }   
+                            renderInput={(params) => <TextField {...params} 
+                                label="Puesto" 
+                                error={touched.job_position && !!errors.job_position}
+                                helperText={touched.job_position && errors.job_position}
+                            />}
                         />
                     </Grid>
                     <Grid size={{ xs: 12, md: 4 }}>
                         <Autocomplete
-                            multiple
                             options={medic_levelArray}
                             getOptionLabel={(option) => option.label} // Muestra valores en español
-                            onChange={handleChange}
-                            renderInput={(params) => <TextField {...params} label="Nivel" />}
+                            value={medic_levelArray.find((s) => s.key === values.level) || null}
+                            onChange={(event, selectedOption) => {
+                                setFieldValue("level", selectedOption?.key || "");
+                              }}
+                            renderTags={(selected, getTagProps) =>
+                                selected.map((option, index) => {
+                                  const { key, ...tagProps } = getTagProps({ index }); // Extrae la clave key antes de aplicar spread
+                                  return <Chip key={option.key} label={option.label} {...tagProps} />;
+                                })
+                            }   
+                            renderInput={(params) => <TextField {...params} 
+                                label="Nivel" 
+                                error={touched.level && !!errors.level}
+                                helperText={touched.level && errors.level}
+                            />}
                         />
                     </Grid>
-                    {/* TODO: selects faltantes*/}
                 </Grid>
                 <Grid  size={{ xs: 12 }} spacing={gridSpacing} sx={{ p: 2.5 }}>
                     <Stack direction="row" spacing={1} justifyContent="flex-end">
@@ -199,7 +240,7 @@ const AltaMedico = () =>{
                         </Button>
                     </Stack>
                 </Grid>
-            </form>
+            </Form>
         </FormikProvider>
     )
 }

@@ -33,13 +33,13 @@ export type Medic = {
 export type CreateMedic = {
     name: string,
     last_name_1: string,
-    last_name_2?: string,
+    last_name_2?: string | '' | null,
     employee_number: string,
     profesional_licence: string,
-    specialty: MedicSpecialty,
-    service: MedicServices[],
-    level?: MedicLevel,
-    job_position?: MedicJobPosition
+    specialty: MedicSpecialty | '',
+    service: MedicServices[] | [],
+    level?: MedicLevel | '' | null,
+    job_position?: MedicJobPosition | '' | null
 }
 
 export const VALID_STATUSES = ["ACTIVE", "INACTIVE"] as const;
