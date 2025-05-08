@@ -1,36 +1,40 @@
 import { Grid, 
     Stack,
-    InputLabel,
-    TextField } from '@mui/material';
-import { gridSpacing } from '../../store/constant';
+    Button,
+    TextField,
+    Autocomplete,
+    Chip } from '@mui/material';
 import { CreateMedic, 
     MedicServices, 
     MedicSpecialty, 
-    MedicStatus, 
-    VALID_STATUSES, 
     MedicLevel,
-    MedicJobPosition } from '../../types/medic'
+    MedicJobPosition } from '../../types/medic';
+import { useDispatch } from '../../store';
+import { openSnackbar } from '../../store/slices/snackbar';
+import { gridSpacing } from '../../store/constant';
 
 // third-party
 import * as Yup from 'yup';
-import { useFormik, Form, FormikProvider, FormikValues } from 'formik';
+import { useFormik, Form, FormikProvider } from 'formik';
 import { createMedic } from '../../store/slices/medic'
 
 const getInitialValues = () => {
     const newEvent: CreateMedic = {
-        umu_id: 'd2cf9ae4-52fe-4c1b-b6c1-d22f378fcc22',
-        name: 'Mario',
-        last_name_1: 'Salvador',
-        employee_number: '234234',
-        profesional_licence: '457568543',
-        specialty: Object.keys(MedicSpecialty)[0] as keyof typeof MedicSpecialty, 
-        service: [Object.keys(MedicServices)[0] as keyof typeof MedicServices]
+        name: '',
+        last_name_1: '',
+        last_name_2: '',
+        employee_number: '',
+        profesional_licence: '',
+        service: new Array,
+        specialty: '',
+        level: '',
+        job_position: ''
     };
-
     return newEvent;
 };
 
 const AltaMedico = () =>{
+    const dispatch = useDispatch();
 
     const MedicSchema  = Yup.object().shape({
         name: Yup.string().max(255).required('Campo requerido'),
@@ -38,14 +42,12 @@ const AltaMedico = () =>{
         last_name_2: Yup.string().max(255),
         employee_number: Yup.string().max(255).required('Campo requerido'),
         profesional_licence: Yup.string().max(255).required('Campo requerido'),
-        specialty: Yup.mixed<MedicSpecialty>()
-            .oneOf(Object.values(MedicSpecialty), 'Especialidad médica inválida')
-            .required('La especialidad médica es obligatoria'),
+        specialty: Yup.string().max(255).required("Debe seleccionar una especialidad"),
         service: Yup.array()
-            .of(Yup.string().oneOf(Object.values(MedicServices), 'Servicio inválido'))
-            .min(1, 'Debes seleccionar al menos un servicio'),    
-        level: Yup.mixed<MedicLevel>().oneOf(Object.values(MedicLevel), 'inválido'),
-        job_position:  Yup.mixed<MedicJobPosition>().oneOf(Object.values(MedicJobPosition), 'inválido'),
+            .min(1, "Debe seleccionar al menos una especialidad")
+            .required("Debe seleccionar al menos una especialidad"),
+        level: Yup.string().max(255),
+        job_position: Yup.string().max(255)
     });
 
     const formik = useFormik({
@@ -56,26 +58,82 @@ const AltaMedico = () =>{
                 const data: CreateMedic = {
                     name: values.name,
                     last_name_1: values.last_name_1,
-                    last_name_2: values.last_name_2,
+                    last_name_2: values.last_name_2 || null,
                     employee_number: values.employee_number,
                     profesional_licence: values.profesional_licence,
-                    specialty: Object.keys(MedicSpecialty).find(key => MedicSpecialty[key as keyof typeof MedicSpecialty] === values.specialty) as MedicSpecialty,
-                    service: values.service.map(service => Object.keys(MedicServices).find(key => MedicServices[key as keyof typeof MedicServices] === service) as MedicServices),
+                    specialty: values.specialty,
+                    service: values.service,
+                    job_position: values.job_position || null,
+                    level: values.level || null
                 };
-                createMedic(data);
+                const response = await createMedic(data);
+                console.log({response})
+                if ( response?.status === 201 ){
+                    dispatch(
+                        openSnackbar({
+                            open: true,
+                            message: 'Médico Creado',
+                            variant: 'alert',
+                            alert: {
+                                color: 'success'
+                            },
+                            close: false
+                        })
+                    );
+                } else {
+                    dispatch(
+                        openSnackbar({
+                            open: true,
+                            message: `Error: ${response?.data.status}: ${response?.data?.errors[0]?.message}`,
+                            variant: 'alert',
+                            alert: {
+                                color: 'error'
+                            },
+                            close: false
+                        })
+                    );
+                }
                 resetForm();
                 setSubmitting(false);
             } catch (error) {
                 console.error(error);
+                dispatch(
+                    openSnackbar({
+                        open: true,
+                        message: `Error: ${error}`,
+                        variant: 'alert',
+                        alert: {
+                            color: 'error'
+                        },
+                        close: false
+                    })
+                );
             }
         }
     });
-
-    const { values, errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue, handleBlur, handleChange } = formik;
+    
+    const servicesArray = Object.entries(MedicServices).map(([key, value]) => ({
+        key,
+        label: value
+    }));
+    const specialtiesArray = Object.entries(MedicSpecialty).map(([key, value]) => ({
+        key,
+        label: value
+    }));
+    const job_positionArray = Object.entries(MedicJobPosition).map(([key, value]) => ({
+        key,
+        label: value
+    }));
+    const medic_levelArray = Object.entries(MedicLevel).map(([key, value]) => ({
+        key,
+        label: value
+    }));
+    
+    const { values, errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
 
     return (
         <FormikProvider value={formik}>
-            <form onSubmit={formik.handleSubmit}>
+            <Form onSubmit={handleSubmit} autoComplete="off" noValidate >
                 <Grid container spacing={gridSpacing}>
                     <Grid size={{ xs: 12, md: 4 }}>
                         <TextField
@@ -126,17 +184,99 @@ const AltaMedico = () =>{
                         />
                     </Grid>
                     <Grid size={{ xs: 12, md: 4 }}>
-                        <TextField
-                            fullWidth
-                            label="No. Empleado"
-                            {...getFieldProps('employee_number')}
-                            error={Boolean(touched.employee_number && errors.employee_number)}
-                            helperText={touched.employee_number && errors.employee_number}
+                        <Autocomplete
+                            options={specialtiesArray}
+                            getOptionLabel={(option) => option.label} // Muestra valores en español
+                            value={specialtiesArray.find((s) => s.key === values.specialty) || null}
+                            onChange={(event, selectedOption) => {
+                                setFieldValue("specialty", selectedOption?.key || "");
+                              }}
+                            renderTags={(selected, getTagProps) =>
+                                selected.map((option, index) => {
+                                  const { key, ...tagProps } = getTagProps({ index }); // Extrae la clave key antes de aplicar spread
+                                  return <Chip key={option.key} label={option.label} {...tagProps} />;
+                                })
+                            }   
+                            renderInput={(params) => <TextField {...params} 
+                                label="Especialidad Médica" 
+                                error={touched.specialty && !!errors.specialty}
+                                helperText={touched.specialty && errors.specialty}
+                            />}
                         />
                     </Grid>
-                    {/* TODO: selects faltantes*/}
+                    <Grid size={{ xs: 12, md: 4 }}>
+                        <Autocomplete
+                            multiple
+                            options={servicesArray}
+                            getOptionLabel={(option) => option.label} // Muestra valores en español
+                            value={values.service.map((key) => servicesArray.find((s) => s.key === key) || { key, label: key })}
+                            onChange={(event, selectedOptions) => {
+                                setFieldValue("service", selectedOptions.map((option) => option.key)); // Guarda las claves
+                              }}
+                            renderTags={(selected, getTagProps) =>
+                                selected.map((option, index) => {
+                                  const { key, ...tagProps } = getTagProps({ index }); // Extrae la clave key antes de aplicar spread
+                                  return <Chip key={option.key} label={option.label} {...tagProps} />;
+                                })
+                            }   
+                            renderInput={(params) => <TextField {...params} 
+                                label="Servicios Médicos" 
+                                error={touched.service && !!errors.service}
+                                helperText={touched.service && errors.service}
+                            />}
+                        />
+                    </Grid>
+                    <Grid size={{ xs: 12, md: 4 }}>
+                        <Autocomplete
+                            options={job_positionArray}
+                            getOptionLabel={(option) => option.label} // Muestra valores en español
+                            value={job_positionArray.find((s) => s.key === values.job_position) || null}
+                            onChange={(event, selectedOption) => {
+                                setFieldValue("job_position", selectedOption?.key || "");
+                              }}
+                            renderTags={(selected, getTagProps) =>
+                                selected.map((option, index) => {
+                                  const { key, ...tagProps } = getTagProps({ index }); // Extrae la clave key antes de aplicar spread
+                                  return <Chip key={option.key} label={option.label} {...tagProps} />;
+                                })
+                            }   
+                            renderInput={(params) => <TextField {...params} 
+                                label="Puesto" 
+                                error={touched.job_position && !!errors.job_position}
+                                helperText={touched.job_position && errors.job_position}
+                            />}
+                        />
+                    </Grid>
+                    <Grid size={{ xs: 12, md: 4 }}>
+                        <Autocomplete
+                            options={medic_levelArray}
+                            getOptionLabel={(option) => option.label} // Muestra valores en español
+                            value={medic_levelArray.find((s) => s.key === values.level) || null}
+                            onChange={(event, selectedOption) => {
+                                setFieldValue("level", selectedOption?.key || "");
+                              }}
+                            renderTags={(selected, getTagProps) =>
+                                selected.map((option, index) => {
+                                  const { key, ...tagProps } = getTagProps({ index }); // Extrae la clave key antes de aplicar spread
+                                  return <Chip key={option.key} label={option.label} {...tagProps} />;
+                                })
+                            }   
+                            renderInput={(params) => <TextField {...params} 
+                                label="Nivel" 
+                                error={touched.level && !!errors.level}
+                                helperText={touched.level && errors.level}
+                            />}
+                        />
+                    </Grid>
                 </Grid>
-            </form>
+                <Grid  size={{ xs: 12 }} spacing={gridSpacing} sx={{ p: 2.5 }}>
+                    <Stack direction="row" spacing={1} justifyContent="flex-end">
+                        <Button variant="contained" type="submit" disabled={isSubmitting} >
+                                Guardar
+                        </Button>
+                    </Stack>
+                </Grid>
+            </Form>
         </FormikProvider>
     )
 }

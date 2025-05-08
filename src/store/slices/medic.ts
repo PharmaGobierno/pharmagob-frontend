@@ -81,7 +81,7 @@ export const selectMedic = (id: string) => {
 export const createMedic = async (data: CreateMedic) => {
     try {
         const response = await axios.post(`/v1/doctors`, data);
-        console.log({response})
+        return response;
     } catch (error) {
         console.error("Error en la solicitud:", error);
     }
