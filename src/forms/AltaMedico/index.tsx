@@ -1,7 +1,8 @@
 import { Grid, 
     Stack,
-    InputLabel,
-    TextField } from '@mui/material';
+    Button,
+    TextField,
+    Autocomplete } from '@mui/material';
 import { gridSpacing } from '../../store/constant';
 import { CreateMedic, 
     MedicServices, 
@@ -43,16 +44,21 @@ const AltaMedico = () =>{
             .required('La especialidad médica es obligatoria'),
         service: Yup.array()
             .of(Yup.string().oneOf(Object.values(MedicServices), 'Servicio inválido'))
-            .min(1, 'Debes seleccionar al menos un servicio'),    
+            .min(1, 'Debes seleccionar al menos un servicio').required('Campo requerido'),    
         level: Yup.mixed<MedicLevel>().oneOf(Object.values(MedicLevel), 'inválido'),
         job_position:  Yup.mixed<MedicJobPosition>().oneOf(Object.values(MedicJobPosition), 'inválido'),
     });
+
+    const submitMedic = ()=>{
+        createMedic(getInitialValues())
+    }
 
     const formik = useFormik({
         initialValues: getInitialValues(),
         validationSchema: MedicSchema,
         onSubmit: async (values, { resetForm, setSubmitting }) => {
             try {
+                console.log({values})
                 const data: CreateMedic = {
                     name: values.name,
                     last_name_1: values.last_name_1,
@@ -62,7 +68,9 @@ const AltaMedico = () =>{
                     specialty: Object.keys(MedicSpecialty).find(key => MedicSpecialty[key as keyof typeof MedicSpecialty] === values.specialty) as MedicSpecialty,
                     service: values.service.map(service => Object.keys(MedicServices).find(key => MedicServices[key as keyof typeof MedicServices] === service) as MedicServices),
                 };
-                createMedic(data);
+                console.log({data})
+
+                /* createMedic(data); */
                 resetForm();
                 setSubmitting(false);
             } catch (error) {
@@ -70,12 +78,29 @@ const AltaMedico = () =>{
             }
         }
     });
-
+    
+    const servicesArray = Object.entries(MedicServices).map(([key, value]) => ({
+        key, // Llave en inglés
+        label: value // Nombre en español
+    }));
+    const specialtiesArray = Object.entries(MedicSpecialty).map(([key, value]) => ({
+        key, // Llave en inglés
+        label: value // Nombre en español
+    }));
+    const job_positionArray = Object.entries(MedicJobPosition).map(([key, value]) => ({
+        key, // Llave en inglés
+        label: value // Nombre en español
+    }));
+    const medic_levelArray = Object.entries(MedicLevel).map(([key, value]) => ({
+        key, // Llave en inglés
+        label: value // Nombre en español
+    }));
+    
     const { values, errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue, handleBlur, handleChange } = formik;
 
     return (
         <FormikProvider value={formik}>
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={handleSubmit} autoComplete="off" noValidate >
                 <Grid container spacing={gridSpacing}>
                     <Grid size={{ xs: 12, md: 4 }}>
                         <TextField
@@ -134,7 +159,49 @@ const AltaMedico = () =>{
                             helperText={touched.employee_number && errors.employee_number}
                         />
                     </Grid>
+                    <Grid size={{ xs: 12, md: 4 }}>
+                        <Autocomplete
+                            multiple
+                            options={servicesArray}
+                            getOptionLabel={(option) => option.label} // Muestra valores en español
+                            renderInput={(params) => <TextField {...params} label="Servicios" />}
+                        />
+                    </Grid>
+                    <Grid size={{ xs: 12, md: 4 }}>
+                        <Autocomplete
+                            multiple
+                            options={specialtiesArray}
+                            getOptionLabel={(option) => option.label} // Muestra valores en español
+                            onChange={handleChange}
+                            renderInput={(params) => <TextField {...params} label="Especialidad" />}
+                        />
+                    </Grid>
+                    <Grid size={{ xs: 12, md: 4 }}>
+                        <Autocomplete
+                            multiple
+                            options={job_positionArray}
+                            getOptionLabel={(option) => option.label} // Muestra valores en español
+                            onChange={handleChange}
+                            renderInput={(params) => <TextField {...params} label="Puesto" />}
+                        />
+                    </Grid>
+                    <Grid size={{ xs: 12, md: 4 }}>
+                        <Autocomplete
+                            multiple
+                            options={medic_levelArray}
+                            getOptionLabel={(option) => option.label} // Muestra valores en español
+                            onChange={handleChange}
+                            renderInput={(params) => <TextField {...params} label="Nivel" />}
+                        />
+                    </Grid>
                     {/* TODO: selects faltantes*/}
+                </Grid>
+                <Grid  size={{ xs: 12 }} spacing={gridSpacing} sx={{ p: 2.5 }}>
+                    <Stack direction="row" spacing={1} justifyContent="flex-end">
+                        <Button variant="contained" type="submit" disabled={isSubmitting} onClick={submitMedic}>
+                                Guardar
+                        </Button>
+                    </Stack>
                 </Grid>
             </form>
         </FormikProvider>
