@@ -59,10 +59,10 @@ jobs:
       # ✅ Renderiza el archivo YAML usando variables de entorno
       - name: Render Kubernetes manifest
         run: |
-          envsubst < kubernetes/kubernetes.yaml > kubernetes/deployment-rendered.yaml
+          envsubst < kubernetes/deployment.yaml > kubernetes/deployment-rendered.yaml
           envsubst < kubernetes/service.yaml > kubernetes/service-rendered.yaml
           cat deployment-rendered.yaml
-          cat deployment-rendered.yaml
+          cat service-rendered.yaml
         env:
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
           IMAGE_TAG: ${{ github.sha }}
