@@ -8,7 +8,6 @@ export default defineConfig({
     alias: {}
   },
   server: {
-    allowedHosts: 'all'
     host: true,
     port: 8080,
     watch: {
