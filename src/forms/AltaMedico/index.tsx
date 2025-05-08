@@ -49,10 +49,6 @@ const AltaMedico = () =>{
         job_position:  Yup.mixed<MedicJobPosition>().oneOf(Object.values(MedicJobPosition), 'inválido'),
     });
 
-    const submitMedic = ()=>{
-        createMedic(getInitialValues())
-    }
-
     const formik = useFormik({
         initialValues: getInitialValues(),
         validationSchema: MedicSchema,
@@ -198,7 +194,7 @@ const AltaMedico = () =>{
                 </Grid>
                 <Grid  size={{ xs: 12 }} spacing={gridSpacing} sx={{ p: 2.5 }}>
                     <Stack direction="row" spacing={1} justifyContent="flex-end">
-                        <Button variant="contained" type="submit" disabled={isSubmitting} onClick={submitMedic}>
+                        <Button variant="contained" type="submit" disabled={isSubmitting} >
                                 Guardar
                         </Button>
                     </Stack>
