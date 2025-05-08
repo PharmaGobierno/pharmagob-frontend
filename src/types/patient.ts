@@ -32,3 +32,7 @@ export type Patient = {
     street_address?: string,
     country?: string
 }
+
+export type CreatePatient = {
+    curp: string,
+}
