@@ -50,7 +50,7 @@ export enum MedicSpecialty{
     "CARDIOLOGY" = "Cardiología",
     "DERMATOLOGY" = "Dermatología",
     "GYNECOLOGY" = "Ginecología",
-    "GENERAL MEDICINE" = "Medicina General",
+    "GENERAL_MEDICINE" = "Medicina General",
     "NEUROLOGY" = "Neurología",
     "OPHTHALMOLOGY" = "Oftamología",
     "ORTHOPEDICS" = "Ortopedia",

@@ -4,12 +4,14 @@ import { Grid,
     TextField,
     Autocomplete,
     Chip } from '@mui/material';
-import { gridSpacing } from '../../store/constant';
 import { CreateMedic, 
     MedicServices, 
     MedicSpecialty, 
     MedicLevel,
-    MedicJobPosition } from '../../types/medic'
+    MedicJobPosition } from '../../types/medic';
+import { useDispatch } from '../../store';
+import { openSnackbar } from '../../store/slices/snackbar';
+import { gridSpacing } from '../../store/constant';
 
 // third-party
 import * as Yup from 'yup';
@@ -28,11 +30,11 @@ const getInitialValues = () => {
         level: '',
         job_position: ''
     };
-
     return newEvent;
 };
 
 const AltaMedico = () =>{
+    const dispatch = useDispatch();
 
     const MedicSchema  = Yup.object().shape({
         name: Yup.string().max(255).required('Campo requerido'),
@@ -56,41 +58,75 @@ const AltaMedico = () =>{
                 const data: CreateMedic = {
                     name: values.name,
                     last_name_1: values.last_name_1,
-                    last_name_2: values.last_name_2 || '',
+                    last_name_2: values.last_name_2 || null,
                     employee_number: values.employee_number,
                     profesional_licence: values.profesional_licence,
                     specialty: values.specialty,
                     service: values.service,
-                    job_position: values.job_position || '',
+                    job_position: values.job_position || null,
                     level: values.level || null
-
                 };
-                console.log({data})
-
-                createMedic(data);
+                const response = await createMedic(data);
+                console.log({response})
+                if ( response?.status === 201 ){
+                    dispatch(
+                        openSnackbar({
+                            open: true,
+                            message: 'Médico Creado',
+                            variant: 'alert',
+                            alert: {
+                                color: 'success'
+                            },
+                            close: false
+                        })
+                    );
+                } else {
+                    dispatch(
+                        openSnackbar({
+                            open: true,
+                            message: `Error: ${response?.data.status}: ${response?.data?.errors[0]?.message}`,
+                            variant: 'alert',
+                            alert: {
+                                color: 'error'
+                            },
+                            close: false
+                        })
+                    );
+                }
                 resetForm();
                 setSubmitting(false);
             } catch (error) {
                 console.error(error);
+                dispatch(
+                    openSnackbar({
+                        open: true,
+                        message: `Error: ${error}`,
+                        variant: 'alert',
+                        alert: {
+                            color: 'error'
+                        },
+                        close: false
+                    })
+                );
             }
         }
     });
     
     const servicesArray = Object.entries(MedicServices).map(([key, value]) => ({
-        key, // Llave en inglés
-        label: value // Nombre en español
+        key,
+        label: value
     }));
     const specialtiesArray = Object.entries(MedicSpecialty).map(([key, value]) => ({
-        key, // Llave en inglés
-        label: value // Nombre en español
+        key,
+        label: value
     }));
     const job_positionArray = Object.entries(MedicJobPosition).map(([key, value]) => ({
-        key, // Llave en inglés
-        label: value // Nombre en español
+        key,
+        label: value
     }));
     const medic_levelArray = Object.entries(MedicLevel).map(([key, value]) => ({
-        key, // Llave en inglés
-        label: value // Nombre en español
+        key,
+        label: value
     }));
     
     const { values, errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
