@@ -34,6 +34,8 @@ const slice = createSlice({
             if(payload.page) state.page = payload.page
             if(payload.limit) state.limit = payload.limit
             if(payload.sort) state.sort = payload.sort
+            
+            state.search = payload.search?.length ? payload.search : undefined
         },
         setErrors: (state, action) => {
             state.errors = action.payload
@@ -47,10 +49,14 @@ export const getMedics = (params: Partial<MedicPaginationProps>) => {
     return async () => {
         try{
             let sort = params.sort?.join(":") || undefined 
+            let uri = "/v1/doctors"
 
-            const response = await axios.get("/v1/doctors", {
+            if(params.search) uri = "/v1/searches/doctors"
+
+            const response = await axios.get(uri, {
                 params: {
                     ...params,
+                    employee_number: params.search,
                     sort
                 }
             })
@@ -75,7 +81,7 @@ export const selectMedic = (id: string) => {
 export const createMedic = async (data: CreateMedic) => {
     try {
         const response = await axios.post(`/v1/doctors`, data);
-        console.log({response})
+        return response;
     } catch (error) {
         console.error("Error en la solicitud:", error);
     }

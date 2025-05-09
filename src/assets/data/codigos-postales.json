@@ -1,0 +1,617 @@
+{
+    "11801": {
+        "colonia": "Huixquilucan",
+        "estado": "Mexico",
+        "cp": "11801"
+    },
+    "50091": {
+        "colonia": "Toluca",
+        "estado": "Mexico",
+        "cp": "50091"
+    },
+    "50301": {
+        "colonia": "Acambay de Ruiz Castaneda",
+        "estado": "Mexico",
+        "cp": "50301"
+    },
+    "50361": {
+        "colonia": "Aculco",
+        "estado": "Mexico",
+        "cp": "50361"
+    },
+    "50401": {
+        "colonia": "Temascalcingo",
+        "estado": "Mexico",
+        "cp": "50401"
+    },
+    "50451": {
+        "colonia": "Atlacomulco",
+        "estado": "Mexico",
+        "cp": "50451"
+    },
+    "50602": {
+        "colonia": "El Oro",
+        "estado": "Mexico",
+        "cp": "50602"
+    },
+    "50641": {
+        "colonia": "San Felipe del Progreso",
+        "estado": "Mexico",
+        "cp": "50641"
+    },
+    "50701": {
+        "colonia": "Jocotitlan",
+        "estado": "Mexico",
+        "cp": "50701"
+    },
+    "50741": {
+        "colonia": "Ixtlahuaca",
+        "estado": "Mexico",
+        "cp": "50741"
+    },
+    "50801": {
+        "colonia": "Morelos",
+        "estado": "Mexico",
+        "cp": "50801"
+    },
+    "50851": {
+        "colonia": "Temoaya",
+        "estado": "Mexico",
+        "cp": "50851"
+    },
+    "50901": {
+        "colonia": "Almoloya de Juarez",
+        "estado": "Mexico",
+        "cp": "50901"
+    },
+    "50961": {
+        "colonia": "Villa Victoria",
+        "estado": "Mexico",
+        "cp": "50961"
+    },
+    "51001": {
+        "colonia": "Villa de Allende",
+        "estado": "Mexico",
+        "cp": "51001"
+    },
+    "51031": {
+        "colonia": "Donato Guerra",
+        "estado": "Mexico",
+        "cp": "51031"
+    },
+    "51111": {
+        "colonia": "Santo Tomas",
+        "estado": "Mexico",
+        "cp": "51111"
+    },
+    "51131": {
+        "colonia": "Otzoloapan",
+        "estado": "Mexico",
+        "cp": "51131"
+    },
+    "51201": {
+        "colonia": "Ixtapan del Oro",
+        "estado": "Mexico",
+        "cp": "51201"
+    },
+    "51231": {
+        "colonia": "Valle de Bravo",
+        "estado": "Mexico",
+        "cp": "51231"
+    },
+    "51301": {
+        "colonia": "Temascaltepec",
+        "estado": "Mexico",
+        "cp": "51301"
+    },
+    "51351": {
+        "colonia": "Zinacantepec",
+        "estado": "Mexico",
+        "cp": "51351"
+    },
+    "51411": {
+        "colonia": "Tejupilco",
+        "estado": "Mexico",
+        "cp": "51411"
+    },
+    "51431": {
+        "colonia": "Tejupilco",
+        "estado": "Mexico",
+        "cp": "51431"
+    },
+    "51441": {
+        "colonia": "Luvianos",
+        "estado": "Mexico",
+        "cp": "51441"
+    },
+    "51501": {
+        "colonia": "Amatepec",
+        "estado": "Mexico",
+        "cp": "51501"
+    },
+    "51571": {
+        "colonia": "Tlatlaya",
+        "estado": "Mexico",
+        "cp": "51571"
+    },
+    "51581": {
+        "colonia": "Tlatlaya",
+        "estado": "Mexico",
+        "cp": "51581"
+    },
+    "51601": {
+        "colonia": "Sultepec",
+        "estado": "Mexico",
+        "cp": "51601"
+    },
+    "51701": {
+        "colonia": "Coatepec Harinas",
+        "estado": "Mexico",
+        "cp": "51701"
+    },
+    "51761": {
+        "colonia": "Villa Guerrero",
+        "estado": "Mexico",
+        "cp": "51761"
+    },
+    "51801": {
+        "colonia": "Zacualpan",
+        "estado": "Mexico",
+        "cp": "51801"
+    },
+    "51901": {
+        "colonia": "Ixtapan de la Sal",
+        "estado": "Mexico",
+        "cp": "51901"
+    },
+    "51951": {
+        "colonia": "Tonatico",
+        "estado": "Mexico",
+        "cp": "51951"
+    },
+    "52001": {
+        "colonia": "Lerma",
+        "estado": "Mexico",
+        "cp": "52001"
+    },
+    "52061": {
+        "colonia": "Temoaya",
+        "estado": "Mexico",
+        "cp": "52061"
+    },
+    "52081": {
+        "colonia": "Otzolotepec",
+        "estado": "Mexico",
+        "cp": "52081"
+    },
+    "52101": {
+        "colonia": "San Mateo Atenco",
+        "estado": "Mexico",
+        "cp": "52101"
+    },
+    "52141": {
+        "colonia": "Toluca",
+        "estado": "Mexico",
+        "cp": "52141"
+    },
+    "52201": {
+        "colonia": "Calimaya",
+        "estado": "Mexico",
+        "cp": "52201"
+    },
+    "52241": {
+        "colonia": "Chapultepec",
+        "estado": "Mexico",
+        "cp": "52241"
+    },
+    "52281": {
+        "colonia": "San Antonio la Isla",
+        "estado": "Mexico",
+        "cp": "52281"
+    },
+    "52301": {
+        "colonia": "Tenango del Valle",
+        "estado": "Mexico",
+        "cp": "52301"
+    },
+    "52401": {
+        "colonia": "Zumpahuacan",
+        "estado": "Mexico",
+        "cp": "52401"
+    },
+    "52441": {
+        "colonia": "Joquicingo",
+        "estado": "Mexico",
+        "cp": "52441"
+    },
+    "52541": {
+        "colonia": "Atizapan",
+        "estado": "Mexico",
+        "cp": "52541"
+    },
+    "52601": {
+        "colonia": "Tianguistenco",
+        "estado": "Mexico",
+        "cp": "52601"
+    },
+    "52681": {
+        "colonia": "Tianguistenco",
+        "estado": "Mexico",
+        "cp": "52681"
+    },
+    "52701": {
+        "colonia": "Tianguistenco",
+        "estado": "Mexico",
+        "cp": "52701"
+    },
+    "52741": {
+        "colonia": "Ocoyoacac",
+        "estado": "Mexico",
+        "cp": "52741"
+    },
+    "52761": {
+        "colonia": "Huixquilucan",
+        "estado": "Mexico",
+        "cp": "52761"
+    },
+    "52762": {
+        "colonia": "Huixquilucan",
+        "estado": "Mexico",
+        "cp": "52762"
+    },
+    "52901": {
+        "colonia": "Atizapan de Zaragoza",
+        "estado": "Mexico",
+        "cp": "52901"
+    },
+    "53001": {
+        "colonia": "Naucalpan de Juarez",
+        "estado": "Mexico",
+        "cp": "53001"
+    },
+    "53101": {
+        "colonia": "Naucalpan de Juarez",
+        "estado": "Mexico",
+        "cp": "53101"
+    },
+    "53121": {
+        "colonia": "Naucalpan de Juarez",
+        "estado": "Mexico",
+        "cp": "53121"
+    },
+    "53311": {
+        "colonia": "Naucalpan de Juarez",
+        "estado": "Mexico",
+        "cp": "53311"
+    },
+    "53681": {
+        "colonia": "Naucalpan de Juarez",
+        "estado": "Mexico",
+        "cp": "53681"
+    },
+    "53831": {
+        "colonia": "Huixquilucan",
+        "estado": "Mexico",
+        "cp": "53831"
+    },
+    "54001": {
+        "colonia": "Tlalnepantla de Baz",
+        "estado": "Mexico",
+        "cp": "54001"
+    },
+    "54182": {
+        "colonia": "Tlalnepantla de Baz",
+        "estado": "Mexico",
+        "cp": "54182"
+    },
+    "54201": {
+        "colonia": "Polotitlan",
+        "estado": "Mexico",
+        "cp": "54201"
+    },
+    "54241": {
+        "colonia": "Jilotepec",
+        "estado": "Mexico",
+        "cp": "54241"
+    },
+    "54301": {
+        "colonia": "Villa del Carbon",
+        "estado": "Mexico",
+        "cp": "54301"
+    },
+    "54401": {
+        "colonia": "Nicolas Romero",
+        "estado": "Mexico",
+        "cp": "54401"
+    },
+    "54481": {
+        "colonia": "Isidro Fabela",
+        "estado": "Mexico",
+        "cp": "54481"
+    },
+    "54572": {
+        "colonia": "Jilotzingo",
+        "estado": "Mexico",
+        "cp": "54572"
+    },
+    "54601": {
+        "colonia": "Tepotzotlan",
+        "estado": "Mexico",
+        "cp": "54601"
+    },
+    "54661": {
+        "colonia": "Coyotepec",
+        "estado": "Mexico",
+        "cp": "54661"
+    },
+    "54681": {
+        "colonia": "Huehuetoca",
+        "estado": "Mexico",
+        "cp": "54681"
+    },
+    "54701": {
+        "colonia": "Cuautitlan Izcalli",
+        "estado": "Mexico",
+        "cp": "54701"
+    },
+    "54761": {
+        "colonia": "Cuautitlan Izcalli",
+        "estado": "Mexico",
+        "cp": "54761"
+    },
+    "54771": {
+        "colonia": "Teoloyucan",
+        "estado": "Mexico",
+        "cp": "54771"
+    },
+    "54801": {
+        "colonia": "Cuautitlan Izcalli",
+        "estado": "Mexico",
+        "cp": "54801"
+    },
+    "54881": {
+        "colonia": "Melchor Ocampo",
+        "estado": "Mexico",
+        "cp": "54881"
+    },
+    "54901": {
+        "colonia": "Tultitlan",
+        "estado": "Mexico",
+        "cp": "54901"
+    },
+    "54931": {
+        "colonia": "Tultitlan",
+        "estado": "Mexico",
+        "cp": "54931"
+    },
+    "54969": {
+        "colonia": "Tultepec",
+        "estado": "Mexico",
+        "cp": "54969"
+    },
+    "54981": {
+        "colonia": "Tultepec",
+        "estado": "Mexico",
+        "cp": "54981"
+    },
+    "55031": {
+        "colonia": "Ecatepec de Morelos",
+        "estado": "Mexico",
+        "cp": "55031"
+    },
+    "55081": {
+        "colonia": "Ecatepec de Morelos",
+        "estado": "Mexico",
+        "cp": "55081"
+    },
+    "55121": {
+        "colonia": "Ecatepec de Morelos",
+        "estado": "Mexico",
+        "cp": "55121"
+    },
+    "55271": {
+        "colonia": "Ecatepec de Morelos",
+        "estado": "Mexico",
+        "cp": "55271"
+    },
+    "55601": {
+        "colonia": "Zumpango",
+        "estado": "Mexico",
+        "cp": "55601"
+    },
+    "55641": {
+        "colonia": "Zumpango",
+        "estado": "Mexico",
+        "cp": "55641"
+    },
+    "55651": {
+        "colonia": "Tequixquiac",
+        "estado": "Mexico",
+        "cp": "55651"
+    },
+    "55671": {
+        "colonia": "Hueypoxtla",
+        "estado": "Mexico",
+        "cp": "55671"
+    },
+    "55701": {
+        "colonia": "Ecatepec de Morelos",
+        "estado": "Mexico",
+        "cp": "55701"
+    },
+    "55711": {
+        "colonia": "Coacalco de Berriozabal",
+        "estado": "Mexico",
+        "cp": "55711"
+    },
+    "55762": {
+        "colonia": "Tecamac",
+        "estado": "Mexico",
+        "cp": "55762"
+    },
+    "55801": {
+        "colonia": "Teotihuacan",
+        "estado": "Mexico",
+        "cp": "55801"
+    },
+    "55851": {
+        "colonia": "San Martin de las Piramides",
+        "estado": "Mexico",
+        "cp": "55851"
+    },
+    "55871": {
+        "colonia": "Acolman",
+        "estado": "Mexico",
+        "cp": "55871"
+    },
+    "55901": {
+        "colonia": "Otumba",
+        "estado": "Mexico",
+        "cp": "55901"
+    },
+    "55941": {
+        "colonia": "Axapusco",
+        "estado": "Mexico",
+        "cp": "55941"
+    },
+    "55981": {
+        "colonia": "Temascalapa",
+        "estado": "Mexico",
+        "cp": "55981"
+    },
+    "56001": {
+        "colonia": "Tezoyuca",
+        "estado": "Mexico",
+        "cp": "56001"
+    },
+    "56031": {
+        "colonia": "Chiautla",
+        "estado": "Mexico",
+        "cp": "56031"
+    },
+    "56071": {
+        "colonia": "Tepetlaoxtoc",
+        "estado": "Mexico",
+        "cp": "56071"
+    },
+    "56101": {
+        "colonia": "Texcoco",
+        "estado": "Mexico",
+        "cp": "56101"
+    },
+    "56271": {
+        "colonia": "Tezoyuca",
+        "estado": "Mexico",
+        "cp": "56271"
+    },
+    "56301": {
+        "colonia": "Atenco",
+        "estado": "Mexico",
+        "cp": "56301"
+    },
+    "56331": {
+        "colonia": "Chimalhuacan",
+        "estado": "Mexico",
+        "cp": "56331"
+    },
+    "56351": {
+        "colonia": "Chimalhuacan",
+        "estado": "Mexico",
+        "cp": "56351"
+    },
+    "56371": {
+        "colonia": "Chicoloapan",
+        "estado": "Mexico",
+        "cp": "56371"
+    },
+    "56401": {
+        "colonia": "La Paz",
+        "estado": "Mexico",
+        "cp": "56401"
+    },
+    "56571": {
+        "colonia": "Ixtapaluca",
+        "estado": "Mexico",
+        "cp": "56571"
+    },
+    "56601": {
+        "colonia": "Chalco",
+        "estado": "Mexico",
+        "cp": "56601"
+    },
+    "56612": {
+        "colonia": "Valle de Chalco Solidaridad",
+        "estado": "Mexico",
+        "cp": "56612"
+    },
+    "56651": {
+        "colonia": "Temamatla",
+        "estado": "Mexico",
+        "cp": "56651"
+    },
+    "56681": {
+        "colonia": "Cocotitlan",
+        "estado": "Mexico",
+        "cp": "56681"
+    },
+    "56701": {
+        "colonia": "Tlalmanalco",
+        "estado": "Mexico",
+        "cp": "56701"
+    },
+    "56741": {
+        "colonia": "Tlalmanalco",
+        "estado": "Mexico",
+        "cp": "56741"
+    },
+    "56781": {
+        "colonia": "Tenango del Aire",
+        "estado": "Mexico",
+        "cp": "56781"
+    },
+    "56861": {
+        "colonia": "Juchitepec",
+        "estado": "Mexico",
+        "cp": "56861"
+    },
+    "56881": {
+        "colonia": "Tepetlixpa",
+        "estado": "Mexico",
+        "cp": "56881"
+    },
+    "56901": {
+        "colonia": "Ayapango",
+        "estado": "Mexico",
+        "cp": "56901"
+    },
+    "56971": {
+        "colonia": "Atlautla",
+        "estado": "Mexico",
+        "cp": "56971"
+    },
+    "56992": {
+        "colonia": "Ecatzingo",
+        "estado": "Mexico",
+        "cp": "56992"
+    },
+    "57001": {
+        "colonia": "Nezahualcoyotl",
+        "estado": "Mexico",
+        "cp": "57001"
+    },
+    "57002": {
+        "colonia": "Nezahualcoyotl",
+        "estado": "Mexico",
+        "cp": "57002"
+    },
+    "57741": {
+        "colonia": "Nezahualcoyotl",
+        "estado": "Mexico",
+        "cp": "57741"
+    },
+    "07501": {
+        "colonia": "Nezahualcoyotl",
+        "estado": "Mexico",
+        "cp": "07501"
+    }
+}

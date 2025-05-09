@@ -11,7 +11,8 @@ import {
     TableHead,
     TableRow,
     Typography,
-    Stack
+    Stack,
+    CircularProgress
 } from '@mui/material';
 import Chip from '../../ui-components/extended/Chip';
 
@@ -30,6 +31,7 @@ const sxDivider = {
 const detallePedido = () => {
     const { idShipment = null } = useParams();
     const [shipment, setShipment] = useState<Shipment>();
+    const [loading, setLoading] = useState<Boolean>(false)
     const [shipmentRows, setShipmentRows] = useState<ShipmentDetails[]>([])
 
 
@@ -54,11 +56,15 @@ const detallePedido = () => {
                     console.error("Error en la solicitud:", error);
                 }
             }
-
+            setLoading(true);
             fetchShipment();
             fetchShipmentDetails();
         };
     }, [idShipment]);
+
+    useEffect(() => {
+        if(shipmentRows.length > 1 && shipment && loading) setLoading(false)
+    }, [shipmentRows, shipment])
 
     const reviewStatusTranslations = {
         NOT_EVALUATED: "No evaluado",
@@ -75,8 +81,13 @@ const detallePedido = () => {
 
     return (
         <MainCard>
+            { loading ? (
+                <Stack alignItems={"center"} spacing={2}>
+                    <CircularProgress/>
+                </Stack>
+            ) : (
             <Grid container spacing={gridSpacing}>
-            <Grid size={{ xs: 12 }} >
+                <Grid size={{ xs: 12 }} >
                     <SubCard title={`Datos del pedido:`} >
                         <Grid size={{ xs: 12 }}>
                             <Divider sx={sxDivider} />
@@ -122,6 +133,16 @@ const detallePedido = () => {
                                             </Stack>
                                         </Stack>
                                     </Grid>
+                                    <Grid size={{ xs: 12, sm:6, md:4 }}>
+                                        <Stack spacing={2}>
+                                            <Typography variant="h4">Fecha de creación:</Typography>
+                                            <Stack spacing={0}>
+                                                <Stack direction="row" spacing={1}>
+                                                    <Typography variant="body2">{ shipment?.created_at ? new Date(shipment?.created_at).toLocaleDateString() : null }</Typography>
+                                                </Stack>
+                                            </Stack>
+                                        </Stack>
+                                    </Grid>
                                 </Grid>
                             </Grid>
                             <Grid size={{ xs: 12 }}>
@@ -140,6 +161,7 @@ const detallePedido = () => {
                                             <TableRow>
                                                 <TableCell sx={{ pl: 3 }}>Identificador</TableCell>
                                                 <TableCell align="left">Lote</TableCell>
+                                                <TableCell align="left">Descripción</TableCell>
                                                 <TableCell align="left">Marca</TableCell>
                                                 <TableCell align="center">Fecha de creación</TableCell>
                                                 <TableCell align="center">Fecha de expiración</TableCell>
@@ -155,6 +177,7 @@ const detallePedido = () => {
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell align="left">{row.lot}</TableCell>
+                                                    <TableCell align="left">{row.item.description}</TableCell>
                                                     <TableCell align="left">{row.brand}</TableCell>
                                                     <TableCell align="center">{new Date(row.created_at).toLocaleDateString()}</TableCell>
                                                     <TableCell align="center">{ row.expiration_date ? new Date(row.expiration_date).toLocaleDateString() : null }</TableCell>
@@ -169,6 +192,8 @@ const detallePedido = () => {
                     </SubCard>
                 </Grid>
             </Grid>
+            )}
+            
         </MainCard>
     );
 };
