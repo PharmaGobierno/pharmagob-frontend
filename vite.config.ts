@@ -9,7 +9,7 @@ export default defineConfig({
   },
   server: {
     allowedHosts: [
-        'node-port-pharmagob-frontend.default.svc.cluster.local'
+        'all'
     ],
     host: true,
     port: 8080,
