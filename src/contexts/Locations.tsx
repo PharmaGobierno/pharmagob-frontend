@@ -6,14 +6,17 @@ type LocationProviderProps = {
 
 type Location = {
     [key: string]: {
-        colonia: string,
-        estado: string,
-        cp: string
+        [key: string]: {
+            [key: string]: string[]
+        }
     }
 }
 
 type LocationContext = {
-    findByCP: Function
+    getCPs: Function,
+    getEstados: Function,
+    getMunicipios: Function,
+    getColonias: Function,
 }
 
 export const LocationContext = createContext<LocationContext | null>(null)
@@ -31,8 +34,20 @@ export const LocationProvider = ({children}: LocationProviderProps) => {
         setLocations(_locations)
     }
 
-    const findByCP = (cp: string) => {
-        return locations[cp]
+    const getCPs = () => {
+        return Object.keys(locations)
+    }
+
+    const getEstados = (cp: string) => {
+        return Object.keys(locations[cp])
+    }
+
+    const getMunicipios = ({cp, estado}: {cp: string, estado: string}) => {
+        return Object.keys(locations[cp][estado])
+    }
+
+    const getColonias = ({cp, estado, municipio}: {cp: string, estado: string, municipio: string}) => {
+        return locations[cp][estado][municipio]
     }
 
     useEffect(() => {
@@ -40,7 +55,7 @@ export const LocationProvider = ({children}: LocationProviderProps) => {
     }, [])
 
     return(
-        <LocationContext.Provider value={{findByCP}}>
+        <LocationContext.Provider value={{getCPs, getEstados, getMunicipios, getColonias}}>
             {children}
         </LocationContext.Provider>
     )
